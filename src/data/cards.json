@@ -1,0 +1,693 @@
+[
+  {
+    "id": "drop-01",
+    "section": "home-drop",
+    "title": "LOOK 01",
+    "description": "LEATHER COLUMN",
+    "image": "https://framerusercontent.com/images/GTn9pLq00uE3ZcQhSgcA1qFPNLY.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/pleat-trouser-04",
+    "order": 1,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "01",
+      "details": [
+        "Leather column silhouette",
+        "Cut in Porto atelier",
+        "Small run of 27 pieces"
+      ]
+    }
+  },
+  {
+    "id": "drop-02",
+    "section": "home-drop",
+    "title": "LOOK 02",
+    "description": "NIGHT SUIT, SUNGLASSES",
+    "image": "https://framerusercontent.com/images/0nLgNHI2I09hUmNIv3HlhqNjrE.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/fold-blazer",
+    "order": 2,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "02",
+      "details": [
+        "Wool twill fold tailoring",
+        "Unstructured architectural fit"
+      ]
+    }
+  },
+  {
+    "id": "drop-03",
+    "section": "home-drop",
+    "title": "LOOK 03",
+    "description": "BELTED TRENCH",
+    "image": "https://framerusercontent.com/images/o3PRQp77gGJeh1W9vE4vP2dOmBE.jpg?width=1000&height=1497",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/void-overcoat",
+    "order": 3,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "03",
+      "details": [
+        "Heavy double-faced wool",
+        "Cinched architectural belt"
+      ]
+    }
+  },
+  {
+    "id": "drop-04",
+    "section": "home-drop",
+    "title": "LOOK 04",
+    "description": "GARAGE PARKA",
+    "image": "https://framerusercontent.com/images/mZnHFEEvP2RtX33sJmhtxQWlFU.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/stomp-boot",
+    "order": 4,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "04",
+      "details": [
+        "Vintage racing nylon drape",
+        "Reflective atelier hardware"
+      ]
+    }
+  },
+  {
+    "id": "drop-05",
+    "section": "home-drop",
+    "title": "LOOK 05",
+    "description": "OVERSIZED KNIT",
+    "image": "https://framerusercontent.com/images/F8nsRHrUNKzR4Mwj0156LySkAA.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/mono-knit-27",
+    "order": 5,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "05",
+      "details": [
+        "Brushed alpaca blend",
+        "Raw rolled neckline"
+      ]
+    }
+  },
+  {
+    "id": "drop-06",
+    "section": "home-drop",
+    "title": "LOOK 06",
+    "description": "GRAPHIC LAYER",
+    "image": "https://framerusercontent.com/images/Qth0QkOtJn80i68k7Wh14lFpOI.jpg?width=1000&height=1250",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/column-shirt",
+    "order": 6,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "06",
+      "details": [
+        "High turtle silhouette",
+        "Contrasting structured drape"
+      ]
+    }
+  },
+  {
+    "id": "drop-07",
+    "section": "home-drop",
+    "title": "LOOK 07",
+    "description": "WOOL HOOD COAT",
+    "image": "https://framerusercontent.com/images/9jkleYaD6jKz9X2wuj3s8vtxs.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/raw-edge-cardigan",
+    "order": 7,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "07",
+      "details": [
+        "Integrated cowl hood",
+        "Raw pressed seams"
+      ]
+    }
+  },
+  {
+    "id": "drop-08",
+    "section": "home-drop",
+    "title": "LOOK 08",
+    "description": "LEATHER OVERSHIRT",
+    "image": "https://framerusercontent.com/images/hzrN4APAznCWhmWAcHd9MaKfd4.jpg?width=1000&height=1500",
+    "ctaText": "SHOP THE LOOK",
+    "ctaLink": "/shop/carry-tote-27",
+    "order": 8,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "08",
+      "details": [
+        "Subtle sheen calfskin",
+        "Oversized boxy profile"
+      ]
+    }
+  },
+  {
+    "id": "edit-001",
+    "section": "home-edit",
+    "title": "Void Overcoat",
+    "description": "A floor-grazing overcoat in double-faced wool. Dropped shoulders, hidden placket, no lining — the coat holds its own shape.",
+    "image": "https://framerusercontent.com/images/YwB7lIpefzaZAvahVUv4AqibAo.jpg?width=1200&height=1699",
+    "price": "€940",
+    "badge": "ATELIER EXCLUSIVE",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/void-overcoat",
+    "order": 1,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "001",
+      "category": "Outerwear",
+      "colorway": "INK / UNLINED",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "details": [
+        "Double-faced recycled wool, 900 gsm",
+        "Made in small runs in Porto, Portugal",
+        "Dry clean only"
+      ]
+    },
+    "updatedAt": "2026-10-02T06:33:59.310Z"
+  },
+  {
+    "id": "edit-002",
+    "section": "home-edit",
+    "title": "Fold Blazer",
+    "description": "Architectural wrap blazer cut from high-density wool twill with asymmetrical fastening and concealed horn buttons.",
+    "image": "https://framerusercontent.com/images/wxgMHGiqSMFkr6MC7KVEKmDtghI.jpg?width=1200&height=1812",
+    "price": "€640",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/fold-blazer",
+    "order": 2,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "002",
+      "category": "Tailoring",
+      "colorway": "CHESTNUT / CHARCOAL",
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "details": [
+        "High density wool twill",
+        "Sculpted shoulder pads",
+        "Unlined body"
+      ]
+    }
+  },
+  {
+    "id": "edit-003",
+    "section": "home-edit",
+    "title": "Mono Knit 27",
+    "description": "Chunky gauge ribbed knit with elongated sleeves and a rolled raw collar, spun from unfiltered Italian merino wool.",
+    "image": "https://framerusercontent.com/images/W1lH6BNhAxF1bEkZsFACknlOpo.jpg?width=1200&height=1600",
+    "price": "€320",
+    "badge": "LAST PIECES",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/mono-knit-27",
+    "order": 3,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "003",
+      "category": "Knitwear",
+      "colorway": "RAW OAT / OBSIDIAN",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "details": [
+        "100% unfiltered merino wool",
+        "Custom stitch tension",
+        "Hand-finished hems"
+      ]
+    }
+  },
+  {
+    "id": "edit-004",
+    "section": "home-edit",
+    "title": "Raw Edge Cardigan",
+    "description": "Relaxed cardigan featuring raw perimeter finishes, exaggerated patch pockets and hand-hammered matte silver snaps.",
+    "image": "https://framerusercontent.com/images/UGDN5T7C6CwPvxpRWkRbtbFJogw.jpg?width=1200&height=1500",
+    "price": "€360",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/raw-edge-cardigan",
+    "order": 4,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "004",
+      "category": "Knitwear",
+      "colorway": "GRAPHITE",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "details": [
+        "Heavy boiled wool blend",
+        "Raw distressed seam edges",
+        "Matte silver snaps"
+      ]
+    }
+  },
+  {
+    "id": "edit-005",
+    "section": "home-edit",
+    "title": "Pleat Trouser 04",
+    "description": "Deep double forward pleat trouser with a wide, straight leg that breaks generously over heavy footwear.",
+    "image": "https://framerusercontent.com/images/f16L7Y5G09pLHo7V7f3nPto3O8.jpg?width=1200&height=1798",
+    "price": "€280",
+    "badge": "NEW",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/pleat-trouser-04",
+    "order": 5,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "005",
+      "category": "Tailoring",
+      "colorway": "MIDNIGHT BLACK",
+      "sizes": [
+        "28",
+        "30",
+        "32",
+        "34"
+      ],
+      "details": [
+        "Deep architectural forward pleat",
+        "Wide fluid leg profile",
+        "Hidden hook closure"
+      ]
+    }
+  },
+  {
+    "id": "edit-006",
+    "section": "home-edit",
+    "title": "Column Shirt",
+    "description": "Structured poplin shirt with a concealed front placket, extended back hem and sharp elongated cuff vents.",
+    "image": "https://framerusercontent.com/images/ZBKK03diA0SBO2dGwMd2jWdTajE.jpg?width=1200&height=1800",
+    "price": "€210",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/column-shirt",
+    "order": 6,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "006",
+      "category": "Tailoring",
+      "colorway": "OPTIC WHITE",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "details": [
+        "120s Egyptian cotton poplin",
+        "Clean french seams",
+        "Extended cuff placket"
+      ]
+    }
+  },
+  {
+    "id": "edit-007",
+    "section": "home-edit",
+    "title": "Carry Tote 27",
+    "description": "Heavyweight bridle leather utility tote with structured base, interior zip compartment and burnished saddle edges.",
+    "image": "https://framerusercontent.com/images/ToOKmtWGVPMLRC7WgKmvdHVeU.jpg?width=1200&height=1500",
+    "price": "€240",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/carry-tote-27",
+    "order": 7,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "007",
+      "category": "Accessories",
+      "colorway": "COGNAC / MATTE BLACK",
+      "sizes": [
+        "ONE SIZE"
+      ],
+      "details": [
+        "Vegetable-tanned full grain calfskin",
+        "Reinforced tubular carry handles",
+        "Holds 16\" laptop"
+      ]
+    }
+  },
+  {
+    "id": "edit-008",
+    "section": "home-edit",
+    "title": "Stomp Boot",
+    "description": "Monolithic combat boot with lugged commando outsole, waxed lace closure and reinforced heel counter.",
+    "image": "https://framerusercontent.com/images/2w1lP573BqBpEC9hvc6WUQCIh88.jpg?width=1200&height=1800",
+    "price": "€420",
+    "badge": "SOLD OUT SOON",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/stomp-boot",
+    "order": 8,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "008",
+      "category": "Accessories",
+      "colorway": "NERO BLACK",
+      "sizes": [
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ],
+      "details": [
+        "Water-resistant box calf leather",
+        "Vibram commando rubber sole",
+        "Goodyear welted in Guimarães"
+      ]
+    }
+  },
+  {
+    "id": "mood-01",
+    "section": "home-moodboard",
+    "title": "LOOK 11 — CAUTION",
+    "description": "Editorial fitting session snapshot under Marseille sodium streetlights.",
+    "image": "https://framerusercontent.com/images/kyMRfBPxaYBLDFxRlb8txtD5h4.jpg?width=2400&height=1600",
+    "order": 1,
+    "isActive": true,
+    "metadata": {
+      "rotation": -5
+    }
+  },
+  {
+    "id": "mood-02",
+    "section": "home-moodboard",
+    "title": "NEON TEST, 3 AM",
+    "description": "Green ambient glow studio test with wide pleated trousers.",
+    "image": "https://framerusercontent.com/images/0gsbo01tHNjFVTqRQUZMkUsgu0.jpg?width=1200&height=1797",
+    "order": 2,
+    "isActive": true,
+    "metadata": {
+      "rotation": 4
+    }
+  },
+  {
+    "id": "mood-03",
+    "section": "home-moodboard",
+    "title": "SIGNAL RED",
+    "description": "Color temperature calibration for the SS27 vermilion campaign.",
+    "image": "https://framerusercontent.com/images/5GERA8vfDzpLRWsFjP7JAaoAk.jpg?width=1200&height=1800",
+    "order": 3,
+    "isActive": true,
+    "metadata": {
+      "rotation": -3
+    }
+  },
+  {
+    "id": "mood-04",
+    "section": "home-moodboard",
+    "title": "FITTING WALL",
+    "description": "Atelier wall pin-up of toile prototypes and paper patterns.",
+    "image": "https://framerusercontent.com/images/hxmN7VRpyuk9FEjO0OWRX4r8s.jpg?width=1200&height=1601",
+    "order": 4,
+    "isActive": true,
+    "metadata": {
+      "rotation": 6
+    }
+  },
+  {
+    "id": "mood-05",
+    "section": "home-moodboard",
+    "title": "CASTING — NOAILLES",
+    "description": "Street-cast portrait in Marseille district of Noailles.",
+    "image": "https://framerusercontent.com/images/OkeLbQeKuBRLamnbU9LLxQIdrHA.jpg?width=1200&height=1500",
+    "order": 5,
+    "isActive": true,
+    "metadata": {
+      "rotation": -7
+    }
+  },
+  {
+    "id": "mood-06",
+    "section": "home-moodboard",
+    "title": "PORTO, STAIRWELL",
+    "description": "Atelier stairs, Rua das Flores at 7:00 AM before first cut.",
+    "image": "https://framerusercontent.com/images/5EvfCvtdgtLkYBTHA4hfuVE4jA.jpg?width=1200&height=1800",
+    "order": 6,
+    "isActive": true,
+    "metadata": {
+      "rotation": 2
+    }
+  },
+  {
+    "id": "journal-01",
+    "section": "home-journal",
+    "title": "WHY WE STOPPED MAKING SEASONS",
+    "description": "Fashion calendars are an invention of department stores. We break down why single drops and lifetime repairs make more sense.",
+    "image": "https://framerusercontent.com/images/2RVerqm7mfgDOiAAKSIoWnGN78.jpg?width=2400&height=1591",
+    "badge": "MANIFESTO",
+    "ctaText": "READ STORY",
+    "ctaLink": "/journal/why-we-stopped-making-seasons",
+    "order": 1,
+    "isActive": true,
+    "metadata": {
+      "readTime": "5 MIN",
+      "author": "Bureau27 Archive",
+      "date": "SEPTEMBER 2026"
+    }
+  },
+  {
+    "id": "journal-02",
+    "section": "home-journal",
+    "title": "INSIDE THE PORTO ATELIER",
+    "description": "Eleven pattern-makers, three cutting tables, and no seasonal rush. A photo essay inside the studio on Rua das Flores.",
+    "image": "https://framerusercontent.com/images/NSzlXc18chTtPGHfqMdIKqgd67Q.jpg?width=2400&height=1600",
+    "badge": "STUDIO",
+    "ctaText": "READ STORY",
+    "ctaLink": "/journal/inside-the-porto-atelier",
+    "order": 2,
+    "isActive": true,
+    "metadata": {
+      "readTime": "7 MIN",
+      "author": "Studio Log",
+      "date": "AUGUST 2026"
+    }
+  },
+  {
+    "id": "journal-03",
+    "section": "home-journal",
+    "title": "A FIELD GUIDE TO RAW EDGES",
+    "description": "How we engineer selvedge and raw hems to fray exactly 4 millimeters and stop without unraveling.",
+    "image": "https://framerusercontent.com/images/7COqo4Z937mHWqKiKkFaK9zM.jpg?width=1200&height=1800",
+    "badge": "CRAFT",
+    "ctaText": "READ STORY",
+    "ctaLink": "/journal/a-field-guide-to-raw-edges",
+    "order": 3,
+    "isActive": true,
+    "metadata": {
+      "readTime": "4 MIN",
+      "author": "Technical Dept",
+      "date": "JULY 2026"
+    }
+  },
+  {
+    "id": "shop-001",
+    "section": "shop",
+    "title": "Void Overcoat",
+    "description": "A floor-grazing overcoat in double-faced wool. Dropped shoulders, hidden placket, no lining — the coat holds its own shape.",
+    "image": "https://framerusercontent.com/images/YwB7lIpefzaZAvahVUv4AqibAo.jpg?width=1200&height=1699",
+    "price": "€890",
+    "badge": "NEW",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/void-overcoat",
+    "order": 1,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "001",
+      "category": "Outerwear",
+      "colorway": "INK / UNLINED",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    }
+  },
+  {
+    "id": "shop-002",
+    "section": "shop",
+    "title": "Fold Blazer",
+    "description": "Architectural wrap blazer cut from high-density wool twill with asymmetrical fastening.",
+    "image": "https://framerusercontent.com/images/wxgMHGiqSMFkr6MC7KVEKmDtghI.jpg?width=1200&height=1812",
+    "price": "€640",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/fold-blazer",
+    "order": 2,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "002",
+      "category": "Tailoring",
+      "colorway": "CHESTNUT / CHARCOAL",
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ]
+    }
+  },
+  {
+    "id": "shop-003",
+    "section": "shop",
+    "title": "Mono Knit 27",
+    "description": "Chunky gauge ribbed knit with elongated sleeves and a rolled raw collar, spun from unfiltered Italian merino.",
+    "image": "https://framerusercontent.com/images/W1lH6BNhAxF1bEkZsFACknlOpo.jpg?width=1200&height=1600",
+    "price": "€320",
+    "badge": "LAST PIECES",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/mono-knit-27",
+    "order": 3,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "003",
+      "category": "Knitwear",
+      "colorway": "RAW OAT / OBSIDIAN",
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ]
+    }
+  },
+  {
+    "id": "shop-004",
+    "section": "shop",
+    "title": "Raw Edge Cardigan",
+    "description": "Relaxed cardigan featuring raw perimeter finishes, exaggerated patch pockets and hand-hammered matte snaps.",
+    "image": "https://framerusercontent.com/images/UGDN5T7C6CwPvxpRWkRbtbFJogw.jpg?width=1200&height=1500",
+    "price": "€360",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/raw-edge-cardigan",
+    "order": 4,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "004",
+      "category": "Knitwear",
+      "colorway": "GRAPHITE",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    }
+  },
+  {
+    "id": "shop-005",
+    "section": "shop",
+    "title": "Pleat Trouser 04",
+    "description": "Deep double forward pleat trouser with a wide, straight leg that breaks generously over heavy footwear.",
+    "image": "https://framerusercontent.com/images/f16L7Y5G09pLHo7V7f3nPto3O8.jpg?width=1200&height=1798",
+    "price": "€280",
+    "badge": "NEW",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/pleat-trouser-04",
+    "order": 5,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "005",
+      "category": "Tailoring",
+      "colorway": "MIDNIGHT BLACK",
+      "sizes": [
+        "28",
+        "30",
+        "32",
+        "34"
+      ]
+    }
+  },
+  {
+    "id": "shop-006",
+    "section": "shop",
+    "title": "Column Shirt",
+    "description": "Structured poplin shirt with a concealed front placket, extended back hem and sharp elongated cuff vents.",
+    "image": "https://framerusercontent.com/images/ZBKK03diA0SBO2dGwMd2jWdTajE.jpg?width=1200&height=1800",
+    "price": "€210",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/column-shirt",
+    "order": 6,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "006",
+      "category": "Tailoring",
+      "colorway": "OPTIC WHITE",
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ]
+    }
+  },
+  {
+    "id": "shop-007",
+    "section": "shop",
+    "title": "Carry Tote 27",
+    "description": "Heavyweight bridle leather utility tote with structured base, interior zip compartment and burnished saddle edges.",
+    "image": "https://framerusercontent.com/images/ToOKmtWGVPMLRC7WgKmvdHVeU.jpg?width=1200&height=1500",
+    "price": "€240",
+    "badge": "",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/carry-tote-27",
+    "order": 7,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "007",
+      "category": "Accessories",
+      "colorway": "COGNAC / MATTE BLACK",
+      "sizes": [
+        "ONE SIZE"
+      ]
+    }
+  },
+  {
+    "id": "shop-008",
+    "section": "shop",
+    "title": "Stomp Boot",
+    "description": "Monolithic combat boot with lugged commando outsole, waxed lace closure and reinforced heel counter.",
+    "image": "https://framerusercontent.com/images/2w1lP573BqBpEC9hvc6WUQCIh88.jpg?width=1200&height=1800",
+    "price": "€420",
+    "badge": "SOLD OUT SOON",
+    "ctaText": "VIEW PIECE",
+    "ctaLink": "/shop/stomp-boot",
+    "order": 8,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "008",
+      "category": "Accessories",
+      "colorway": "NERO BLACK",
+      "sizes": [
+        "40",
+        "41",
+        "42",
+        "43",
+        "44",
+        "45"
+      ]
+    }
+  }
+]
