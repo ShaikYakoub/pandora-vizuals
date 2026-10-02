@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import TextScramble from './TextScramble';
 
-const MANIFESTO_TEXT = 'We cut garments for people who refuse a season. Built slowly in small runs, worn loudly, constructed to outlive the cycle.';
-const ACCENT_WORDS = new Set(['refuse', 'loudly', 'outlive']);
+const MANIFESTO_TEXT = 'We capture stories that outlive the moment. Viral reels, candid milestone celebrations, visual campaigns engineered to inspire.';
+const ACCENT_WORDS = new Set(['stories', 'celebrations', 'inspire']);
 
 export default function ManifestoScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -61,7 +61,7 @@ export default function ManifestoScroll() {
             <TextScramble text="— MANIFESTO" />
           </div>
           <div>
-            <TextScramble text="EST. 2019 — PORTO" />
+            <TextScramble text="EST. 2019 — VISUAL PRODUCTION" />
           </div>
         </div>
 
@@ -122,8 +122,7 @@ export default function ManifestoScroll() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-[#ece8e1]/10 items-end">
           <div className="md:col-span-8 lg:col-span-7">
             <p className="font-sans text-base sm:text-lg text-[#8c8880] leading-relaxed">
-              Every Pandora Visuals piece is cut, sewn and pressed by eleven people in one Porto atelier.
-              No seasons, no markdowns, no overproduction — a garment stays online until the last one is gone.
+              At Pandora Visuals, we blend cinematic storytelling with digital strategy. From high-energy viral reels and intimate child milestone birthdays to luxury adult celebrations and full-scale brand campaigns — every frame is directed with soul and technical precision.
             </p>
           </div>
           <div className="md:col-span-4 lg:col-span-5 flex md:justify-end">

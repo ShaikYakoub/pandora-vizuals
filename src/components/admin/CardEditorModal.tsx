@@ -33,7 +33,7 @@ export default function CardEditorModal({
 
   // Metadata / Custom Fields
   const [itemNumber, setItemNumber] = useState(initialCard?.metadata?.itemNumber || '');
-  const [category, setCategory] = useState(initialCard?.metadata?.category || 'Outerwear');
+  const [category, setCategory] = useState(initialCard?.metadata?.category || 'Reels');
   const [colorway, setColorway] = useState(initialCard?.metadata?.colorway || '');
   const [readTime, setReadTime] = useState(initialCard?.metadata?.readTime || '');
   const [rotation, setRotation] = useState<number>(initialCard?.metadata?.rotation ?? -2);
@@ -50,12 +50,12 @@ export default function CardEditorModal({
       setImage(initialCard.image);
       setPrice(initialCard.price || '');
       setBadge(initialCard.badge || '');
-      setCtaText(initialCard.ctaText || 'VIEW PIECE');
+      setCtaText(initialCard.ctaText || 'VIEW PROJECT');
       setCtaLink(initialCard.ctaLink || '');
       setOrder(initialCard.order);
       setIsActive(initialCard.isActive);
       setItemNumber(initialCard.metadata?.itemNumber || '');
-      setCategory(initialCard.metadata?.category || 'Outerwear');
+      setCategory(initialCard.metadata?.category || 'Reels');
       setColorway(initialCard.metadata?.colorway || '');
       setReadTime(initialCard.metadata?.readTime || '');
       setRotation(initialCard.metadata?.rotation ?? 0);
@@ -66,12 +66,12 @@ export default function CardEditorModal({
       setImage('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1000&auto=format&fit=crop');
       setPrice('');
       setBadge('');
-      setCtaText('VIEW PIECE');
+      setCtaText('VIEW PROJECT');
       setCtaLink('');
       setOrder(1);
       setIsActive(true);
       setItemNumber('');
-      setCategory('Outerwear');
+      setCategory('Reels');
       setColorway('');
       setReadTime('');
       setRotation(0);
@@ -392,10 +392,11 @@ export default function CardEditorModal({
                     onChange={(e) => setCategory(e.target.value)}
                     className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2.5 text-[#ece8e1] focus:border-[#ff3d17] outline-none"
                   >
-                    <option value="Outerwear">Outerwear</option>
-                    <option value="Tailoring">Tailoring</option>
-                    <option value="Knitwear">Knitwear</option>
-                    <option value="Accessories">Accessories</option>
+                    <option value="Reels">Reels</option>
+                    <option value="Kids Birthdays">Kids Birthdays</option>
+                    <option value="Adult Events">Adult Events</option>
+                    <option value="Digital Marketing">Digital Marketing</option>
+                    <option value="Commercial">Commercial</option>
                   </select>
                 </div>
               )}

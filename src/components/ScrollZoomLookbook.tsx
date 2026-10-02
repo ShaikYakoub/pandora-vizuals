@@ -107,7 +107,7 @@ export default function ScrollZoomLookbook() {
         <div className="relative z-10 flex items-center justify-between text-xs font-mono tracking-widest text-[#ece8e1] uppercase select-none">
           <div className="flex items-center space-x-2">
             <span className="text-[#ff3d17] font-bold">(03)</span>
-            <TextScramble text="— LOOKBOOK, CHAPTER 04" />
+            <TextScramble text="— CINEMATIC VISUAL ARCHIVE" />
           </div>
           <div className="font-mono tabular-nums text-xs text-[#8c8880]">
             {percentString}
@@ -123,17 +123,17 @@ export default function ScrollZoomLookbook() {
           }}
         >
           <h2 className="font-anton text-5xl sm:text-8xl md:text-9xl lg:text-[11vw] leading-[0.88] text-[#ece8e1] tracking-tighter uppercase select-none">
-            WORN IN THE DARK
+            CAPTURED IN THE MOMENT
           </h2>
           <p className="font-mono text-xs sm:text-sm tracking-widest text-[#dcd6cc] uppercase">
-            SHOT AT 04:00 AM IN MARSEILLE — NO RETOUCHING
+            SHOT ON CINEMA GLASS & SONY FX SERIES — UNFILTERED EMOTION
           </p>
           <div className="pt-4">
             <Link
               href="/lookbook"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest bg-[#ece8e1] text-[#0c0c0b] font-bold px-6 py-3.5 hover:bg-[#ff3d17] hover:text-[#0c0c0b] transition-all shadow-lg"
             >
-              <span>EXPLORE CHAPTER 04</span>
+              <span>EXPLORE VISUAL ARCHIVE</span>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>
@@ -141,10 +141,10 @@ export default function ScrollZoomLookbook() {
 
         {/* Bottom Metadata Grid */}
         <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-[#ece8e1]/20 text-[11px] font-mono tracking-widest text-[#dcd6cc] uppercase select-none">
-          <div>Cut in Porto</div>
-          <div>Small runs</div>
-          <div>Worn loudly</div>
-          <div>Built to outlive</div>
+          <div>4K Cinema & Reels</div>
+          <div>Milestone Celebrations</div>
+          <div>Color Grading & Audio</div>
+          <div>Digital Growth & Ads</div>
         </div>
       </div>
     </section>

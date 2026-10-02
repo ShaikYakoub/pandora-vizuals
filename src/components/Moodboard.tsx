@@ -205,12 +205,12 @@ export default function Moodboard() {
   // Match each card to its visual slot
   const getSlotForCard = (card: (typeof sectionCards)[0], index: number): SlotConfig => {
     const t = card.title.toLowerCase();
-    if (card.id === 'mood-01' || t.includes('caution') || t.includes('look 11')) return DEFAULT_SLOTS[0];
-    if (card.id === 'mood-03' || t.includes('signal red') || t.includes('signal')) return DEFAULT_SLOTS[1];
-    if (card.id === 'mood-05' || t.includes('noailles') || t.includes('casting')) return DEFAULT_SLOTS[2];
-    if (card.id === 'mood-02' || t.includes('neon') || t.includes('3 am')) return DEFAULT_SLOTS[3];
-    if (card.id === 'mood-04' || t.includes('fitting') || t.includes('wall')) return DEFAULT_SLOTS[4];
-    if (card.id === 'mood-06' || t.includes('porto') || t.includes('stairwell')) return DEFAULT_SLOTS[5];
+    if (card.id === 'mood-01' || t.includes('shutter') || t.includes('caution')) return DEFAULT_SLOTS[0];
+    if (card.id === 'mood-03' || t.includes('pacing') || t.includes('signal')) return DEFAULT_SLOTS[1];
+    if (card.id === 'mood-05' || t.includes('grading') || t.includes('color')) return DEFAULT_SLOTS[2];
+    if (card.id === 'mood-02' || t.includes('neon') || t.includes('ambience')) return DEFAULT_SLOTS[3];
+    if (card.id === 'mood-04' || t.includes('lighting') || t.includes('setup')) return DEFAULT_SLOTS[4];
+    if (card.id === 'mood-06' || t.includes('scout') || t.includes('location')) return DEFAULT_SLOTS[5];
     return DEFAULT_SLOTS[index % DEFAULT_SLOTS.length];
   };
 
@@ -225,7 +225,7 @@ export default function Moodboard() {
           <span className="font-bold text-[12px] tracking-wider">DRAG</span>
         </div>
         <div className="text-center font-medium text-[12px] tracking-wider text-[#0c0c0b]">
-          <TextScramble text="(04) — MOODBOARD · DRAG THE PIECES" />
+          <TextScramble text="(04) — PRODUCTION BOARD · DRAG THE SHOTS" />
         </div>
         <div className="w-12 hidden sm:block opacity-0">DRAG</div>
       </div>
@@ -233,8 +233,8 @@ export default function Moodboard() {
       {/* Monumental Center Headline */}
       <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
         <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#0c0c0b] uppercase">
-          PIN IT. DRAG IT. <br />
-          <span className="text-[#ff3d17]">WEAR IT.</span>
+          FRAME IT. SHOOT IT. <br />
+          <span className="text-[#ff3d17]">FEEL IT.</span>
         </h2>
       </div>
 

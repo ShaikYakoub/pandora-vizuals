@@ -113,16 +113,16 @@ export default function DropScroller() {
         <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-12 flex justify-between items-end gap-6 select-none z-10">
           <div>
             <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-1">
-              (02) — RUNWAY ARCHIVE
+              (02) — PRODUCTION REELS & HIGHLIGHTS
             </div>
             <h2 className="font-anton text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
-              THE DROP — SS27
+              RECENT WORKS
             </h2>
           </div>
 
           <div className="flex items-center space-x-3 text-xs font-mono tracking-widest text-[#8c8880] whitespace-nowrap pb-2">
             <span>SCROLL ⟶</span>
-            <TextScramble text={`${looksCount} LOOKS`} className="text-[#ff3d17] font-bold" />
+            <TextScramble text={`${looksCount} PROJECTS`} className="text-[#ff3d17] font-bold" />
           </div>
         </div>
 
@@ -181,7 +181,7 @@ export default function DropScroller() {
                     )}
                   </div>
                   <span className="text-xs font-mono tracking-wider text-[#8c8880] uppercase">
-                    {card.metadata?.category || 'SS27'}
+                    {card.metadata?.category || 'REELS'}
                   </span>
                 </div>
               </div>

@@ -21,38 +21,38 @@ export default function JournalPage() {
   const [hoveredStory, setHoveredStory] = useState<string | null>(null);
 
   const featuredStory: JournalStory = {
-    slug: 'why-we-stopped-making-seasons',
-    category: 'MANIFESTO',
+    slug: 'crafting-viral-reels-for-modern-brands',
+    category: 'REELS & MOTION',
     readTime: '5 MIN',
-    title: 'WHY WE STOPPED MAKING SEASONS',
-    subtitle: 'Two collections a year was never the rhythm of the people who wear us. So we quit the calendar.',
+    title: 'CRAFTING VIRAL REELS FOR MODERN BRANDS',
+    subtitle: 'Rhythm, sound design, and the psychology of the three-second hook. How we engineer short-form video that commands attention.',
     image: 'https://framerusercontent.com/images/2RVerqm7mfgDOiAAKSIoWnGN78.jpg?width=2400&height=1591',
     isLatest: true,
   };
 
   const archiveStories: JournalStory[] = [
     {
-      slug: 'inside-the-porto-atelier',
-      category: 'STUDIO',
-      readTime: '7 MIN',
-      title: 'INSIDE THE PORTO ATELIER',
-      subtitle: 'Pattern cutting, raw edge finishing, and the quiet precision of Rua das Flores.',
+      slug: 'the-art-of-capturing-child-birthdays',
+      category: 'KIDS & MILESTONES',
+      readTime: '6 MIN',
+      title: 'THE ART OF CAPTURING CHILD BIRTHDAYS',
+      subtitle: 'From first birthday cake smashes to genuine giggles: why authentic childhood moments require patience over posing.',
       image: 'https://framerusercontent.com/images/NSzlXc18chTtPGHfqMdIKqgd67Q.jpg?width=2400&height=1600',
     },
     {
-      slug: 'a-field-guide-to-raw-edges',
-      category: 'CRAFT',
+      slug: 'lighting-adult-milestone-galas',
+      category: 'ADULT CELEBRATIONS',
       readTime: '4 MIN',
-      title: 'A FIELD GUIDE TO RAW EDGES',
-      subtitle: 'Why leaving seam edges unhemmed reveals the true weight of woven wool.',
+      title: 'LIGHTING ADULT MILESTONE GALAS',
+      subtitle: 'Documenting 21st, 30th, and 50th celebrations in low ambient light with cinema glass and zero intrusive flashes.',
       image: 'https://framerusercontent.com/images/7COqo4Z937mHWqKiKkFaK9zM.jpg?width=1200&height=1800',
     },
     {
-      slug: 'ss27-shot-at-04-00-in-marseille',
-      category: 'CAMPAIGN',
-      readTime: '3 MIN',
-      title: 'SS27 — SHOT AT 04:00 IN MARSEILLE',
-      subtitle: 'Behind the lens of our night campaign across the Mediterranean coastline.',
+      slug: 'how-visual-content-drives-digital-marketing',
+      category: 'DIGITAL MARKETING',
+      readTime: '5 MIN',
+      title: 'HOW VISUAL CONTENT DRIVES DIGITAL MARKETING',
+      subtitle: 'Bridging the gap between cinematic art and high-ROI ad performance across Meta, TikTok, and brand campaigns.',
       image: 'https://framerusercontent.com/images/WEDdkAfRPcaX7jjaHEd9G4yKAss.jpg?width=2400&height=1602',
     },
   ];
@@ -66,9 +66,9 @@ export default function JournalPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Journal) — Notes from the atelier</span>
+              <span>(Journal) — Production dispatch & behind the lens</span>
             </div>
-            <div>UPDATED WITH EVERY DROP</div>
+            <div>STORIES & CASE STUDIES</div>
           </div>
         </FramerReveal>
 
@@ -84,7 +84,7 @@ export default function JournalPage() {
           </div>
           <FramerReveal delay={0.15} className="max-w-xl lg:text-right">
             <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] leading-snug">
-              Stories about craft, cities and the people who make every Pandora Visuals edition.
+              Insights on cinematography, unscripted celebration photography, and digital marketing strategy.
             </p>
           </FramerReveal>
         </div>

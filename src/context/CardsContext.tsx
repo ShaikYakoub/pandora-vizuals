@@ -20,8 +20,8 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'bureau27_editable_cards_v3';
-const SYNC_EVENT_NAME = 'bureau27_cards_updated';
+const STORAGE_KEY = 'pandora_visuals_cards_v1';
+const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
 export function CardsProvider({ children }: { children: React.ReactNode }) {
   const [cards, setCards] = useState<EditableCard[]>(DEFAULT_CARDS);

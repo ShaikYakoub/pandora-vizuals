@@ -48,15 +48,15 @@ export default function Footer() {
         {/* Newsletter Column */}
         <div className="w-full lg:max-w-[520px] flex flex-col gap-6">
           <div className="font-mono text-xs tracking-widest text-[#8c8880] uppercase">
-            Newsletter — No spam, only drops
+            Newsletter — Cinematic reels, case studies & updates
           </div>
           <h3 className="font-serif-italic text-3xl sm:text-4xl lg:text-[44px] text-[#0c0c0b] leading-[1.08] tracking-tight">
-            Drops land in your inbox before they land online.
+            Visual stories land in your inbox before they premiere online.
           </h3>
 
           {subscribed ? (
             <div className="h-14 flex items-center px-4 bg-[#0c0c0b] text-[#ece8e1] font-mono text-xs tracking-wider">
-              ✓ YOU ARE ON THE PRIVATE DROP LIST. ATELIER ACCESS GRANTED.
+              ✓ ACCESS GRANTED. YOU ARE ON THE PANDORA VISUALS DISPATCH LIST.
             </div>
           ) : (
             <form onSubmit={handleSubscribe} className="w-full max-w-[520px] h-14 flex items-center">
@@ -150,7 +150,7 @@ export default function Footer() {
               4050-265 Porto
             </div>
             <a
-              href="mailto:hello@bureau27.studio"
+              href="mailto:hello@pandoravisuals.studio"
               className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors"
             >
               Write to us
@@ -187,8 +187,8 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="w-full max-w-[1600px] pt-5 border-t border-[#0c0c0b]/15 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs font-mono tracking-widest text-[#0c0c0b] uppercase gap-3">
-        <div>© 2027 PANDORA VISUALS. ALL RIGHTS RESERVED.</div>
-        <div>CUT IN PORTO — WORN EVERYWHERE</div>
+        <div>© 2026 PANDORA VISUALS. ALL RIGHTS RESERVED.</div>
+        <div>CINEMATIC REELS — EVENTS — DIGITAL MARKETING</div>
         <button
           onClick={scrollToTop}
           className="hover:text-[#ff3d17] flex items-center gap-1.5 transition-colors uppercase font-medium cursor-pointer"

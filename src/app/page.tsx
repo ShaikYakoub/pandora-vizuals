@@ -34,7 +34,7 @@ export default function HomePage() {
         {/* Center Editorial Quote & Camera CTA Button */}
         <div className="flex-1 flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none gap-8 sm:gap-10">
           <FramerHeading
-            text="Garments for people who refuse a season."
+            text="Visuals crafted for moments that refuse to fade."
             as="h2"
             variant="subtle"
             className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#ece8e1] max-w-5xl tracking-tight leading-tight"
@@ -74,7 +74,7 @@ export default function HomePage() {
       {/* (02) — THE DROP (Pinned horizontal scroll gallery with velocity skew) */}
       <DropScroller />
 
-      {/* (02) — THE EDIT (Signature 8 pieces grid with 3D scroll tilt) */}
+      {/* (02) — THE EDIT (Signature Productions grid with 3D scroll tilt) */}
       <section className="py-24 sm:py-32 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-[#0c0c0b]">
         <div className="max-w-[1720px] mx-auto space-y-12">
           {/* Header Row */}
@@ -82,10 +82,10 @@ export default function HomePage() {
             <div>
               <div className="flex items-center space-x-2 text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-2">
                 <span className="text-[#ff3d17] font-bold">(02)</span>
-                <TextScramble text="— THE EDIT" />
+                <TextScramble text="— FEATURED PRODUCTIONS" />
               </div>
               <h2 className="font-anton text-4xl sm:text-6xl lg:text-7xl text-[#ece8e1] tracking-tight">
-                EIGHT PIECES, NO SEASON.
+                CURATED FRAMES, TIMELESS STORIES.
               </h2>
             </div>
 

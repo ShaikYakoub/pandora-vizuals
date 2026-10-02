@@ -5,121 +5,129 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'drop-01',
     section: 'home-drop',
-    title: 'LOOK 01',
-    description: 'LEATHER COLUMN',
+    title: 'REEL 01',
+    description: 'VIRAL SOUND & RHYTHMIC CUTS',
     image: 'https://framerusercontent.com/images/GTn9pLq00uE3ZcQhSgcA1qFPNLY.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/pleat-trouser-04',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 1,
     isActive: true,
     metadata: {
       itemNumber: '01',
-      details: ['Leather column silhouette', 'Cut in Porto atelier', 'Small run of 27 pieces']
+      category: 'Reels',
+      details: ['4K vertical cinema cuts', 'Custom sound design & beats', 'Social algorithm optimization']
     }
   },
   {
     id: 'drop-02',
     section: 'home-drop',
-    title: 'LOOK 02',
-    description: 'NIGHT SUIT, SUNGLASSES',
+    title: 'CELEBRATION 02',
+    description: '1ST BIRTHDAY & CAKE SMASH',
     image: 'https://framerusercontent.com/images/0nLgNHI2I09hUmNIv3HlhqNjrE.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/fold-blazer',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 2,
     isActive: true,
     metadata: {
       itemNumber: '02',
-      details: ['Wool twill fold tailoring', 'Unstructured architectural fit']
+      category: 'Kids Birthdays',
+      details: ['Candid cake smash coverage', 'Warm studio lighting lab', 'Gentle unscripted pacing']
     }
   },
   {
     id: 'drop-03',
     section: 'home-drop',
-    title: 'LOOK 03',
-    description: 'BELTED TRENCH',
+    title: 'GALA 03',
+    description: 'MILESTONE 30TH SOIREE',
     image: 'https://framerusercontent.com/images/o3PRQp77gGJeh1W9vE4vP2dOmBE.jpg?width=1000&height=1497',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/void-overcoat',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 3,
     isActive: true,
     metadata: {
       itemNumber: '03',
-      details: ['Heavy double-faced wool', 'Cinched architectural belt']
+      category: 'Adult Events',
+      details: ['Low-light atmospheric 4K', 'Unfiltered candid toasts', 'Cinematic recap highlight']
     }
   },
   {
     id: 'drop-04',
     section: 'home-drop',
-    title: 'LOOK 04',
-    description: 'GARAGE PARKA',
+    title: 'CAMPAIGN 04',
+    description: 'META & TIKTOK AD SUITE',
     image: 'https://framerusercontent.com/images/mZnHFEEvP2RtX33sJmhtxQWlFU.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/stomp-boot',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 4,
     isActive: true,
     metadata: {
       itemNumber: '04',
-      details: ['Vintage racing nylon drape', 'Reflective atelier hardware']
+      category: 'Digital Marketing',
+      details: ['High-converting hook variants', 'Direct-to-consumer ad creative', 'Multi-ratio delivery (9:16, 1:1)']
     }
   },
   {
     id: 'drop-05',
     section: 'home-drop',
-    title: 'LOOK 05',
-    description: 'OVERSIZED KNIT',
+    title: 'EDITORIAL 05',
+    description: 'COMMERCIAL LOOKBOOK 4K',
     image: 'https://framerusercontent.com/images/F8nsRHrUNKzR4Mwj0156LySkAA.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/mono-knit-27',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 5,
     isActive: true,
     metadata: {
       itemNumber: '05',
-      details: ['Brushed alpaca blend', 'Raw rolled neckline']
+      category: 'Commercial',
+      details: ['Studio glass & lighting setup', 'High-res retouched stills', 'Brand narrative direction']
     }
   },
   {
     id: 'drop-06',
     section: 'home-drop',
-    title: 'LOOK 06',
-    description: 'GRAPHIC LAYER',
+    title: 'KIDS 06',
+    description: 'CHILDHOOD WONDER PORTRAITS',
     image: 'https://framerusercontent.com/images/Qth0QkOtJn80i68k7Wh14lFpOI.jpg?width=1000&height=1250',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/column-shirt',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 6,
     isActive: true,
     metadata: {
       itemNumber: '06',
-      details: ['High turtle silhouette', 'Contrasting structured drape']
+      category: 'Kids Birthdays',
+      details: ['Golden hour outdoor capture', 'Unposed family connection', 'Fine-art archival grade']
     }
   },
   {
     id: 'drop-07',
     section: 'home-drop',
-    title: 'LOOK 07',
-    description: 'WOOL HOOD COAT',
+    title: 'EVENT 07',
+    description: '50TH JUBILEE & RECEPTION',
     image: 'https://framerusercontent.com/images/9jkleYaD6jKz9X2wuj3s8vtxs.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/raw-edge-cardigan',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 7,
     isActive: true,
     metadata: {
       itemNumber: '07',
-      details: ['Integrated cowl hood', 'Raw pressed seams']
+      category: 'Adult Events',
+      details: ['Multi-angle speech audio', 'Champagne toasts & dancefloor', 'Keepsake documentary cut']
     }
   },
   {
     id: 'drop-08',
     section: 'home-drop',
-    title: 'LOOK 08',
-    description: 'LEATHER OVERSHIRT',
+    title: 'REEL 08',
+    description: 'LUXURY BRAND RETROSPECTIVE',
     image: 'https://framerusercontent.com/images/hzrN4APAznCWhmWAcHd9MaKfd4.jpg?width=1000&height=1500',
-    ctaText: 'SHOP THE LOOK',
-    ctaLink: '/shop/carry-tote-27',
+    ctaText: 'VIEW PRODUCTION',
+    ctaLink: '/shop',
     order: 8,
     isActive: true,
     metadata: {
       itemNumber: '08',
-      details: ['Subtle sheen calfskin', 'Oversized boxy profile']
+      category: 'Commercial',
+      details: ['Paced dynamic cinematography', 'Color-graded film emulation', 'Full licensing clearance']
     }
   },
 
@@ -127,161 +135,153 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'edit-001',
     section: 'home-edit',
-    title: 'Void Overcoat',
-    description: 'A floor-grazing overcoat in double-faced wool. Dropped shoulders, hidden placket, no lining — the coat holds its own shape.',
+    title: 'Viral Reels Suite',
+    description: 'High-energy 4K short-form reels with custom sound design and dynamic motion grading engineered for maximum viral engagement.',
     image: 'https://framerusercontent.com/images/YwB7lIpefzaZAvahVUv4AqibAo.jpg?width=1200&height=1699',
-    price: '€890',
-    badge: 'NEW',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/void-overcoat',
+    price: 'FROM $1,200',
+    badge: 'POPULAR',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 1,
     isActive: true,
     metadata: {
       itemNumber: '001',
-      category: 'Outerwear',
-      colorway: 'INK / UNLINED',
-      sizes: ['XS', 'S', 'M', 'L', 'XL'],
-      details: ['Double-faced recycled wool, 900 gsm', 'Made in small runs in Porto, Portugal', 'Dry clean only']
+      category: 'Reels',
+      colorway: '4K CINEMA / 9:16',
+      details: ['Sony FX series + cinema primes', 'Custom sound design & audio mastering', 'Delivered in 4K UHD vertical formats']
     }
   },
   {
     id: 'edit-002',
     section: 'home-edit',
-    title: 'Fold Blazer',
-    description: 'Architectural wrap blazer cut from high-density wool twill with asymmetrical fastening and concealed horn buttons.',
+    title: 'Kids 1st Birthday & Cake Smash',
+    description: 'Candid, joyful documentation of milestone first birthdays, complete with studio lighting, cake smash setup, and family portraits.',
     image: 'https://framerusercontent.com/images/wxgMHGiqSMFkr6MC7KVEKmDtghI.jpg?width=1200&height=1812',
-    price: '€640',
-    badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/fold-blazer',
+    price: 'FROM $850',
+    badge: 'FEATURED',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 2,
     isActive: true,
     metadata: {
       itemNumber: '002',
-      category: 'Tailoring',
-      colorway: 'CHESTNUT / CHARCOAL',
-      sizes: ['S', 'M', 'L'],
-      details: ['High density wool twill', 'Sculpted shoulder pads', 'Unlined body']
+      category: 'Kids Birthdays',
+      colorway: 'STUDIO & OUTDOOR',
+      details: ['Full cake smash & portrait coverage', 'Patience-first natural child direction', 'High-res retouched digital gallery']
     }
   },
   {
     id: 'edit-003',
     section: 'home-edit',
-    title: 'Mono Knit 27',
-    description: 'Chunky gauge ribbed knit with elongated sleeves and a rolled raw collar, spun from unfiltered Italian merino wool.',
+    title: 'Milestone Adult Gala & Soirée',
+    description: 'Cinematic coverage for 18th, 21st, 30th, 50th birthdays and luxury private anniversaries. Low-light mastery with candid documentary flair.',
     image: 'https://framerusercontent.com/images/W1lH6BNhAxF1bEkZsFACknlOpo.jpg?width=1200&height=1600',
-    price: '€320',
-    badge: 'LAST PIECES',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/mono-knit-27',
+    price: 'FROM $2,400',
+    badge: 'BOOKED OFTEN',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 3,
     isActive: true,
     metadata: {
       itemNumber: '003',
-      category: 'Knitwear',
-      colorway: 'RAW OAT / OBSIDIAN',
-      sizes: ['XS', 'S', 'M', 'L'],
-      details: ['100% unfiltered merino wool', 'Custom stitch tension', 'Hand-finished hems']
+      category: 'Adult Events',
+      colorway: 'LOW-LIGHT 4K',
+      details: ['Multi-cam 4K highlight film + photo deck', 'Ambient low-light cinematography', 'Online private client proofing suite']
     }
   },
   {
     id: 'edit-004',
     section: 'home-edit',
-    title: 'Raw Edge Cardigan',
-    description: 'Relaxed cardigan featuring raw perimeter finishes, exaggerated patch pockets and hand-hammered matte silver snaps.',
+    title: 'Full-Funnel Digital Marketing',
+    description: 'Strategic paid ad creative suites, monthly reel retainers, and performance social media content designed to convert followers into loyal clients.',
     image: 'https://framerusercontent.com/images/UGDN5T7C6CwPvxpRWkRbtbFJogw.jpg?width=1200&height=1500',
-    price: '€360',
-    badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/raw-edge-cardigan',
+    price: 'FROM $3,500/MO',
+    badge: 'GROWTH',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 4,
     isActive: true,
     metadata: {
       itemNumber: '004',
-      category: 'Knitwear',
-      colorway: 'GRAPHITE',
-      sizes: ['S', 'M', 'L', 'XL'],
-      details: ['Heavy boiled wool blend', 'Raw distressed seam edges', 'Matte silver snaps']
+      category: 'Digital Marketing',
+      colorway: 'GROWTH SUITE',
+      details: ['Meta & TikTok ad creative batches', 'Data-driven visual testing', 'Monthly content calendar production']
     }
   },
   {
     id: 'edit-005',
     section: 'home-edit',
-    title: 'Pleat Trouser 04',
-    description: 'Deep double forward pleat trouser with a wide, straight leg that breaks generously over heavy footwear.',
+    title: 'Commercial Brand Editorial',
+    description: 'High-concept product and lookbook photography shot on cinema glass, tailored for commercial campaigns, billboards, and digital presence.',
     image: 'https://framerusercontent.com/images/f16L7Y5G09pLHo7V7f3nPto3O8.jpg?width=1200&height=1798',
-    price: '€280',
+    price: 'FROM $1,800',
     badge: 'NEW',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/pleat-trouser-04',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 5,
     isActive: true,
     metadata: {
       itemNumber: '005',
-      category: 'Tailoring',
-      colorway: 'MIDNIGHT BLACK',
-      sizes: ['28', '30', '32', '34'],
-      details: ['Deep architectural forward pleat', 'Wide fluid leg profile', 'Hidden hook closure']
+      category: 'Commercial',
+      colorway: 'STUDIO GRADE',
+      details: ['Studio lighting lab & set design', 'Commercial usage licensing included', 'Tethered capture with live client review']
     }
   },
   {
     id: 'edit-006',
     section: 'home-edit',
-    title: 'Column Shirt',
-    description: 'Structured poplin shirt with a concealed front placket, extended back hem and sharp elongated cuff vents.',
+    title: 'Children Milestone Storybook',
+    description: 'Artistic outdoor and lifestyle photography capturing candid childhood wonder, sibling interactions, and genuine family laughter.',
     image: 'https://framerusercontent.com/images/ZBKK03diA0SBO2dGwMd2jWdTajE.jpg?width=1200&height=1800',
-    price: '€210',
+    price: 'FROM $750',
     badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/column-shirt',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 6,
     isActive: true,
     metadata: {
       itemNumber: '006',
-      category: 'Tailoring',
-      colorway: 'OPTIC WHITE',
-      sizes: ['S', 'M', 'L', 'XL'],
-      details: ['120s Egyptian cotton poplin', 'Clean french seams', 'Extended cuff placket']
+      category: 'Kids Birthdays',
+      colorway: 'GOLDEN HOUR',
+      details: ['On-location natural light session', 'Full candid documentary approach', 'Fine-art keepsake print rights']
     }
   },
   {
     id: 'edit-007',
     section: 'home-edit',
-    title: 'Carry Tote 27',
-    description: 'Heavyweight bridle leather utility tote with structured base, interior zip compartment and burnished saddle edges.',
+    title: 'Monthly Social Video Retainer',
+    description: 'Dedicated monthly visual production producing 8-12 bespoke vertical videos, trend capitalization, and brand identity synchronization.',
     image: 'https://framerusercontent.com/images/ToOKmtWGVPMLRC7WgKmvdHVeU.jpg?width=1200&height=1500',
-    price: '€240',
+    price: 'FROM $2,800/MO',
     badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/carry-tote-27',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 7,
     isActive: true,
     metadata: {
       itemNumber: '007',
-      category: 'Accessories',
-      colorway: 'COGNAC / MATTE BLACK',
-      sizes: ['ONE SIZE'],
-      details: ['Vegetable-tanned full grain calfskin', 'Reinforced tubular carry handles', 'Holds 16" laptop']
+      category: 'Reels',
+      colorway: 'MONTHLY SPRINT',
+      details: ['8-12 finished vertical reels / month', 'Scripting, hooks & storyboarding', 'Rapid 72h post-production turnaround']
     }
   },
   {
     id: 'edit-008',
     section: 'home-edit',
-    title: 'Stomp Boot',
-    description: 'Monolithic combat boot with lugged commando outsole, waxed lace closure and reinforced heel counter.',
+    title: 'Private Milestone Documentary',
+    description: 'An intimate, long-form cinematic tribute film featuring heartfelt speeches, candid reactions, and a masterfully graded keepsake.',
     image: 'https://framerusercontent.com/images/2w1lP573BqBpEC9hvc6WUQCIh88.jpg?width=1200&height=1800',
-    price: '€420',
-    badge: 'SOLD OUT SOON',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/stomp-boot',
+    price: 'FROM $4,200',
+    badge: 'EXCLUSIVE',
+    ctaText: 'VIEW PROJECT',
+    ctaLink: '/contact',
     order: 8,
     isActive: true,
     metadata: {
       itemNumber: '008',
-      category: 'Accessories',
-      colorway: 'NERO BLACK',
-      sizes: ['40', '41', '42', '43', '44', '45'],
-      details: ['Water-resistant box calf leather', 'Vibram commando rubber sole', 'Goodyear welted in Guimarães']
+      category: 'Adult Events',
+      colorway: 'CINEMA KEEPSAKE',
+      details: ['Wireless lavalier audio recording', 'Archival quality master edit', 'Includes 60-second social recap reel']
     }
   },
 
@@ -289,8 +289,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-01',
     section: 'home-moodboard',
-    title: 'LOOK 11 — CAUTION',
-    description: 'Editorial fitting session snapshot under Marseille sodium streetlights.',
+    title: 'SHUTTER TEST — 1/1000s',
+    description: 'High-speed shutter calibration freezing spontaneous cake smash laughter.',
     image: 'https://framerusercontent.com/images/OkeLbQeKuBRLamnbU9LLxQIdrHA.jpg?width=1200&height=1500',
     order: 1,
     isActive: true,
@@ -303,8 +303,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-02',
     section: 'home-moodboard',
-    title: 'NEON TEST, 3 AM',
-    description: 'Green ambient glow studio test with wide pleated trousers.',
+    title: 'NEON AMBIENCE, 3 AM',
+    description: 'Low-light cinema sensor test for private milestone gala afterparties.',
     image: 'https://framerusercontent.com/images/0gsbo01tHNjFVTqRQUZMkUsgu0.jpg?width=1200&height=1797',
     order: 2,
     isActive: true,
@@ -317,8 +317,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-03',
     section: 'home-moodboard',
-    title: 'SIGNAL RED',
-    description: 'Color temperature calibration for the SS27 vermilion campaign.',
+    title: 'REEL PACING BOARD',
+    description: 'Frame-by-frame beat breakdown for viral rhythmic reel editing.',
     image: 'https://framerusercontent.com/images/5GERA8vfDzpLRWsFjP7JAaoAk.jpg?width=1200&height=1800',
     order: 3,
     isActive: true,
@@ -331,8 +331,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-04',
     section: 'home-moodboard',
-    title: 'FITTING WALL',
-    description: 'Atelier wall pin-up of toile prototypes and paper patterns.',
+    title: 'STUDIO LIGHTING SETUP',
+    description: 'Three-point softbox and rim light diagram for children fine-art portraits.',
     image: 'https://framerusercontent.com/images/hxmN7VRpyuk9FEjO0OWRX4r8s.jpg?width=1200&height=1601',
     order: 4,
     isActive: true,
@@ -345,8 +345,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-05',
     section: 'home-moodboard',
-    title: 'CASTING — NOAILLES',
-    description: 'Street-cast portrait in Marseille district of Noailles.',
+    title: 'COLOR GRADING PASS',
+    description: 'Custom cinematic LUT application balancing warm skin tones and deep blacks.',
     image: 'https://framerusercontent.com/images/5EvfCvtdgtLkYBTHA4hfuVE4jA.jpg?width=1200&height=1800',
     order: 5,
     isActive: true,
@@ -359,8 +359,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'mood-06',
     section: 'home-moodboard',
-    title: 'PORTO, STAIRWELL',
-    description: 'Atelier stairs, Rua das Flores at 7:00 AM before first cut.',
+    title: 'ON-LOCATION SCOUT',
+    description: 'Golden hour natural backlight framing for milestone outdoor celebrations.',
     image: 'https://framerusercontent.com/images/kyMRfBPxaYBLDFxRlb8txtD5h4.jpg?width=2400&height=1600',
     order: 6,
     isActive: true,
@@ -375,51 +375,51 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'journal-01',
     section: 'home-journal',
-    title: 'WHY WE STOPPED MAKING SEASONS',
-    description: 'Fashion calendars are an invention of department stores. We break down why single drops and lifetime repairs make more sense.',
+    title: 'CRAFTING VIRAL REELS FOR MODERN BRANDS',
+    description: 'Pacing, sound design, and the psychological hook: how our 9:16 vertical cinematography clocks millions of organic impressions.',
     image: 'https://framerusercontent.com/images/2RVerqm7mfgDOiAAKSIoWnGN78.jpg?width=2400&height=1591',
-    badge: 'MANIFESTO',
+    badge: 'REELS',
     ctaText: 'READ STORY',
-    ctaLink: '/journal/why-we-stopped-making-seasons',
+    ctaLink: '/journal/crafting-viral-reels-for-modern-brands',
     order: 1,
     isActive: true,
     metadata: {
       readTime: '5 MIN',
-      author: 'Bureau27 Archive',
+      author: 'Pandora Production Log',
       date: 'SEPTEMBER 2026'
     }
   },
   {
     id: 'journal-02',
     section: 'home-journal',
-    title: 'INSIDE THE PORTO ATELIER',
-    description: 'Eleven pattern-makers, three cutting tables, and no seasonal rush. A photo essay inside the studio on Rua das Flores.',
+    title: 'THE ART OF CAPTURING CHILD BIRTHDAYS',
+    description: 'Patience, unscripted candids, and studio lighting: why authentic childhood emotion cannot be rushed or posed.',
     image: 'https://framerusercontent.com/images/NSzlXc18chTtPGHfqMdIKqgd67Q.jpg?width=2400&height=1600',
-    badge: 'STUDIO',
+    badge: 'KIDS',
     ctaText: 'READ STORY',
-    ctaLink: '/journal/inside-the-porto-atelier',
+    ctaLink: '/journal/the-art-of-capturing-child-birthdays',
     order: 2,
     isActive: true,
     metadata: {
-      readTime: '7 MIN',
-      author: 'Studio Log',
+      readTime: '6 MIN',
+      author: 'Lead Photographer',
       date: 'AUGUST 2026'
     }
   },
   {
     id: 'journal-03',
     section: 'home-journal',
-    title: 'A FIELD GUIDE TO RAW EDGES',
-    description: 'How we engineer selvedge and raw hems to fray exactly 4 millimeters and stop without unraveling.',
+    title: 'LIGHTING ADULT MILESTONE GALAS',
+    description: 'Mastering low-light cinema cameras without killing the room’s intimate atmosphere during 30th, 40th, and 50th celebrations.',
     image: 'https://framerusercontent.com/images/7COqo4Z937mHWqKiKkFaK9zM.jpg?width=1200&height=1800',
-    badge: 'CRAFT',
+    badge: 'EVENTS',
     ctaText: 'READ STORY',
-    ctaLink: '/journal/a-field-guide-to-raw-edges',
+    ctaLink: '/journal/lighting-adult-milestone-galas',
     order: 3,
     isActive: true,
     metadata: {
       readTime: '4 MIN',
-      author: 'Technical Dept',
+      author: 'Cinematography Desk',
       date: 'JULY 2026'
     }
   },
@@ -428,153 +428,145 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     id: 'shop-001',
     section: 'shop',
-    title: 'Void Overcoat',
-    description: 'A floor-grazing overcoat in double-faced wool. Dropped shoulders, hidden placket, no lining — the coat holds its own shape.',
+    title: 'Viral Reels Suite',
+    description: 'High-energy 4K short-form reels with custom sound design and dynamic motion grading engineered for maximum viral engagement.',
     image: 'https://framerusercontent.com/images/YwB7lIpefzaZAvahVUv4AqibAo.jpg?width=1200&height=1699',
-    price: '€890',
-    badge: 'NEW',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/void-overcoat',
+    price: 'FROM $1,200',
+    badge: 'POPULAR',
+    ctaText: 'BOOK PRODUCTION',
+    ctaLink: '/contact',
     order: 1,
     isActive: true,
     metadata: {
       itemNumber: '001',
-      category: 'Outerwear',
-      colorway: 'INK / UNLINED',
-      sizes: ['XS', 'S', 'M', 'L', 'XL']
+      category: 'Reels',
+      colorway: '4K CINEMA / 9:16'
     }
   },
   {
     id: 'shop-002',
     section: 'shop',
-    title: 'Fold Blazer',
-    description: 'Architectural wrap blazer cut from high-density wool twill with asymmetrical fastening.',
+    title: 'Kids 1st Birthday & Cake Smash',
+    description: 'Candid, joyful documentation of milestone first birthdays, complete with studio lighting, cake smash setup, and family portraits.',
     image: 'https://framerusercontent.com/images/wxgMHGiqSMFkr6MC7KVEKmDtghI.jpg?width=1200&height=1812',
-    price: '€640',
-    badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/fold-blazer',
+    price: 'FROM $850',
+    badge: 'FEATURED',
+    ctaText: 'BOOK SESSION',
+    ctaLink: '/contact',
     order: 2,
     isActive: true,
     metadata: {
       itemNumber: '002',
-      category: 'Tailoring',
-      colorway: 'CHESTNUT / CHARCOAL',
-      sizes: ['S', 'M', 'L']
+      category: 'Kids Birthdays',
+      colorway: 'STUDIO & OUTDOOR'
     }
   },
   {
     id: 'shop-003',
     section: 'shop',
-    title: 'Mono Knit 27',
-    description: 'Chunky gauge ribbed knit with elongated sleeves and a rolled raw collar, spun from unfiltered Italian merino.',
+    title: 'Milestone Adult Gala & Soirée',
+    description: 'Cinematic coverage for 18th, 21st, 30th, 50th birthdays and luxury private anniversaries. Low-light mastery with candid documentary flair.',
     image: 'https://framerusercontent.com/images/W1lH6BNhAxF1bEkZsFACknlOpo.jpg?width=1200&height=1600',
-    price: '€320',
-    badge: 'LAST PIECES',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/mono-knit-27',
+    price: 'FROM $2,400',
+    badge: 'BOOKED OFTEN',
+    ctaText: 'BOOK EVENT',
+    ctaLink: '/contact',
     order: 3,
     isActive: true,
     metadata: {
       itemNumber: '003',
-      category: 'Knitwear',
-      colorway: 'RAW OAT / OBSIDIAN',
-      sizes: ['XS', 'S', 'M', 'L']
+      category: 'Adult Events',
+      colorway: 'LOW-LIGHT 4K'
     }
   },
   {
     id: 'shop-004',
     section: 'shop',
-    title: 'Raw Edge Cardigan',
-    description: 'Relaxed cardigan featuring raw perimeter finishes, exaggerated patch pockets and hand-hammered matte snaps.',
+    title: 'Full-Funnel Digital Marketing',
+    description: 'Strategic paid ad creative suites, monthly reel retainers, and performance social media content designed to convert followers into loyal clients.',
     image: 'https://framerusercontent.com/images/UGDN5T7C6CwPvxpRWkRbtbFJogw.jpg?width=1200&height=1500',
-    price: '€360',
-    badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/raw-edge-cardigan',
+    price: 'FROM $3,500/MO',
+    badge: 'GROWTH',
+    ctaText: 'START CAMPAIGN',
+    ctaLink: '/contact',
     order: 4,
     isActive: true,
     metadata: {
       itemNumber: '004',
-      category: 'Knitwear',
-      colorway: 'GRAPHITE',
-      sizes: ['S', 'M', 'L', 'XL']
+      category: 'Digital Marketing',
+      colorway: 'GROWTH SUITE'
     }
   },
   {
     id: 'shop-005',
     section: 'shop',
-    title: 'Pleat Trouser 04',
-    description: 'Deep double forward pleat trouser with a wide, straight leg that breaks generously over heavy footwear.',
+    title: 'Commercial Brand Editorial',
+    description: 'High-concept product and lookbook photography shot on cinema glass, tailored for commercial campaigns, billboards, and digital presence.',
     image: 'https://framerusercontent.com/images/f16L7Y5G09pLHo7V7f3nPto3O8.jpg?width=1200&height=1798',
-    price: '€280',
+    price: 'FROM $1,800',
     badge: 'NEW',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/pleat-trouser-04',
+    ctaText: 'BOOK EDITORIAL',
+    ctaLink: '/contact',
     order: 5,
     isActive: true,
     metadata: {
       itemNumber: '005',
-      category: 'Tailoring',
-      colorway: 'MIDNIGHT BLACK',
-      sizes: ['28', '30', '32', '34']
+      category: 'Commercial',
+      colorway: 'STUDIO GRADE'
     }
   },
   {
     id: 'shop-006',
     section: 'shop',
-    title: 'Column Shirt',
-    description: 'Structured poplin shirt with a concealed front placket, extended back hem and sharp elongated cuff vents.',
+    title: 'Children Milestone Storybook',
+    description: 'Artistic outdoor and lifestyle photography capturing candid childhood wonder, sibling interactions, and genuine family laughter.',
     image: 'https://framerusercontent.com/images/ZBKK03diA0SBO2dGwMd2jWdTajE.jpg?width=1200&height=1800',
-    price: '€210',
+    price: 'FROM $750',
     badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/column-shirt',
+    ctaText: 'BOOK SESSION',
+    ctaLink: '/contact',
     order: 6,
     isActive: true,
     metadata: {
       itemNumber: '006',
-      category: 'Tailoring',
-      colorway: 'OPTIC WHITE',
-      sizes: ['S', 'M', 'L', 'XL']
+      category: 'Kids Birthdays',
+      colorway: 'GOLDEN HOUR'
     }
   },
   {
     id: 'shop-007',
     section: 'shop',
-    title: 'Carry Tote 27',
-    description: 'Heavyweight bridle leather utility tote with structured base, interior zip compartment and burnished saddle edges.',
+    title: 'Monthly Social Video Retainer',
+    description: 'Dedicated monthly visual production producing 8-12 bespoke vertical videos, trend capitalization, and brand identity synchronization.',
     image: 'https://framerusercontent.com/images/ToOKmtWGVPMLRC7WgKmvdHVeU.jpg?width=1200&height=1500',
-    price: '€240',
+    price: 'FROM $2,800/MO',
     badge: '',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/carry-tote-27',
+    ctaText: 'INQUIRE RETAINER',
+    ctaLink: '/contact',
     order: 7,
     isActive: true,
     metadata: {
       itemNumber: '007',
-      category: 'Accessories',
-      colorway: 'COGNAC / MATTE BLACK',
-      sizes: ['ONE SIZE']
+      category: 'Reels',
+      colorway: 'MONTHLY SPRINT'
     }
   },
   {
     id: 'shop-008',
     section: 'shop',
-    title: 'Stomp Boot',
-    description: 'Monolithic combat boot with lugged commando outsole, waxed lace closure and reinforced heel counter.',
+    title: 'Private Milestone Documentary',
+    description: 'An intimate, long-form cinematic tribute film featuring heartfelt speeches, candid reactions, and a masterfully graded keepsake.',
     image: 'https://framerusercontent.com/images/2w1lP573BqBpEC9hvc6WUQCIh88.jpg?width=1200&height=1800',
-    price: '€420',
-    badge: 'SOLD OUT SOON',
-    ctaText: 'VIEW PIECE',
-    ctaLink: '/shop/stomp-boot',
+    price: 'FROM $4,200',
+    badge: 'EXCLUSIVE',
+    ctaText: 'BOOK FILM',
+    ctaLink: '/contact',
     order: 8,
     isActive: true,
     metadata: {
       itemNumber: '008',
-      category: 'Accessories',
-      colorway: 'NERO BLACK',
-      sizes: ['40', '41', '42', '43', '44', '45']
+      category: 'Adult Events',
+      colorway: 'CINEMA KEEPSAKE'
     }
   }
 ];

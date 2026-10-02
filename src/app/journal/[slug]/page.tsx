@@ -30,85 +30,105 @@ export default function JournalDetailPage({ params }: JournalDetailPageProps) {
       }[];
     }
   > = {
-    'why-we-stopped-making-seasons': {
-      category: 'MANIFESTO',
+    'crafting-viral-reels-for-modern-brands': {
+      category: 'REELS & MOTION',
       readTime: '5 MIN',
-      title: 'WHY WE STOPPED MAKING SEASONS',
-      subtitle: 'Two collections a year was never the rhythm of the people who wear us. So we quit the calendar.',
+      title: 'CRAFTING VIRAL REELS FOR MODERN BRANDS',
+      subtitle: 'Rhythm, sound design, and the psychology of the three-second hook. How we engineer short-form video that commands attention.',
       image: 'https://framerusercontent.com/images/2RVerqm7mfgDOiAAKSIoWnGN78.jpg?width=2400&height=1591',
       sections: [
         {
-          heading: 'THE CALENDAR WAS NEVER OURS',
+          heading: 'THE FIRST THREE SECONDS DECIDE EVERYTHING',
           paragraphs: [
-            'Fashion runs on a clock that has nothing to do with weather, bodies or taste. Spring arrives in November. Coats are sold in July. For years we followed it anyway, because everyone did.',
-            'In 2024 we missed a delivery window and nothing happened. Nobody complained. The pieces sold when they arrived, and they kept selling. That was the moment we stopped pretending.',
+            'Short-form vertical video is not simply horizontal cinema cropped to 9:16. It is a completely distinct visual language governed by pacing, kinetic movement, and immediate sensory gratification.',
+            'When creating reels for brands or personal milestones, we treat the opening 0.8 seconds as prime real estate. We combine abrupt camera movement, high-contrast framing, and an immediate audio cue that pulls the viewer through the screen before their thumb can swipe away.',
           ],
         },
         {
-          headingSerif: 'What changes',
+          headingSerif: 'Sound design as an emotional amplifier',
           paragraphs: [
-            'We release when a garment is ready — not when a trade show says so. Some drops are three pieces. Some are thirty. Every piece stays online until it is gone.',
-            'Every pattern is drawn by hand on kraft paper in our Porto studio on Rua das Flores. When a silhouette works — like our Void Overcoat or the Fold Blazer — it remains in our catalog permanently. We do not mark it down at the end of August. We do not replace it with an inferior revision next spring.',
-            'Instead, we cut when cloth is sourced, sew twenty-seven pieces, and ship directly to individuals across Tokyo, Paris, Berlin, and Marseille. When the roll of fabric is exhausted, that run is archived. The garments continue their life on the street, gaining patina, breaking in, and outliving every flash trend.',
+            'Visuals catch the eye, but sound grips the subconscious. Every viral reel we produce features layered foley: the crisp snap of a camera shutter, deep sub-bass risers, textural whooshes, and meticulously synced beat drops.',
+            'By grading in 4K ProRes on Sony FX cinema bodies and pairing color with tempo, our short-form productions deliver cinematic fidelity to handheld devices. The result is content that achieves millions of organic impressions without feeling like an advertisement.',
           ],
         },
       ],
     },
-    'inside-the-porto-atelier': {
-      category: 'STUDIO',
-      readTime: '7 MIN',
-      title: 'INSIDE THE PORTO ATELIER',
-      subtitle: 'Pattern cutting, raw edge finishing, and the quiet precision of Rua das Flores.',
+    'the-art-of-capturing-child-birthdays': {
+      category: 'KIDS & MILESTONES',
+      readTime: '6 MIN',
+      title: 'THE ART OF CAPTURING CHILD BIRTHDAYS',
+      subtitle: 'From first birthday cake smashes to genuine giggles: why authentic childhood moments require patience over posing.',
       image: 'https://framerusercontent.com/images/NSzlXc18chTtPGHfqMdIKqgd67Q.jpg?width=2400&height=1600',
       sections: [
         {
-          heading: 'THE WEIGHT OF GRANITE',
+          heading: 'PATIENCE OVER POSING',
           paragraphs: [
-            'Our studio occupies an old cork warehouse two blocks from the Douro river. The light comes from the north through three-meter industrial casements.',
-            'Here we cut heavy wools on seven-meter oak tables that have been oiled weekly since 1948. There are no automated laser cutters; every curve is traced with chalk and cut with heavy shears.',
+            'Children do not perform on cue, and attempting to force a toddler into a rigid studio pose is a guarantee of tears. Our approach is entirely observational.',
+            'We spend the first twenty minutes without touching the camera—letting the child explore the environment, feel comfortable with our presence, and become absorbed in play.',
+          ],
+        },
+        {
+          headingSerif: 'The cake smash & uninhibited joy',
+          paragraphs: [
+            'First birthdays are a once-in-a-lifetime milestone. When the cake is placed down, we switch to high-speed continuous autofocus on 35mm and 50mm f/1.2 cinema glass.',
+            'Every smeared frosting hand, wide-eyed surprise, and belly laugh is frozen with razor-sharp precision and warm, filmic skin tones. Parents receive not just photos, but a documentary record of innocent wonder.',
           ],
         },
       ],
     },
-    'a-field-guide-to-raw-edges': {
-      category: 'CRAFT',
+    'lighting-adult-milestone-galas': {
+      category: 'ADULT CELEBRATIONS',
       readTime: '4 MIN',
-      title: 'A FIELD GUIDE TO RAW EDGES',
-      subtitle: 'Why leaving seam edges unhemmed reveals the true weight of woven wool.',
+      title: 'LIGHTING ADULT MILESTONE GALAS',
+      subtitle: 'Documenting 21st, 30th, and 50th celebrations in low ambient light with cinema glass and zero intrusive flashes.',
       image: 'https://framerusercontent.com/images/7COqo4Z937mHWqKiKkFaK9zM.jpg?width=1200&height=1800',
       sections: [
         {
-          heading: 'HONESTY IN WEFT AND WARP',
+          heading: 'RESPECTING THE AMBIENCE',
           paragraphs: [
-            'A conventional hem conceals the structure of the cloth. It folds the wool back onto itself, doubling the bulk and creating artificial stiffness.',
-            'Leaving a perimeter raw allows the textile to move organically against the body. After twelve months of wear, the edge softens, rolls slightly, and records the wearer’s habits.',
+            'A private 30th or 50th birthday dinner has an intimate mood carefully curated by candlelight, architectural fixtures, and warm shadows. Blasting on-camera speedlights instantly flattens the atmosphere and makes guests self-conscious.',
+            'We utilize dual-native ISO cinema sensors capable of capturing clean, rich imagery under 0.5 foot-candles of light. The champagne toasts, subtle glances, and roaring laughter are recorded exactly as they felt in the room.',
+          ],
+        },
+        {
+          headingSerif: 'From champagne speeches to the afterparty',
+          paragraphs: [
+            'Milestone celebrations transition through distinct emotional acts: the arrival and reunions, the speeches that bring tears, and the midnight dancefloor energy.',
+            'We shoot with handheld gimbals and lightweight prime lenses, moving seamlessly among guests without ever breaking the flow of the celebration.',
           ],
         },
       ],
     },
-    'ss27-shot-at-04-00-in-marseille': {
-      category: 'CAMPAIGN',
-      readTime: '3 MIN',
-      title: 'SS27 — SHOT AT 04:00 IN MARSEILLE',
-      subtitle: 'Behind the lens of our night campaign across the Mediterranean coastline.',
+    'how-visual-content-drives-digital-marketing': {
+      category: 'DIGITAL MARKETING',
+      readTime: '5 MIN',
+      title: 'HOW VISUAL CONTENT DRIVES DIGITAL MARKETING',
+      subtitle: 'Bridging the gap between cinematic art and high-ROI ad performance across Meta, TikTok, and brand campaigns.',
       image: 'https://framerusercontent.com/images/WEDdkAfRPcaX7jjaHEd9G4yKAss.jpg?width=2400&height=1602',
       sections: [
         {
-          heading: 'ONE LIGHT, FOUR NINETEENTH-CENTURY DOCKS',
+          heading: 'AESTHETICS AS A CONVERSION ENGINE',
           paragraphs: [
-            'We worked without a lighting truck. One battery-powered tungsten lamp and the existing sodium vapor streetlights of the port.',
-            'The models were not asked to pose; they walked the length of the breakwater as the mist rolled off the Mediterranean.',
+            'Many digital marketing agencies understand numbers but lack visual taste. Conversely, traditional video houses produce pretty footage that converts zero customers.',
+            'Pandora Visuals operates at the intersection. We build creative asset libraries designed specifically for paid performance funnels: rapid hooks, UGC-style authenticity paired with cinema color grading, and clear behavioral calls-to-action.',
+          ],
+        },
+        {
+          headingSerif: 'Testing creative velocity',
+          paragraphs: [
+            'In digital advertising, ad fatigue occurs within weeks. By batching production across full shoot days, we generate dozens of cut-downs, aspect ratio variants, and hook variations.',
+            'Our clients see lower customer acquisition costs and higher brand prestige because their campaigns look like high-budget editorial films while functioning as performance marketing engines.',
           ],
         },
       ],
     },
   };
 
-  const article = allArticles[slug] || allArticles['why-we-stopped-making-seasons'];
+  const article = allArticles[slug] || allArticles['crafting-viral-reels-for-modern-brands'];
 
   // Other stories for KEEP READING
   const keepReading = Object.entries(allArticles)
-    .filter(([key]) => key !== slug)
+    .filter(([key]) => key !== (allArticles[slug] ? slug : 'crafting-viral-reels-for-modern-brands'))
     .map(([key, data]) => ({ slug: key, ...data }));
 
   return (

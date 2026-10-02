@@ -43,14 +43,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
-  description: 'Pandora Visuals is an avant-garde creative studio. Seasonless editions, cut in small runs, visual direction.',
-  keywords: ['pandora visuals', 'avant-garde fashion', 'creative direction', 'porto atelier', 'visual arts'],
+  title: 'Pandora Visuals — Cinematic Videography, Photography & Digital Marketing',
+  description: 'Pandora Visuals is a premier creative media studio specializing in viral reels, milestone birthday photography for kids & adults, event videography, and full-funnel digital marketing campaigns.',
+  keywords: ['pandora visuals', 'videography', 'photography', 'reels production', 'child birthday photography', 'birthday videography', 'event photography', 'digital marketing', 'social media growth', 'creative direction'],
   authors: [{ name: 'Pandora Visuals Studio' }],
   metadataBase: new URL('https://pandoravisuals.studio'),
   openGraph: {
-    title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
-    description: 'Pandora Visuals is an avant-garde creative studio. Seasonless editions, cut in small runs, visual direction.',
+    title: 'Pandora Visuals — Cinematic Videography, Photography & Digital Marketing',
+    description: 'Cinematic reels, childhood milestone celebrations, adult birthday events, commercial photography, and high-impact digital marketing.',
     url: 'https://pandoravisuals.studio',
     siteName: 'Pandora Visuals',
     locale: 'en_US',
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
-    description: 'Seasonless editions, cut in small runs, visual direction.',
+    title: 'Pandora Visuals — Cinematic Videography & Photography',
+    description: 'Cinematic reels, birthday celebrations for children and adults, and full-service digital marketing.',
   },
 };
 

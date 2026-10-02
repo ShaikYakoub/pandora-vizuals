@@ -18,10 +18,10 @@ export default function JournalTeaser() {
           <div className="space-y-3">
             <div className="flex items-center space-x-2 text-xs font-mono tracking-widest text-[#8c8880] uppercase">
               <span className="text-[#ff3d17] font-bold">(05)</span>
-              <TextScramble text="— JOURNAL" />
+              <TextScramble text="— PRODUCTION JOURNAL" />
             </div>
             <h2 className="font-anton text-5xl sm:text-7xl lg:text-[88px] text-[#ece8e1] tracking-tight uppercase leading-[0.95]">
-              NOTES FROM <span className="text-[#ff3d17]">THE ATELIER</span>
+              BEHIND <span className="text-[#ff3d17]">THE LENS</span>
             </h2>
           </div>
 

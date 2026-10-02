@@ -10,7 +10,7 @@ export default function ShopPage() {
   const { cards, sectionCards: shopCards } = useCards('shop');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
-  const categories = ['ALL', 'OUTERWEAR', 'TAILORING', 'KNITWEAR', 'ACCESSORIES'];
+  const categories = ['ALL', 'REELS', 'KIDS BIRTHDAYS', 'ADULT EVENTS', 'DIGITAL MARKETING', 'COMMERCIAL'];
 
   const availableCards = shopCards.length > 0 ? shopCards : cards.filter((c) => c.section === 'home-edit' || c.price);
 
@@ -27,9 +27,9 @@ export default function ShopPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Work) — SS27 / Seasonless Archive</span>
+              <span>(Work) — Photography, Videography & Digital Marketing</span>
             </div>
-            <div>{filteredCards.length.toString().padStart(2, '0')} EDITIONS — ATELIER ARCHIVE</div>
+            <div>{filteredCards.length.toString().padStart(2, '0')} PRODUCTIONS — CREATIVE ARCHIVE</div>
           </div>
         </FramerReveal>
 
@@ -45,7 +45,7 @@ export default function ShopPage() {
 
           <FramerReveal delay={0.15} className="space-y-5 lg:text-right max-w-xl">
             <p className="text-xs sm:text-sm font-sans text-[#8c8880] leading-relaxed">
-              Every piece is developed in small editions in Porto. Exploring form, materiality, and proportion without seasonal constraints.
+              From viral social reels and milestone celebrations for children and adults, to commercial brand shoots and full-scale digital marketing — our visual productions are crafted to inspire and convert.
             </p>
 
             {/* Category Filter Tabs */}
@@ -75,9 +75,9 @@ export default function ShopPage() {
         <FramerReveal delay={0.22} yOffset={32}>
           {filteredCards.length === 0 ? (
             <div className="text-center py-24 space-y-3">
-              <div className="font-anton text-3xl text-[#8c8880]">NO PIECES FOUND</div>
+              <div className="font-anton text-3xl text-[#8c8880]">NO PRODUCTIONS FOUND</div>
               <p className="font-mono text-xs text-[#6b675f]">
-                Try selecting another category or check the complete collection.
+                Try selecting another category or view all productions in our archive.
               </p>
             </div>
           ) : (

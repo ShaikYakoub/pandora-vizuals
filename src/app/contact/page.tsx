@@ -68,17 +68,17 @@ export default function ContactPage() {
                     STUDIO
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc] leading-relaxed">
-                    Rua das Flores 27, 4050-265 Porto
+                    Production Studio & On-Location Coverage
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    PRESS
+                    BOOKINGS
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:press@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
-                      press@pandoravisuals.studio
+                    <a href="mailto:bookings@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
+                      bookings@pandoravisuals.studio
                     </a>
                   </div>
                 </div>
@@ -87,18 +87,18 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    COLLABORATIONS
+                    DIGITAL MARKETING
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:collabs@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
-                      collabs@pandoravisuals.studio
+                    <a href="mailto:marketing@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
+                      marketing@pandoravisuals.studio
                     </a>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    PROJECTS
+                    PROJECTS & REELS
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
                     <a href="mailto:projects@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
@@ -123,9 +123,9 @@ export default function ContactPage() {
                 <div className="w-12 h-12 rounded-full bg-[#ff3d17] text-[#0c0c0b] mx-auto flex items-center justify-center">
                   <Check className="w-6 h-6 stroke-[3]" />
                 </div>
-                <h3 className="font-anton text-2xl text-[#ece8e1] uppercase">MESSAGE RECEIVED</h3>
+                <h3 className="font-anton text-2xl text-[#ece8e1] uppercase">INQUIRY RECEIVED</h3>
                 <p className="font-mono text-xs text-[#8c8880]">
-                  Our Porto atelier coordinator will respond within 48 business hours.
+                  Our visual production coordinator will review your shoot details and respond within 24-48 business hours.
                 </p>
               </div>
             ) : (
@@ -170,24 +170,26 @@ export default function ContactPage() {
                     onChange={(e) => setForm({ ...form, topic: e.target.value })}
                     className="w-full bg-transparent text-[#ece8e1] text-sm font-sans focus:outline-none py-1 cursor-pointer"
                   >
-                    <option value="General question" className="bg-[#141413] text-[#ece8e1]">General question</option>
-                    <option value="Press & Media" className="bg-[#141413] text-[#ece8e1]">Press &amp; Media</option>
-                    <option value="Wholesale inquiry" className="bg-[#141413] text-[#ece8e1]">Wholesale inquiry</option>
-                    <option value="Custom order" className="bg-[#141413] text-[#ece8e1]">Custom order</option>
+                    <option value="Reels & Short-Form Video" className="bg-[#141413] text-[#ece8e1]">Reels &amp; Short-Form Video</option>
+                    <option value="Child Birthday / Cake Smash" className="bg-[#141413] text-[#ece8e1]">Child Birthday / Cake Smash</option>
+                    <option value="Adult Milestone Celebration" className="bg-[#141413] text-[#ece8e1]">Adult Milestone Celebration</option>
+                    <option value="Digital Marketing & Social Growth" className="bg-[#141413] text-[#ece8e1]">Digital Marketing &amp; Social Growth</option>
+                    <option value="Commercial & Brand Photography" className="bg-[#141413] text-[#ece8e1]">Commercial &amp; Brand Photography</option>
+                    <option value="General Inquiry" className="bg-[#141413] text-[#ece8e1]">General Inquiry</option>
                   </select>
                 </div>
 
                 {/* Message */}
                 <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
                   <label className="tracking-widest text-[#8c8880] uppercase block text-[11px]">
-                    MESSAGE
+                    MESSAGE / SHOOT DETAILS
                   </label>
                   <textarea
                     rows={4}
                     required
                     value={form.message}
                     onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Sizes, stockists, collaborations..."
+                    placeholder="Tell us about your shoot, date, event type, or marketing objectives..."
                     className="w-full bg-transparent text-[#ece8e1] placeholder-[#6b675f] text-sm font-sans focus:outline-none resize-none py-1"
                   />
                 </div>

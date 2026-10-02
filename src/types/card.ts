@@ -53,36 +53,36 @@ export interface SectionDefinition {
 export const SECTIONS_CONFIG: Record<CardSectionKey, SectionDefinition> = {
   'home-drop': {
     key: 'home-drop',
-    name: 'The Drop (SS27 Looks)',
+    name: 'Production Reels & Highlights',
     page: 'Homepage — Section 02',
-    description: 'Horizontal look cards showcasing the season looks.',
+    description: 'Horizontal cards showcasing recent reels, birthday shoots & video highlights.',
     hasPrice: false,
     hasBadge: false,
     hasCta: true,
     hasDescription: true,
     customFields: [
-      { key: 'itemNumber', label: 'Look Number (e.g. 01, 02)', type: 'text', placeholder: '01' }
+      { key: 'itemNumber', label: 'Production Number (e.g. 01, 02)', type: 'text', placeholder: '01' }
     ]
   },
   'home-edit': {
     key: 'home-edit',
-    name: 'The Edit (Featured Pieces)',
-    page: 'Homepage — Section 02 Edit',
-    description: 'Grid cards of key signature garments with pricing & badges.',
+    name: 'Featured Productions & Packages',
+    page: 'Homepage — Section 02 Productions',
+    description: 'Grid cards of featured reels, birthday photography & campaign packages.',
     hasPrice: true,
     hasBadge: true,
     hasCta: true,
     hasDescription: true,
     customFields: [
       { key: 'itemNumber', label: 'Item Number (e.g. 001)', type: 'text', placeholder: '001' },
-      { key: 'category', label: 'Category', type: 'select', options: ['Outerwear', 'Tailoring', 'Knitwear', 'Accessories'] }
+      { key: 'category', label: 'Category', type: 'select', options: ['Reels', 'Kids Birthdays', 'Adult Events', 'Digital Marketing', 'Commercial'] }
     ]
   },
   'home-moodboard': {
     key: 'home-moodboard',
-    name: 'Moodboard Polaroids',
+    name: 'Production Board Polaroids',
     page: 'Homepage — Section 04',
-    description: 'Interactive draggable polaroid photos with tape & captions.',
+    description: 'Interactive draggable production shots with tape & captions.',
     hasPrice: false,
     hasBadge: false,
     hasCta: false,
@@ -93,9 +93,9 @@ export const SECTIONS_CONFIG: Record<CardSectionKey, SectionDefinition> = {
   },
   'home-journal': {
     key: 'home-journal',
-    name: 'Journal Stories',
+    name: 'Production Journal Stories',
     page: 'Homepage & Journal',
-    description: 'Editorial atelier stories with tags and read times.',
+    description: 'Editorial behind-the-scenes stories and case studies.',
     hasPrice: false,
     hasBadge: true,
     hasCta: true,
@@ -106,17 +106,17 @@ export const SECTIONS_CONFIG: Record<CardSectionKey, SectionDefinition> = {
   },
   'shop': {
     key: 'shop',
-    name: 'Shop Catalog Products',
-    page: 'Shop Page (/shop)',
-    description: 'Full product line displayed in the online store with filtering.',
+    name: 'Portfolio & Packages',
+    page: 'Work Page (/shop)',
+    description: 'Full portfolio of reels, event photography, birthday shoots & digital marketing.',
     hasPrice: true,
     hasBadge: true,
     hasCta: true,
     hasDescription: true,
     customFields: [
       { key: 'itemNumber', label: 'Item Code (e.g. 001)', type: 'text', placeholder: '001' },
-      { key: 'category', label: 'Category', type: 'select', options: ['Outerwear', 'Tailoring', 'Knitwear', 'Accessories'] },
-      { key: 'colorway', label: 'Colorway', type: 'text', placeholder: 'INK / UNLINED' }
+      { key: 'category', label: 'Category', type: 'select', options: ['Reels', 'Kids Birthdays', 'Adult Events', 'Digital Marketing', 'Commercial'] },
+      { key: 'colorway', label: 'Format / Deliverable', type: 'text', placeholder: '4K REEL / RAW EDITS' }
     ]
   },
   'lookbook': {

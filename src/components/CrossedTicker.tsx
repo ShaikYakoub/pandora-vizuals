@@ -31,13 +31,13 @@ export default function CrossedTicker() {
   }, []);
 
   const tapeInk = [
-    'NO SEASON', '✦', 'SS27', '✦', 'PERMANENT FORM', '✦', 'NO RULES', '✦',
-    'PANDORA VISUALS', '✦', 'AUTONOMY', '✦', 'SMALL BATCH', '✦',
+    'VIRAL REELS', '✦', '4K CINEMATOGRAPHY', '✦', 'CHILD BIRTHDAYS', '✦', 'ADULT MILESTONES', '✦',
+    'PANDORA VISUALS', '✦', 'DIGITAL MARKETING', '✦', 'CREATIVE DIRECTION', '✦',
   ];
 
   const tapeBone = [
-    'Cut in Porto', '✧', 'Small runs', '✧', 'Worn loudly', '✧', 'Built to outlive', '✧',
-    'Eleven makers', '✧', 'No markdowns', '✧', 'Permanent collection', '✧',
+    'Candid Portraits', '✧', 'Cake Smash Shoots', '✧', 'Social Content', '✧', 'Visual Storytelling', '✧',
+    'Event Highlights', '✧', 'Brand Campaigns', '✧', 'Cinematic Color Grading', '✧',
   ];
 
   // Dynamic scroll offset for kinetic responsiveness in both up and down directions

@@ -165,13 +165,13 @@ export default function AdminPage() {
                 SYSTEM ONLINE
               </span>
               <span>•</span>
-              <span>ATELIER EDITABLE-CARD CMS</span>
+              <span>STUDIO PRODUCTION CMS</span>
             </div>
             <h1 className="font-anton text-4xl sm:text-5xl text-[#ece8e1] tracking-tight uppercase">
               CARD MANAGEMENT
             </h1>
             <p className="text-xs font-mono text-[#8c8880] max-w-xl">
-              Edit card titles, descriptions, imagery, pricing, and display orders. Changes synchronize in real-time with the live storefront without touching code.
+              Edit card titles, descriptions, imagery, pricing, and display orders. Changes synchronize in real-time with the live website without touching code.
             </p>
           </div>
 

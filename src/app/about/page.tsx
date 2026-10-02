@@ -9,54 +9,54 @@ import FramerReveal from '@/components/FramerReveal';
 
 export default function AboutPage() {
   const stats = [
-    { num: '11', label: 'PEOPLE IN THE ATELIER', isOrange: false },
-    { num: '01', label: 'ROOM IN PORTO', isOrange: false },
-    { num: '00', label: 'MARKDOWNS, EVER', isOrange: true },
-    { num: '27', label: 'STOCKISTS WORLDWIDE', isOrange: false },
+    { num: '500+', label: 'EVENTS & SHOOTS CAPTURED', isOrange: false },
+    { num: '10M+', label: 'ORGANIC REEL VIEWS', isOrange: true },
+    { num: '100%', label: 'CINEMATIC 4K MASTERS', isOrange: false },
+    { num: '08', label: 'CREATIVES BEHIND THE LENS', isOrange: false },
   ];
 
   const timeline = [
     {
       year: '2019',
-      title: 'The first coat',
-      desc: 'Cut on a kitchen table in Porto from end-of-roll Scottish tweed.',
+      title: 'First Camera, First Frame',
+      desc: 'Founded with a single cinema camera, documenting intimate family milestones and candid street portraiture.',
     },
     {
       year: '2021',
-      title: 'The atelier opens',
-      desc: 'We move above a tram depot on Rua das Flores and hire our first four tailors.',
+      title: 'Studio & Lighting Lab',
+      desc: 'Opened our dedicated visual production studio with specialized setups for newborn, cake smash, and editorial portraits.',
     },
     {
       year: '2023',
-      title: 'No more seasons',
-      desc: 'We quit the fashion calendar. Pieces drop when they are ready and stay until they are gone.',
+      title: 'Viral Reels & Short-Form',
+      desc: 'Pioneered high-velocity cinematic reels for events and brands, crossing 10M+ organic impressions across platforms.',
     },
     {
       year: '2025',
-      title: '27 stockists',
-      desc: 'From Paris to Seoul — independent stores that share one rule: no markdowns.',
+      title: 'Milestone Celebrations',
+      desc: 'Covered hundreds of 1st birthdays, adult milestone galas, private celebrations, and brand launches.',
     },
     {
       year: '2027',
-      title: 'SS27 — No Season',
-      desc: 'Our biggest drop yet, shot at 04:00 across four cities with one light.',
+      title: 'Full-Funnel Digital Growth',
+      desc: 'Unifying cinema-grade visual storytelling with high-ROI social media management, paid ads, and brand marketing.',
     },
   ];
 
   const team = [
     {
       name: 'Tomás Reis',
-      role: 'FOUNDER & HEAD OF CUT',
+      role: 'FOUNDER & LEAD CINEMATOGRAPHER',
       image: 'https://framerusercontent.com/images/nZgRReIfcykI5NRr7OB4w4W0.jpg?width=1200&height=1800',
     },
     {
       name: 'Lena Okafor',
-      role: 'CREATIVE DIRECTOR',
+      role: 'HEAD OF CREATIVE & DIGITAL MARKETING',
       image: 'https://framerusercontent.com/images/IfjRLOCPu12FT7PTsmqggBvSB3I.jpg?width=1200&height=1800',
     },
     {
       name: 'Mia Santos',
-      role: 'ATELIER LEAD',
+      role: 'LEAD EVENT & PORTRAIT PHOTOGRAPHER',
       image: 'https://framerusercontent.com/images/YuZUfwh260mN36Ar0UOPABK4V6Q.jpg?width=1200&height=1500',
     },
   ];
@@ -70,16 +70,16 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(About) — Pandora Visuals since 2019</span>
+              <span>(About) — Pandora Visuals Studio</span>
             </div>
-            <div>PORTO, PORTUGAL</div>
+            <div>STUDIO & ON-LOCATION PRODUCTION</div>
           </div>
         </FramerReveal>
 
         {/* Hero Title */}
         <div className="space-y-6 pb-12 border-b border-[#ece8e1]/10">
           <FramerHeading
-            lines={['MADE SLOWLY.', 'WORN LOUDLY.']}
+            lines={['FRAME THE MOMENT.', 'CAPTURE THE SOUL.']}
             as="h1"
             className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
           />
@@ -89,11 +89,11 @@ export default function AboutPage() {
         <FramerReveal delay={0.2} yOffset={32} className="space-y-24 sm:space-y-36">
           <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full bg-[#171716] overflow-hidden">
           <span className="absolute top-4 left-4 z-10 bg-[#ff3d17] text-[#0c0c0b] text-xs font-mono font-bold px-3 py-1 tracking-wider uppercase">
-            THE ATELIER — RUA DAS FLORES 27
+            PANDORA VISUALS — PRODUCTION LAB & STAGE
           </span>
           <Image
             src="https://framerusercontent.com/images/8rwex56qBkVkbQOq9L9NfilS1c.jpg?width=2400&height=1600"
-            alt="Pandora Visuals Atelier"
+            alt="Pandora Visuals Production Studio"
             fill
             priority
             className="object-cover"
@@ -104,12 +104,12 @@ export default function AboutPage() {
         {/* (01) — THE STORY */}
         <div className="space-y-16 border-b border-[#ece8e1]/10 pb-24">
           <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10">
-            (01) — THE STORY
+            (01) — THE VISION
           </div>
 
           <h2 className="font-anton text-4xl sm:text-6xl lg:text-[76px] leading-[1.02] tracking-tight uppercase text-[#ece8e1] max-w-6xl">
-            Pandora Visuals began as a single piece, cut on a kitchen table in Porto. Eight years later we are eleven people, one atelier and a{' '}
-            <span className="font-serif italic text-[#ff3d17] lowercase font-normal">refusal</span> to ever make more than we can sell.
+            Pandora Visuals was built on one belief: moments deserve cinema. From vibrant child birthdays and milestone adult events to high-converting reels and digital growth, we capture the raw{' '}
+            <span className="font-serif italic text-[#ff3d17] lowercase font-normal">energy</span> of every story.
           </h2>
 
           {/* 4 Monumental Numbers */}
@@ -138,11 +138,11 @@ export default function AboutPage() {
             {/* Left Sticky Header */}
             <div className="lg:col-span-5 space-y-4 lg:sticky lg:top-28">
               <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase">
-                (02) — TIMELINE
+                (02) — OUR JOURNEY
               </div>
               <h2 className="font-anton text-5xl sm:text-7xl lg:text-[100px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]">
-                EIGHT YEARS, <br />
-                ZERO SEASONS
+                BEHIND THE <br />
+                CAMERA
               </h2>
             </div>
 
@@ -172,10 +172,10 @@ export default function AboutPage() {
         <div className="space-y-12 pb-12">
           <div className="space-y-4">
             <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase">
-              (03) — THE PEOPLE
+              (03) — THE CREATIVES
             </div>
             <h2 className="font-anton text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]">
-              ELEVEN HANDS, ONE LINE
+              MINDS BEHIND THE VISION
             </h2>
           </div>
 
