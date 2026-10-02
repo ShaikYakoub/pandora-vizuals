@@ -30,19 +30,6 @@ export default function HomePage() {
         {/* Ambient Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff3d17]/5 rounded-full blur-[140px] pointer-events-none" />
 
-        {/* Top Meta Bar */}
-        <div className="relative z-10 flex items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase w-full">
-          <div className="flex items-center space-x-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-            <TextScramble text="SS27 — NO SEASON COLLECTION" />
-          </div>
-          <div className="hidden md:block">
-            PORTO — MARSEILLE — ONLINE
-          </div>
-          <div className="text-[#8c8880]">
-            MOVE YOUR CURSOR
-          </div>
-        </div>
 
         {/* Center Editorial Quote */}
         <div className="flex-1 flex items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none">
