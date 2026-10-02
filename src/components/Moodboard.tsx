@@ -5,15 +5,112 @@ import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
 import TextScramble from './TextScramble';
 
+interface SlotConfig {
+  top: string;
+  left?: string;
+  right?: string;
+  rot: number;
+  width: number;
+  aspect: string;
+  mobileTop: string;
+  mobileLeft?: string;
+  mobileRight?: string;
+  mobileWidth: number;
+}
+
+const DEFAULT_SLOTS: SlotConfig[] = [
+  {
+    // Slot 0: Top-Left (LOOK 11 — CAUTION)
+    top: '110px',
+    left: '4%',
+    rot: -8,
+    width: 250,
+    aspect: '3/4',
+    mobileTop: '75px',
+    mobileLeft: '3%',
+    mobileWidth: 150,
+  },
+  {
+    // Slot 1: Top-Right (SIGNAL RED)
+    top: '90px',
+    right: '5%',
+    rot: 7,
+    width: 260,
+    aspect: '3/4',
+    mobileTop: '65px',
+    mobileRight: '3%',
+    mobileWidth: 155,
+  },
+  {
+    // Slot 2: Bottom-Left (CASTING — NOAILLES)
+    top: '590px',
+    left: '3%',
+    rot: 4,
+    width: 195,
+    aspect: '3/4',
+    mobileTop: '540px',
+    mobileLeft: '3%',
+    mobileWidth: 135,
+  },
+  {
+    // Slot 3: Bottom-Center-Left (NEON TEST, 3 AM)
+    top: '650px',
+    left: '19%',
+    rot: 6,
+    width: 215,
+    aspect: '3/4',
+    mobileTop: '610px',
+    mobileLeft: '22%',
+    mobileWidth: 140,
+  },
+  {
+    // Slot 4: Bottom-Center-Right (FITTING WALL)
+    top: '620px',
+    right: '21%',
+    rot: -5,
+    width: 225,
+    aspect: '3/4',
+    mobileTop: '570px',
+    mobileRight: '22%',
+    mobileWidth: 140,
+  },
+  {
+    // Slot 5: Bottom-Far-Right (PORTO, STAIRWELL)
+    top: '610px',
+    right: '3%',
+    rot: -9,
+    width: 275,
+    aspect: '4/3',
+    mobileTop: '630px',
+    mobileRight: '3%',
+    mobileWidth: 155,
+  },
+];
+
 export default function Moodboard() {
   const { sectionCards } = useCards('home-moodboard');
-  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [draggingId, setDraggingId] = useState<string | null>(null);
-  const [dragStart, setDragStart] = useState<{ x: number; y: number } | null>(null);
   const [zIndexMap, setZIndexMap] = useState<Record<string, number>>({});
-  const [highestZ, setHighestZ] = useState(10);
+  const [highestZ, setHighestZ] = useState(25);
   const [scrollYOffset, setScrollYOffset] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // High-performance drag references to eliminate React state latency during pointer movement
+  const isDraggingRef = useRef(false);
+  const activeIdRef = useRef<string | null>(null);
+  const dragStartRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  // Detect mobile screen for slot sizing
+  useEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
+  }, []);
 
   // Parallax float on scroll
   useEffect(() => {
@@ -22,10 +119,10 @@ export default function Moodboard() {
     const handleScroll = () => {
       cancelAnimationFrame(animationFrameId);
       animationFrameId = requestAnimationFrame(() => {
-        if (!sectionRef.current) return;
-        const rect = sectionRef.current.getBoundingClientRect();
+        if (!containerRef.current) return;
+        const rect = containerRef.current.getBoundingClientRect();
         if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const centerOffset = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.08;
+          const centerOffset = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.05;
           setScrollYOffset(centerOffset);
         }
       });
@@ -40,123 +137,180 @@ export default function Moodboard() {
     };
   }, []);
 
-  const startDrag = (id: string, clientX: number, clientY: number) => {
+  // Pointer down trigger
+  const handlePointerDown = (id: string, clientX: number, clientY: number) => {
+    isDraggingRef.current = true;
+    activeIdRef.current = id;
+    dragStartRef.current = { x: clientX, y: clientY };
     setDraggingId(id);
-    setDragStart({ x: clientX, y: clientY });
-
-    const nextZ = highestZ + 1;
-    setHighestZ(nextZ);
-    setZIndexMap((prev) => ({ ...prev, [id]: nextZ }));
-  };
-
-  const moveDrag = (clientX: number, clientY: number) => {
-    if (!draggingId || !dragStart) return;
-
-    const deltaX = clientX - dragStart.x;
-    const deltaY = clientY - dragStart.y;
-
-    setPositions((prev) => {
-      const current = prev[draggingId] || { x: 0, y: 0 };
-      return {
-        ...prev,
-        [draggingId]: { x: current.x + deltaX, y: current.y + deltaY },
-      };
+    setHighestZ((prev) => {
+      const nextZ = prev + 1;
+      setZIndexMap((zm) => ({ ...zm, [id]: nextZ }));
+      return nextZ;
     });
-
-    setDragStart({ x: clientX, y: clientY });
   };
 
-  const endDrag = () => {
-    setDraggingId(null);
-    setDragStart(null);
+  // Global window listeners for drag move and pointer release
+  useEffect(() => {
+    const handleMove = (clientX: number, clientY: number) => {
+      if (!isDraggingRef.current || !activeIdRef.current) return;
+      const id = activeIdRef.current;
+      const deltaX = clientX - dragStartRef.current.x;
+      const deltaY = clientY - dragStartRef.current.y;
+
+      dragStartRef.current = { x: clientX, y: clientY };
+
+      setPositions((prev) => {
+        const curr = prev[id] || { x: 0, y: 0 };
+        return {
+          ...prev,
+          [id]: { x: curr.x + deltaX, y: curr.y + deltaY },
+        };
+      });
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      handleMove(e.clientX, e.clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        handleMove(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    };
+
+    const handlePointerUp = () => {
+      if (isDraggingRef.current) {
+        isDraggingRef.current = false;
+        activeIdRef.current = null;
+        setDraggingId(null);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mouseup', handlePointerUp);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('touchend', handlePointerUp);
+    window.addEventListener('touchcancel', handlePointerUp);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handlePointerUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handlePointerUp);
+      window.removeEventListener('touchcancel', handlePointerUp);
+    };
+  }, []);
+
+  // Match each card to its visual slot
+  const getSlotForCard = (card: (typeof sectionCards)[0], index: number): SlotConfig => {
+    const t = card.title.toLowerCase();
+    if (card.id === 'mood-01' || t.includes('caution') || t.includes('look 11')) return DEFAULT_SLOTS[0];
+    if (card.id === 'mood-03' || t.includes('signal red') || t.includes('signal')) return DEFAULT_SLOTS[1];
+    if (card.id === 'mood-05' || t.includes('noailles') || t.includes('casting')) return DEFAULT_SLOTS[2];
+    if (card.id === 'mood-02' || t.includes('neon') || t.includes('3 am')) return DEFAULT_SLOTS[3];
+    if (card.id === 'mood-04' || t.includes('fitting') || t.includes('wall')) return DEFAULT_SLOTS[4];
+    if (card.id === 'mood-06' || t.includes('porto') || t.includes('stairwell')) return DEFAULT_SLOTS[5];
+    return DEFAULT_SLOTS[index % DEFAULT_SLOTS.length];
   };
 
   return (
     <section
-      ref={sectionRef}
-      onMouseMove={(e) => moveDrag(e.clientX, e.clientY)}
-      onMouseUp={endDrag}
-      onTouchMove={(e) => moveDrag(e.touches[0].clientX, e.touches[0].clientY)}
-      onTouchEnd={endDrag}
-      className="py-24 sm:py-32 px-4 sm:px-8 bg-[#ece8e1] text-[#0c0c0b] relative overflow-hidden select-none border-b border-[#0c0c0b]/15"
+      ref={containerRef}
+      className="relative min-h-[920px] sm:min-h-[1000px] lg:min-h-[1060px] w-full bg-[#ece8e1] text-[#0c0c0b] overflow-hidden select-none border-b border-[#0c0c0b]/15"
     >
-      <div className="max-w-[1720px] mx-auto space-y-12">
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#6b675f] uppercase pb-4 border-b border-[#0c0c0b]/15 gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-[#ff3d17] font-bold">(04)</span>
-            <TextScramble text="— MOODBOARD · DRAG THE PIECES" />
-          </div>
-          <div>
-            <TextScramble text="INTERACTIVE STUDIO BOARD" />
-          </div>
+      {/* Top Header Row */}
+      <div className="absolute top-7 sm:top-9 left-0 w-full px-6 sm:px-12 flex items-center justify-between z-30 pointer-events-none text-xs font-mono uppercase tracking-widest text-[#0c0c0b] select-none">
+        <div className="flex items-center gap-2">
+          <span className="font-bold text-[12px] tracking-wider">DRAG</span>
         </div>
-
-        {/* Title */}
-        <div className="space-y-2">
-          <h2 className="font-anton text-5xl sm:text-7xl lg:text-9xl tracking-tight text-[#0c0c0b]">
-            PIN IT. DRAG IT. <span className="text-[#ff3d17]">WEAR IT.</span>
-          </h2>
-          <p className="text-xs font-mono text-[#6b675f] tracking-wider uppercase">
-            Click and drag polaroids around the atelier board.
-          </p>
+        <div className="text-center font-medium text-[12px] tracking-wider text-[#0c0c0b]">
+          <TextScramble text="(04) — MOODBOARD · DRAG THE PIECES" />
         </div>
+        <div className="w-12 hidden sm:block opacity-0">DRAG</div>
+      </div>
 
-        {/* Polaroids Canvas Grid */}
-        <div className="relative min-h-[580px] sm:min-h-[640px] w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 pt-8">
-          {sectionCards.map((card, index) => {
-            const rot =
-              card.metadata?.rotation ??
-              (index % 2 === 0 ? -1 : 1) * ((index * 3) % 8 + 2);
-            const pos = positions[card.id] || { x: 0, y: 0 };
-            const z = zIndexMap[card.id] || index + 1;
-            const isDragging = draggingId === card.id;
+      {/* Monumental Center Headline */}
+      <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
+        <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#0c0c0b] uppercase">
+          PIN IT. DRAG IT. <br />
+          <span className="text-[#ff3d17]">WEAR IT.</span>
+        </h2>
+      </div>
 
-            // Staggered parallax float per column
-            const parallaxMultiplier = (index % 3 - 1) * 1.2;
-            const cardParallaxY = scrollYOffset * parallaxMultiplier;
+      {/* Scattered Draggable Polaroids */}
+      <div className="absolute inset-0 w-full h-full">
+        {sectionCards.map((card, index) => {
+          const slot = getSlotForCard(card, index);
+          const pos = positions[card.id] || { x: 0, y: 0 };
+          const z = zIndexMap[card.id] || 15 + index;
+          const isDragging = draggingId === card.id;
 
-            return (
+          // Subtle organic parallax offset
+          const parallaxMultiplier = (index % 3 - 1) * 1.2;
+          const cardParallaxY = scrollYOffset * parallaxMultiplier;
+
+          const rot = card.metadata?.rotation ?? slot.rot;
+          const cardWidth = isMobile ? slot.mobileWidth : slot.width;
+          const topPos = isMobile ? slot.mobileTop : slot.top;
+          const leftPos = isMobile ? slot.mobileLeft : slot.left;
+          const rightPos = isMobile ? slot.mobileRight : slot.right;
+
+          return (
+            <div
+              key={card.id}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                handlePointerDown(card.id, e.clientX, e.clientY);
+              }}
+              onTouchStart={(e) => {
+                const touch = e.touches[0];
+                handlePointerDown(card.id, touch.clientX, touch.clientY);
+              }}
+              style={{
+                position: 'absolute',
+                top: topPos,
+                ...(leftPos ? { left: leftPos } : {}),
+                ...(rightPos ? { right: rightPos } : {}),
+                width: `${cardWidth}px`,
+                transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${isDragging ? 1.05 : 1})`,
+                zIndex: z,
+                cursor: isDragging ? 'grabbing' : 'grab',
+                touchAction: 'none',
+              }}
+              className={`bg-[#f8f6f1] p-2.5 sm:p-3 pb-6 sm:pb-8 border border-[#0c0c0b]/10 select-none will-change-transform transition-shadow duration-200 ${
+                isDragging
+                  ? 'shadow-[0_36px_60px_rgba(12,12,11,0.28)]'
+                  : 'shadow-[0_24px_48px_rgba(12,12,11,0.18)]'
+              }`}
+            >
+              {/* Simulated Atelier Frosted Tape */}
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/75 backdrop-blur-[2px] -rotate-2 border border-black/5 shadow-sm opacity-85 pointer-events-none" />
+
+              {/* Photo Frame */}
               <div
-                key={card.id}
-                onMouseDown={(e) => {
-                  e.preventDefault();
-                  startDrag(card.id, e.clientX, e.clientY);
-                }}
-                onTouchStart={(e) => {
-                  startDrag(card.id, e.touches[0].clientX, e.touches[0].clientY);
-                }}
-                style={{
-                  transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${isDragging ? 1.06 : 1})`,
-                  zIndex: z,
-                  cursor: isDragging ? 'grabbing' : 'grab',
-                  touchAction: 'none',
-                }}
-                className="bg-white p-3 pb-8 polaroid-shadow border border-[#dcd6cc] transition-transform duration-75 relative group select-none max-w-[240px] mx-auto w-full will-change-transform"
+                className={`relative w-full bg-[#171716] overflow-hidden mb-2.5 sm:mb-3 ${
+                  slot.aspect === '4/3' ? 'aspect-[4/3]' : 'aspect-[3/4]'
+                }`}
               >
-                {/* Simulated Tape at top */}
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-12 h-6 bg-[#ece8e1]/70 backdrop-blur-sm -rotate-3 border border-black/5 opacity-80" />
-
-                {/* Photo Area */}
-                <div className="relative aspect-[3/4] w-full bg-[#171716] overflow-hidden mb-3">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    draggable={false}
-                    className="object-cover pointer-events-none select-none"
-                    sizes="240px"
-                  />
-                </div>
-
-                {/* Polaroid Caption */}
-                <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate">
-                  {card.title}
-                </div>
+                <Image
+                  src={card.image}
+                  alt={card.title}
+                  fill
+                  draggable={false}
+                  className="object-cover pointer-events-none select-none"
+                  sizes={`${cardWidth * 2}px`}
+                  priority={index < 2}
+                />
               </div>
-            );
-          })}
-        </div>
+
+              {/* Polaroid Chin Caption */}
+              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate select-none">
+                {card.title}
+              </div>
+            </div>
+          );
+        })}
       </div>
     </section>
   );

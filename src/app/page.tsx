@@ -12,13 +12,13 @@ import ProductCard from '@/components/ProductCard';
 import ScrollZoomLookbook from '@/components/ScrollZoomLookbook';
 import CrossedTicker from '@/components/CrossedTicker';
 import Moodboard from '@/components/Moodboard';
+import JournalTeaser from '@/components/JournalTeaser';
 import StockedAtTicker from '@/components/StockedAtTicker';
 import { useCards } from '@/context/CardsContext';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function HomePage() {
   const { sectionCards: editProducts } = useCards('home-edit');
-  const { sectionCards: journalStories } = useCards('home-journal');
 
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] flex flex-col">
@@ -108,79 +108,8 @@ export default function HomePage() {
       {/* (04) — MOODBOARD (Draggable Polaroids with Parallax) */}
       <Moodboard />
 
-      {/* (05) — JOURNAL (Notes from the Atelier) */}
-      <section className="py-24 sm:py-32 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-[#0c0c0b]">
-        <div className="max-w-[1720px] mx-auto space-y-12">
-          {/* Header */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between pb-6 border-b border-[#ece8e1]/10 gap-6">
-            <div>
-              <div className="flex items-center space-x-2 text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-2">
-                <span className="text-[#ff3d17] font-bold">(05)</span>
-                <TextScramble text="— JOURNAL" />
-              </div>
-              <h2 className="font-anton text-4xl sm:text-6xl lg:text-7xl text-[#ece8e1] tracking-tight">
-                NOTES FROM THE ATELIER
-              </h2>
-            </div>
-
-            <Link
-              href="/journal"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#ece8e1] border border-[#ece8e1]/20 px-6 py-3.5 hover:border-[#ff3d17] hover:text-[#ff3d17] transition-all bg-[#171716]"
-            >
-              <span>ALL STORIES</span>
-              <ArrowUpRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Dynamic Journal Stories Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {journalStories.map((story) => (
-              <Link
-                key={story.id}
-                href={story.ctaLink || `/journal/${story.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
-                className="group flex flex-col space-y-4 border border-[#ece8e1]/10 bg-[#141413] p-6 hover:border-[#ff3d17] transition-all"
-              >
-                {/* Image */}
-                <div className="relative aspect-[16/10] w-full bg-[#1c1c1a] overflow-hidden">
-                  <Image
-                    src={story.image}
-                    alt={story.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                  />
-                </div>
-
-                {/* Metadata Row */}
-                <div className="flex items-center justify-between text-xs font-mono text-[#8c8880] pt-2">
-                  <span className="text-[#ff3d17] font-bold tracking-wider uppercase">
-                    {story.badge || 'ATELIER'}
-                  </span>
-                  <span>{story.metadata?.readTime || '5 MIN'}</span>
-                </div>
-
-                {/* Story Title */}
-                <h3 className="font-anton text-2xl sm:text-3xl tracking-wide text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors leading-tight">
-                  {story.title}
-                </h3>
-
-                {/* Description */}
-                {story.description && (
-                  <p className="text-xs font-sans text-[#8c8880] line-clamp-3 leading-relaxed flex-1">
-                    {story.description}
-                  </p>
-                )}
-
-                {/* Arrow Action */}
-                <div className="flex items-center justify-between pt-4 border-t border-[#ece8e1]/10 text-xs font-mono text-[#dcd6cc] group-hover:text-[#ff3d17] transition-colors">
-                  <span>{story.ctaText || 'READ STORY'}</span>
-                  <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* (05) — JOURNAL (Notes from the Atelier - Full-Width Editorial Rows) */}
+      <JournalTeaser />
 
       {/* Boutiques Ticker Marquee */}
       <StockedAtTicker />

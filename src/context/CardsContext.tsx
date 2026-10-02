@@ -20,7 +20,7 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'bureau27_editable_cards_v2';
+const STORAGE_KEY = 'bureau27_editable_cards_v3';
 const SYNC_EVENT_NAME = 'bureau27_cards_updated';
 
 export function CardsProvider({ children }: { children: React.ReactNode }) {

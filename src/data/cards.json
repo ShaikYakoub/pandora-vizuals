@@ -381,11 +381,13 @@
     "section": "home-moodboard",
     "title": "LOOK 11 — CAUTION",
     "description": "Editorial fitting session snapshot under Marseille sodium streetlights.",
-    "image": "https://framerusercontent.com/images/kyMRfBPxaYBLDFxRlb8txtD5h4.jpg?width=2400&height=1600",
+    "image": "https://framerusercontent.com/images/OkeLbQeKuBRLamnbU9LLxQIdrHA.jpg?width=1200&height=1500",
     "order": 1,
     "isActive": true,
     "metadata": {
-      "rotation": -5
+      "rotation": -8,
+      "position": { "top": 96, "leftPercent": 4 },
+      "width": 250
     }
   },
   {
@@ -397,7 +399,9 @@
     "order": 2,
     "isActive": true,
     "metadata": {
-      "rotation": 4
+      "rotation": 6,
+      "position": { "top": 630, "leftPercent": 19 },
+      "width": 215
     }
   },
   {
@@ -409,7 +413,9 @@
     "order": 3,
     "isActive": true,
     "metadata": {
-      "rotation": -3
+      "rotation": 7,
+      "position": { "top": 80, "rightPercent": 5 },
+      "width": 260
     }
   },
   {
@@ -421,7 +427,9 @@
     "order": 4,
     "isActive": true,
     "metadata": {
-      "rotation": 6
+      "rotation": -5,
+      "position": { "top": 600, "rightPercent": 21 },
+      "width": 225
     }
   },
   {
@@ -429,11 +437,13 @@
     "section": "home-moodboard",
     "title": "CASTING — NOAILLES",
     "description": "Street-cast portrait in Marseille district of Noailles.",
-    "image": "https://framerusercontent.com/images/OkeLbQeKuBRLamnbU9LLxQIdrHA.jpg?width=1200&height=1500",
+    "image": "https://framerusercontent.com/images/5EvfCvtdgtLkYBTHA4hfuVE4jA.jpg?width=1200&height=1800",
     "order": 5,
     "isActive": true,
     "metadata": {
-      "rotation": -7
+      "rotation": 4,
+      "position": { "top": 560, "leftPercent": 3 },
+      "width": 195
     }
   },
   {
@@ -441,11 +451,13 @@
     "section": "home-moodboard",
     "title": "PORTO, STAIRWELL",
     "description": "Atelier stairs, Rua das Flores at 7:00 AM before first cut.",
-    "image": "https://framerusercontent.com/images/5EvfCvtdgtLkYBTHA4hfuVE4jA.jpg?width=1200&height=1800",
+    "image": "https://framerusercontent.com/images/kyMRfBPxaYBLDFxRlb8txtD5h4.jpg?width=2400&height=1600",
     "order": 6,
     "isActive": true,
     "metadata": {
-      "rotation": 2
+      "rotation": -9,
+      "position": { "top": 600, "rightPercent": 3 },
+      "width": 270
     }
   },
   {
