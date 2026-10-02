@@ -3,6 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import PandoraLogo from './PandoraLogo';
+
 export default function Navbar() {
   const pathname = usePathname();
 
@@ -25,9 +27,10 @@ export default function Navbar() {
       <div className="fixed top-6 sm:top-8 left-6 sm:left-10 z-50 pointer-events-auto">
         <Link 
           href="/" 
-          className="font-anton text-2xl sm:text-3xl tracking-tight text-[#ece8e1] hover:text-[#ff3d17] transition-colors select-none drop-shadow-md"
+          className="block text-[#ece8e1] hover:text-[#ff3d17] transition-colors select-none drop-shadow-md group"
+          aria-label="Pandora Visuals Home"
         >
-          BUREAU27
+          <PandoraLogo className="h-5 sm:h-6 w-auto transition-transform duration-300 group-hover:scale-105" />
         </Link>
       </div>
 

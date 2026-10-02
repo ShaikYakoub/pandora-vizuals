@@ -4,6 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageTrail from '@/components/ImageTrail';
+import PandoraLogo from '@/components/PandoraLogo';
 import TextScramble from '@/components/TextScramble';
 import ManifestoScroll from '@/components/ManifestoScroll';
 import DropScroller from '@/components/DropScroller';
@@ -41,26 +42,9 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Monumental Hero Wordmark: Full-width Edge-to-Edge SVG */}
-        <div className="w-full z-10 pointer-events-none pb-1">
-          <svg
-            viewBox="0 0 402 92"
-            className="w-full h-auto select-none block overflow-visible"
-            preserveAspectRatio="xMidYMid meet"
-          >
-            <text
-              x="201"
-              y="80"
-              textAnchor="middle"
-              fontSize="102"
-              letterSpacing="-0.01em"
-              className="font-anton select-none"
-              style={{ fontFamily: 'var(--font-anton), Anton, sans-serif' }}
-            >
-              <tspan fill="#ece8e1">BUREAU</tspan>
-              <tspan fill="#ff3d17">27</tspan>
-            </text>
-          </svg>
+        {/* Monumental Hero Wordmark: Vector Pandora Logo */}
+        <div className="w-full z-10 pointer-events-none pb-2 sm:pb-4 flex justify-center">
+          <PandoraLogo className="w-full h-auto max-h-[16vh] sm:max-h-[22vh] text-[#ece8e1] select-none block drop-shadow-[0_12px_40px_rgba(0,0,0,0.8)]" />
         </div>
       </section>
 

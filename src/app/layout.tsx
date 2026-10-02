@@ -36,23 +36,23 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Bureau27 — Avant-Garde Fashion Label',
-  description: 'Bureau27 is an avant-garde fashion label. Seasonless garments, cut in small runs, shipped worldwide.',
-  keywords: ['avant-garde fashion', 'bureau27', 'seasonless garments', 'porto atelier', 'sustainable luxury'],
-  authors: [{ name: 'Bureau27 Atelier' }],
-  metadataBase: new URL('https://bureau27.studio'),
+  title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
+  description: 'Pandora Visuals is an avant-garde creative studio. Seasonless editions, cut in small runs, visual direction.',
+  keywords: ['pandora visuals', 'avant-garde fashion', 'creative direction', 'porto atelier', 'visual arts'],
+  authors: [{ name: 'Pandora Visuals Studio' }],
+  metadataBase: new URL('https://pandoravisuals.studio'),
   openGraph: {
-    title: 'Bureau27 — Avant-Garde Fashion Label',
-    description: 'Bureau27 is an avant-garde fashion label. Seasonless garments, cut in small runs, shipped worldwide.',
-    url: 'https://bureau27.studio',
-    siteName: 'Bureau27',
+    title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
+    description: 'Pandora Visuals is an avant-garde creative studio. Seasonless editions, cut in small runs, visual direction.',
+    url: 'https://pandoravisuals.studio',
+    siteName: 'Pandora Visuals',
     locale: 'en_US',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Bureau27 — Avant-Garde Fashion Label',
-    description: 'Seasonless garments, cut in small runs, shipped worldwide.',
+    title: 'Pandora Visuals — Avant-Garde Visual Arts & Fashion',
+    description: 'Seasonless editions, cut in small runs, visual direction.',
   },
 };
 

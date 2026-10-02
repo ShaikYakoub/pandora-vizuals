@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { ArrowRight, ArrowUp } from 'lucide-react';
+import PandoraLogo from './PandoraLogo';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
@@ -179,37 +180,15 @@ export default function Footer() {
             willChange: 'transform, opacity',
             width: '100%',
           }}
+          className="flex justify-center w-full"
         >
-          <svg
-            viewBox="0 0 61 13"
-            className="w-full h-auto overflow-visible select-none pointer-events-none block"
-          >
-            <foreignObject
-              width="100%"
-              height="100%"
-              style={{ overflow: 'visible', transformOrigin: 'center center' }}
-            >
-              <p
-                style={{
-                  fontFamily: 'Anton, sans-serif',
-                  fontSize: '16px',
-                  lineHeight: '0.8em',
-                  textAlign: 'center',
-                  color: '#0c0c0b',
-                  margin: 0,
-                  textTransform: 'uppercase',
-                }}
-              >
-                BUREAU27
-              </p>
-            </foreignObject>
-          </svg>
+          <PandoraLogo className="w-full h-auto max-h-[140px] text-[#0c0c0b] select-none block" />
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="w-full max-w-[1600px] pt-5 border-t border-[#0c0c0b]/15 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs font-mono tracking-widest text-[#0c0c0b] uppercase gap-3">
-        <div>© 2027 BUREAU27. ALL RIGHTS RESERVED.</div>
+        <div>© 2027 PANDORA VISUALS. ALL RIGHTS RESERVED.</div>
         <div>CUT IN PORTO — WORN EVERYWHERE</div>
         <button
           onClick={scrollToTop}
