@@ -45,17 +45,17 @@ export default function ContactPage() {
           <div className="lg:col-span-6 space-y-12">
             <div className="space-y-6">
               <FramerHeading
-                text="SAY HELLO"
+                lines={['SAY', 'HELLO']}
                 as="h1"
-                className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+                className="font-anton text-6xl sm:text-7xl lg:text-[104px] leading-[0.92] tracking-wide uppercase text-[#ece8e1]"
               />
 
               <FramerReveal delay={0.12}>
                 <a
-                  href="mailto:hello@bureau27.studio"
+                  href="mailto:hello@pandoravisuals.studio"
                   className="font-serif italic text-3xl sm:text-4xl lg:text-5xl text-[#ece8e1] underline decoration-1 underline-offset-8 hover:text-[#ff3d17] transition-colors inline-block"
                 >
-                  hello@bureau27.studio
+                  hello@pandoravisuals.studio
                 </a>
               </FramerReveal>
             </div>
@@ -77,8 +77,8 @@ export default function ContactPage() {
                     PRESS
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:press@bureau27.studio" className="hover:text-[#ff3d17] transition-colors">
-                      press@bureau27.studio
+                    <a href="mailto:press@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
+                      press@pandoravisuals.studio
                     </a>
                   </div>
                 </div>
@@ -87,22 +87,22 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    WHOLESALE
+                    COLLABORATIONS
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:stockists@bureau27.studio" className="hover:text-[#ff3d17] transition-colors">
-                      stockists@bureau27.studio
+                    <a href="mailto:collabs@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
+                      collabs@pandoravisuals.studio
                     </a>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    ORDERS
+                    PROJECTS
                   </div>
                   <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:orders@bureau27.studio" className="hover:text-[#ff3d17] transition-colors">
-                      orders@bureau27.studio
+                    <a href="mailto:projects@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
+                      projects@pandoravisuals.studio
                     </a>
                   </div>
                 </div>
@@ -115,7 +115,7 @@ export default function ContactPage() {
             <FramerHeading
               text="TELL US WHAT YOU’RE AFTER."
               as="h2"
-              className="font-anton text-4xl sm:text-5xl lg:text-6xl text-[#ece8e1] uppercase tracking-tight leading-[0.95]"
+              className="font-anton text-2xl sm:text-3xl lg:text-[38px] text-[#ece8e1] uppercase tracking-wide leading-[1.12]"
             />
 
             {submitted ? (

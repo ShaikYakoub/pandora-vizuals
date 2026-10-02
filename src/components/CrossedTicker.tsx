@@ -32,7 +32,7 @@ export default function CrossedTicker() {
 
   const tapeInk = [
     'NO SEASON', '✦', 'SS27', '✦', 'PERMANENT FORM', '✦', 'NO RULES', '✦',
-    'BUREAU27', '✦', 'AUTONOMY', '✦', 'SMALL BATCH', '✦',
+    'PANDORA VISUALS', '✦', 'AUTONOMY', '✦', 'SMALL BATCH', '✦',
   ];
 
   const tapeBone = [

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import { Anton, Instrument_Serif, JetBrains_Mono, Inter } from 'next/font/google';
 import './globals.css';
 import { CardsProvider } from '@/context/CardsContext';
@@ -6,6 +7,12 @@ import SmoothScroll from '@/components/SmoothScroll';
 import PageTransition from '@/components/PageTransition';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+
+const dune = localFont({
+  src: './fonts/Dune_Rise.ttf',
+  variable: '--font-dune',
+  display: 'swap',
+});
 
 const anton = Anton({
   weight: '400',
@@ -64,7 +71,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${anton.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${inter.variable}`}
+      className={`${dune.variable} ${anton.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${inter.variable}`}
     >
       <head>
         <link rel="icon" href="https://framerusercontent.com/sites/icons/default-favicon-light.v1.png" />

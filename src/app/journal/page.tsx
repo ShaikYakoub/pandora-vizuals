@@ -84,7 +84,7 @@ export default function JournalPage() {
           </div>
           <FramerReveal delay={0.15} className="max-w-xl lg:text-right">
             <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] leading-snug">
-              Stories about craft, cities and the people who make every Bureau27 garment.
+              Stories about craft, cities and the people who make every Pandora Visuals edition.
             </p>
           </FramerReveal>
         </div>

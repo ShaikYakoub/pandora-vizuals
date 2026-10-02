@@ -122,7 +122,7 @@ export default function ManifestoScroll() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-[#ece8e1]/10 items-end">
           <div className="md:col-span-8 lg:col-span-7">
             <p className="font-sans text-base sm:text-lg text-[#8c8880] leading-relaxed">
-              Every Bureau27 piece is cut, sewn and pressed by eleven people in one Porto atelier.
+              Every Pandora Visuals piece is cut, sewn and pressed by eleven people in one Porto atelier.
               No seasons, no markdowns, no overproduction — a garment stays online until the last one is gone.
             </p>
           </div>

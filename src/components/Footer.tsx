@@ -42,7 +42,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-[#ece8e1] text-[#0c0c0b] pt-[120px] pb-8 px-6 sm:px-8 select-none overflow-hidden flex flex-col items-center gap-20">
+    <footer className="w-full bg-[#ece8e1] text-[#0c0c0b] pt-[120px] pb-28 sm:pb-32 px-6 sm:px-8 select-none overflow-hidden flex flex-col items-center gap-20">
       {/* Top Container: Newsletter & Links Columns */}
       <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
         {/* Newsletter Column */}
@@ -159,21 +159,20 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Monumental Wordmark (Exact Framer SVG viewBox 0 0 61 13 with 3D unfold) */}
+      {/* Monumental Full-Width Wordmark */}
       <div
         ref={wordmarkRef}
         style={{
           perspective: '1200px',
           width: '100%',
-          maxWidth: '1600px',
         }}
-        className="w-full flex justify-center overflow-visible"
+        className="w-full flex justify-center overflow-hidden px-2 sm:px-4 my-4"
       >
         <div
           style={{
             transform: isInView
               ? 'translateY(0px) rotateX(0deg) skewY(0deg)'
-              : 'translateY(220px) rotateX(-60deg) skewY(8deg)',
+              : 'translateY(160px) rotateX(-50deg) skewY(6deg)',
             opacity: isInView ? 1 : 0,
             transformOrigin: 'bottom center',
             transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -182,7 +181,7 @@ export default function Footer() {
           }}
           className="flex justify-center w-full"
         >
-          <PandoraLogo className="w-full h-auto max-h-[140px] text-[#0c0c0b] select-none block" />
+          <PandoraLogo className="w-full h-auto text-[#0c0c0b] select-none block drop-shadow-sm" />
         </div>
       </div>
 

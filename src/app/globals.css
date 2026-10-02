@@ -40,11 +40,26 @@ body {
   color: var(--text-primary);
 }
 
+@font-face {
+  font-family: 'Dune Rise';
+  src: url('/fonts/Dune_Rise.ttf') format('truetype'),
+       url('/fonts/Dune_Rise.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Typography Helpers */
-.font-anton {
-  font-family: var(--font-anton), impact, sans-serif;
+.font-dune {
+  font-family: var(--font-dune), 'Dune Rise', sans-serif;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.06em;
+}
+
+.font-anton {
+  font-family: var(--font-dune), 'Dune Rise', var(--font-anton), impact, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .font-serif-italic {

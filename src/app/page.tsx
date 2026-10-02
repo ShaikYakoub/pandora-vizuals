@@ -4,7 +4,6 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import ImageTrail from '@/components/ImageTrail';
-import PandoraLogo from '@/components/PandoraLogo';
 import TextScramble from '@/components/TextScramble';
 import ManifestoScroll from '@/components/ManifestoScroll';
 import DropScroller from '@/components/DropScroller';
@@ -38,13 +37,8 @@ export default function HomePage() {
             text="Garments for people who refuse a season."
             as="h2"
             variant="subtle"
-            className="font-serif italic text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#ece8e1] max-w-4xl tracking-tight leading-tight"
+            className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#ece8e1] max-w-5xl tracking-tight leading-tight"
           />
-        </div>
-
-        {/* Monumental Hero Wordmark: Vector Pandora Logo */}
-        <div className="w-full z-10 pointer-events-none pb-2 sm:pb-4 flex justify-center">
-          <PandoraLogo className="w-full h-auto max-h-[16vh] sm:max-h-[22vh] text-[#ece8e1] select-none block drop-shadow-[0_12px_40px_rgba(0,0,0,0.8)]" />
         </div>
       </section>
 

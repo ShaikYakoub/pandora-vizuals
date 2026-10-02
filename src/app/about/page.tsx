@@ -70,7 +70,7 @@ export default function AboutPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(About) — Bureau27 since 2019</span>
+              <span>(About) — Pandora Visuals since 2019</span>
             </div>
             <div>PORTO, PORTUGAL</div>
           </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
           </span>
           <Image
             src="https://framerusercontent.com/images/8rwex56qBkVkbQOq9L9NfilS1c.jpg?width=2400&height=1600"
-            alt="Bureau27 Atelier"
+            alt="Pandora Visuals Atelier"
             fill
             priority
             className="object-cover"
@@ -108,7 +108,7 @@ export default function AboutPage() {
           </div>
 
           <h2 className="font-anton text-4xl sm:text-6xl lg:text-[76px] leading-[1.02] tracking-tight uppercase text-[#ece8e1] max-w-6xl">
-            Bureau27 began as a single overcoat, cut on a kitchen table in Porto. Eight years later we are eleven people, one atelier and a{' '}
+            Pandora Visuals began as a single piece, cut on a kitchen table in Porto. Eight years later we are eleven people, one atelier and a{' '}
             <span className="font-serif italic text-[#ff3d17] lowercase font-normal">refusal</span> to ever make more than we can sell.
           </h2>
 
