@@ -23,7 +23,7 @@ export default function HomePage() {
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] flex flex-col">
       {/* Hero Cover Section with Interactive Image Trail */}
-      <section className="relative h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] min-h-[640px] sm:min-h-[720px] max-h-[1050px] flex flex-col justify-between px-4 sm:px-8 pt-6 pb-6 sm:pb-8 border-b border-[#ece8e1]/10 overflow-hidden bg-noise select-none">
+      <section className="relative h-screen min-h-[640px] sm:min-h-[720px] max-h-[1080px] flex flex-col justify-between px-4 sm:px-10 pt-20 sm:pt-24 pb-8 sm:pb-10 border-b border-[#ece8e1]/10 overflow-hidden bg-noise select-none">
         {/* Interactive Pointer Image Trail */}
         <ImageTrail />
 
