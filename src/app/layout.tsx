@@ -4,6 +4,7 @@ import './globals.css';
 import { CardsProvider } from '@/context/CardsContext';
 import { CartProvider } from '@/context/CartContext';
 import SmoothScroll from '@/components/SmoothScroll';
+import PageTransition from '@/components/PageTransition';
 import Navbar from '@/components/Navbar';
 import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
@@ -75,7 +76,9 @@ export default function RootLayout({
           <CartProvider>
             <SmoothScroll>
               <Navbar />
-              <main className="flex-1 w-full">{children}</main>
+              <main className="flex-1 w-full">
+                <PageTransition>{children}</PageTransition>
+              </main>
               <CartDrawer />
               <Footer />
             </SmoothScroll>
