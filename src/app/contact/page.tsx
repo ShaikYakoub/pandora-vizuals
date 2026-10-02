@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -26,13 +28,15 @@ export default function ContactPage() {
       <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
         
         {/* Top Meta Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-            <span>(Contact) — Replies within 48h</span>
+        <FramerReveal delay={0.02} yOffset={10}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
+              <span>(Contact) — Replies within 48h</span>
+            </div>
+            <div>MON-FRI, 10-18 WET</div>
           </div>
-          <div>MON-FRI, 10-18 WET</div>
-        </div>
+        </FramerReveal>
 
         {/* Two-Column Grid: Studio Info Left, Form Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -40,22 +44,24 @@ export default function ContactPage() {
           {/* Left Column: Direct Studio Contacts */}
           <div className="lg:col-span-6 space-y-12">
             <div className="space-y-6">
-              <h1 className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]">
-                SAY HELLO
-              </h1>
+              <FramerHeading
+                text="SAY HELLO"
+                as="h1"
+                className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+              />
 
-              <div>
+              <FramerReveal delay={0.12}>
                 <a
                   href="mailto:hello@bureau27.studio"
                   className="font-serif italic text-3xl sm:text-4xl lg:text-5xl text-[#ece8e1] underline decoration-1 underline-offset-8 hover:text-[#ff3d17] transition-colors inline-block"
                 >
                   hello@bureau27.studio
                 </a>
-              </div>
+              </FramerReveal>
             </div>
 
             {/* 4 Studio Rows */}
-            <div className="space-y-8 pt-8 border-t border-[#ece8e1]/10">
+            <FramerReveal delay={0.18} yOffset={24} className="space-y-8 pt-8 border-t border-[#ece8e1]/10">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pb-8 border-b border-[#ece8e1]/10">
                 <div className="space-y-2">
                   <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
@@ -101,14 +107,16 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
-            </div>
+            </FramerReveal>
           </div>
 
           {/* Right Column: Framer Form Container */}
-          <div className="lg:col-span-6 bg-[#141413] border border-[#ece8e1]/15 p-8 sm:p-12 lg:p-14 space-y-8">
-            <h2 className="font-anton text-4xl sm:text-5xl lg:text-6xl text-[#ece8e1] uppercase tracking-tight leading-[0.95]">
-              TELL US WHAT YOU’RE AFTER.
-            </h2>
+          <FramerReveal delay={0.22} yOffset={32} className="lg:col-span-6 bg-[#141413] border border-[#ece8e1]/15 p-8 sm:p-12 lg:p-14 space-y-8">
+            <FramerHeading
+              text="TELL US WHAT YOU’RE AFTER."
+              as="h2"
+              className="font-anton text-4xl sm:text-5xl lg:text-6xl text-[#ece8e1] uppercase tracking-tight leading-[0.95]"
+            />
 
             {submitted ? (
               <div className="p-8 bg-[#171716] border border-[#ff3d17] text-center space-y-4 animate-in fade-in">
@@ -196,7 +204,7 @@ export default function ContactPage() {
                 </div>
               </form>
             )}
-          </div>
+          </FramerReveal>
 
         </div>
 

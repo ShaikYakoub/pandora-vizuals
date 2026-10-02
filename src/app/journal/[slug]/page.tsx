@@ -4,6 +4,8 @@ import React, { use } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 interface JournalDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -131,9 +133,12 @@ export default function JournalDetailPage({ params }: JournalDetailPageProps) {
           </div>
 
           {/* Monumental Anton Title */}
-          <h1 className="font-anton text-6xl sm:text-8xl lg:text-[130px] leading-[0.88] tracking-[-0.02em] uppercase text-[#ece8e1]">
-            {article.title}
-          </h1>
+          <FramerHeading
+            text={article.title}
+            as="h1"
+            variant="journal"
+            className="font-anton text-6xl sm:text-8xl lg:text-[130px] leading-[0.88] tracking-[-0.02em] uppercase text-[#ece8e1]"
+          />
 
           {/* Subtitle in Instrument Serif Italic */}
           <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] max-w-4xl leading-relaxed">

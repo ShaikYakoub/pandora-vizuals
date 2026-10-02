@@ -9,6 +9,7 @@ import TextScramble from '@/components/TextScramble';
 import ManifestoScroll from '@/components/ManifestoScroll';
 import DropScroller from '@/components/DropScroller';
 import ProductCard from '@/components/ProductCard';
+import FramerHeading from '@/components/FramerHeading';
 import ScrollZoomLookbook from '@/components/ScrollZoomLookbook';
 import CrossedTicker from '@/components/CrossedTicker';
 import Moodboard from '@/components/Moodboard';
@@ -46,9 +47,12 @@ export default function HomePage() {
 
         {/* Center Editorial Quote */}
         <div className="flex-1 flex items-center justify-center text-center px-4 z-10 my-auto py-12 pointer-events-none">
-          <h2 className="font-serif-italic text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#ece8e1] max-w-4xl tracking-tight leading-tight">
-            Garments for people who refuse a season.
-          </h2>
+          <FramerHeading
+            text="Garments for people who refuse a season."
+            as="h2"
+            variant="subtle"
+            className="font-serif italic text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#ece8e1] max-w-4xl tracking-tight leading-tight"
+          />
         </div>
 
         {/* Monumental Hero Wordmark */}

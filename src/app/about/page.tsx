@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 export default function AboutPage() {
   const stats = [
@@ -64,24 +66,28 @@ export default function AboutPage() {
       <div className="max-w-[1580px] mx-auto space-y-24 sm:space-y-36">
         
         {/* Top Meta Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-            <span>(About) — Bureau27 since 2019</span>
+        <FramerReveal delay={0.02} yOffset={10}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
+              <span>(About) — Bureau27 since 2019</span>
+            </div>
+            <div>PORTO, PORTUGAL</div>
           </div>
-          <div>PORTO, PORTUGAL</div>
-        </div>
+        </FramerReveal>
 
         {/* Hero Title */}
         <div className="space-y-6 pb-12 border-b border-[#ece8e1]/10">
-          <h1 className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]">
-            MADE SLOWLY. <br />
-            WORN LOUDLY.
-          </h1>
+          <FramerHeading
+            lines={['MADE SLOWLY.', 'WORN LOUDLY.']}
+            as="h1"
+            className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+          />
         </div>
 
-        {/* Hero Atelier Visual */}
-        <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full bg-[#171716] overflow-hidden">
+        {/* Hero Atelier Visual & Sections */}
+        <FramerReveal delay={0.2} yOffset={32} className="space-y-24 sm:space-y-36">
+          <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full bg-[#171716] overflow-hidden">
           <span className="absolute top-4 left-4 z-10 bg-[#ff3d17] text-[#0c0c0b] text-xs font-mono font-bold px-3 py-1 tracking-wider uppercase">
             THE ATELIER — RUA DAS FLORES 27
           </span>
@@ -211,6 +217,7 @@ export default function AboutPage() {
             <ArrowUpRight className="w-4 h-4" />
           </Link>
         </div>
+        </FramerReveal>
 
       </div>
     </div>

@@ -4,6 +4,8 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 export default function LookbookPage() {
   const chapters = [
@@ -62,26 +64,33 @@ export default function LookbookPage() {
       <div className="max-w-[1580px] mx-auto space-y-20 sm:space-y-28">
         
         {/* Top Meta Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-            <span>(Lookbook) — SS27 in four chapters</span>
+        <FramerReveal delay={0.02} yOffset={10}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
+              <span>(Lookbook) — SS27 in four chapters</span>
+            </div>
+            <div>SCROLL TO TURN THE PAGE</div>
           </div>
-          <div>SCROLL TO TURN THE PAGE</div>
-        </div>
+        </FramerReveal>
 
         {/* Hero Title */}
         <div className="space-y-6 pb-12 border-b border-[#ece8e1]/10">
-          <h1 className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]">
-            WORN AFTER DARK
-          </h1>
-          <p className="font-sans text-base sm:text-xl text-[#8c8880] max-w-2xl leading-relaxed">
-            Four cities, four nights, one light. The SS27 campaign was shot on location with a crew of five and no retouching.
-          </p>
+          <FramerHeading
+            text="WORN AFTER DARK"
+            as="h1"
+            className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+          />
+          <FramerReveal delay={0.15}>
+            <p className="font-sans text-base sm:text-xl text-[#8c8880] max-w-2xl leading-relaxed">
+              Four cities, four nights, one light. The SS27 campaign was shot on location with a crew of five and no retouching.
+            </p>
+          </FramerReveal>
         </div>
 
         {/* 4 Chapters Stack */}
-        <div className="space-y-36 sm:space-y-48">
+        <FramerReveal delay={0.22} yOffset={32}>
+          <div className="space-y-36 sm:space-y-48">
           {chapters.map((ch, idx) => (
             <div key={idx} className="space-y-6 border-b border-[#ece8e1]/10 pb-20">
               
@@ -131,17 +140,20 @@ export default function LookbookPage() {
               </div>
             </div>
           ))}
-        </div>
+          </div>
+        </FramerReveal>
 
         {/* Section: EVERY LOOK, UNEDITED */}
-        <div className="space-y-12 sm:space-y-16 pt-8">
+        <FramerReveal delay={0.18} yOffset={32} className="space-y-12 sm:space-y-16 pt-8">
           <div className="space-y-4">
             <div className="text-xs font-mono tracking-widest text-[#ff3d17] uppercase">
               (Archive) — Campaign Inventory
             </div>
-            <h2 className="font-anton text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]">
-              EVERY LOOK, UNEDITED
-            </h2>
+            <FramerHeading
+              text="EVERY LOOK, UNEDITED"
+              as="h2"
+              className="font-anton text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]"
+            />
           </div>
 
           {/* 3-Column Grid of 9 Editorial Looks */}
@@ -163,7 +175,7 @@ export default function LookbookPage() {
               </div>
             ))}
           </div>
-        </div>
+        </FramerReveal>
 
       </div>
     </div>

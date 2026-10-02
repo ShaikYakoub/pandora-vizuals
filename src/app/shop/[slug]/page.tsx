@@ -8,6 +8,8 @@ import { useCards } from '@/context/CardsContext';
 import { useCart } from '@/context/CartContext';
 import { ArrowLeft, ArrowUpRight, Check } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 interface ProductDetailPageProps {
   params: Promise<{ slug: string }>;
@@ -127,9 +129,11 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
               </div>
 
               {/* Huge Anton Title */}
-              <h1 className="font-anton text-6xl lg:text-[76px] leading-[0.92] tracking-[-0.03em] uppercase text-[#ece8e1]">
-                {product.title}
-              </h1>
+              <FramerHeading
+                text={product.title}
+                as="h1"
+                className="font-anton text-6xl lg:text-[76px] leading-[0.92] tracking-[-0.03em] uppercase text-[#ece8e1]"
+              />
 
               {/* Price in Instrument Serif Italic Vermilion */}
               {product.price && (

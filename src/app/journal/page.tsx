@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
+import FramerHeading from '@/components/FramerHeading';
+import FramerReveal from '@/components/FramerReveal';
 
 interface JournalStory {
   slug: string;
@@ -60,30 +62,36 @@ export default function JournalPage() {
       <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
         
         {/* Top Meta Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-          <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-            <span>(Journal) — Notes from the atelier</span>
+        <FramerReveal delay={0.02} yOffset={10}>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
+              <span>(Journal) — Notes from the atelier</span>
+            </div>
+            <div>UPDATED WITH EVERY DROP</div>
           </div>
-          <div>UPDATED WITH EVERY DROP</div>
-        </div>
+        </FramerReveal>
 
         {/* Hero Banner: JOURNAL Left, Instrument Serif Subtitle Right */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-12 border-b border-[#ece8e1]/10">
           <div>
-            <h1 className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]">
-              JOURNAL
-            </h1>
+            <FramerHeading
+              text="JOURNAL"
+              as="h1"
+              variant="journal"
+              className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+            />
           </div>
-          <div className="max-w-xl lg:text-right">
+          <FramerReveal delay={0.15} className="max-w-xl lg:text-right">
             <p className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] leading-snug">
               Stories about craft, cities and the people who make every Bureau27 garment.
             </p>
-          </div>
+          </FramerReveal>
         </div>
 
         {/* Featured Latest Story Section */}
-        <div className="border border-[#ece8e1]/15 bg-[#141413] group overflow-hidden">
+        <FramerReveal delay={0.22} yOffset={32}>
+          <div className="border border-[#ece8e1]/15 bg-[#141413] group overflow-hidden">
           <Link
             href={`/journal/${featuredStory.slug}`}
             className="grid grid-cols-1 lg:grid-cols-12 gap-8 p-6 sm:p-10"
@@ -123,10 +131,11 @@ export default function JournalPage() {
               </div>
             </div>
           </Link>
-        </div>
+          </div>
+        </FramerReveal>
 
         {/* All Stories Archive: Full-width Editorial List Rows */}
-        <div className="space-y-8 pt-8">
+        <FramerReveal delay={0.28} yOffset={32} className="space-y-8 pt-8">
           <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10">
             (ALL STORIES)
           </div>
@@ -178,7 +187,7 @@ export default function JournalPage() {
               );
             })}
           </div>
-        </div>
+        </FramerReveal>
 
       </div>
     </div>
