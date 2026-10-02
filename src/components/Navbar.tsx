@@ -24,13 +24,13 @@ export default function Navbar() {
   return (
     <>
       {/* Absolute / Fixed Brand Logo on Top Center */}
-      <div className="fixed top-6 sm:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
+      <div className="fixed top-5 sm:top-7 md:top-8 left-1/2 -translate-x-1/2 z-50 pointer-events-auto">
         <Link 
           href="/" 
-          className="block text-[#ece8e1] select-none drop-shadow-md cursor-pointer"
+          className="block text-[#ece8e1] select-none drop-shadow-lg cursor-pointer"
           aria-label="Pandora Visuals Home"
         >
-          <PandoraLogo className="h-7 sm:h-9 md:h-10 w-auto block select-none" />
+          <PandoraLogo className="h-10 sm:h-14 md:h-16 lg:h-20 w-auto block select-none" />
         </Link>
       </div>
 
