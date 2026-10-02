@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { EditableCard } from '@/types/card';
@@ -12,12 +12,30 @@ interface ProductCardProps {
   index?: number;
 }
 
-export default function ProductCard({ card, index }: ProductCardProps) {
+export default function ProductCard({ card, index = 0 }: ProductCardProps) {
   const { addItem } = useCart();
-  const itemCode = card.metadata?.itemNumber || ((index ?? 0) + 1).toString().padStart(3, '0');
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Parse price number
+  const itemCode = card.metadata?.itemNumber || (index + 1).toString().padStart(3, '0');
   const numericPrice = card.price ? parseFloat(card.price.replace(/[^0-9.]/g, '')) || 0 : 0;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -29,16 +47,29 @@ export default function ProductCard({ card, index }: ProductCardProps) {
       priceNumber: numericPrice,
       image: card.image,
       size: card.metadata?.sizes?.[0] || 'M',
-      colorway: card.metadata?.colorway
+      colorway: card.metadata?.colorway,
     });
   };
 
-  const productUrl = card.ctaLink && card.ctaLink !== '#' 
-    ? card.ctaLink 
-    : `/shop/${card.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+  const productUrl =
+    card.ctaLink && card.ctaLink !== '#'
+      ? card.ctaLink
+      : `/shop/${card.title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+  const staggerDelay = (index % 4) * 0.08;
 
   return (
-    <div className="group flex flex-col space-y-3">
+    <div
+      ref={cardRef}
+      className="group flex flex-col space-y-3 perspective-1000 will-change-transform"
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible
+          ? 'rotateX(0deg) translateY(0)'
+          : 'rotateX(20deg) translateY(50px)',
+        transition: `opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}s`,
+      }}
+    >
       {/* Top Header Row: Code & Price */}
       <div className="flex items-center justify-between text-xs font-mono tracking-wider text-[#8c8880] pb-1 border-b border-[#ece8e1]/10">
         <span className="text-[#ece8e1]">{itemCode}</span>
@@ -71,7 +102,7 @@ export default function ProductCard({ card, index }: ProductCardProps) {
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 space-y-2">
           <button
             onClick={handleQuickAdd}
-            className="w-full bg-[#ff3d17] text-[#0c0c0b] font-mono text-xs font-bold uppercase tracking-widest py-2.5 px-3 flex items-center justify-center gap-1.5 hover:bg-[#e0320f] transition-colors shadow-lg"
+            className="w-full bg-[#ff3d17] text-[#0c0c0b] font-mono text-xs font-bold uppercase tracking-widest py-2.5 px-3 flex items-center justify-center gap-1.5 hover:bg-[#e0320f] transition-colors shadow-lg cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>QUICK ADD TO BAG</span>

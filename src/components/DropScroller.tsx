@@ -1,23 +1,96 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCards } from '@/context/CardsContext';
-import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
+import TextScramble from './TextScramble';
 
 export default function DropScroller() {
   const { sectionCards, loading } = useCards('home-drop');
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
 
-  const scroll = (direction: 'left' | 'right') => {
-    if (!scrollContainerRef.current) return;
-    const scrollAmount = 450;
-    scrollContainerRef.current.scrollBy({
-      left: direction === 'left' ? -scrollAmount : scrollAmount,
-      behavior: 'smooth'
-    });
-  };
+  const [maxScrollDistance, setMaxScrollDistance] = useState(2000);
+  const [currentTranslateX, setCurrentTranslateX] = useState(0);
+  const [velocitySkew, setVelocitySkew] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Measure track scroll width vs viewport width
+  useEffect(() => {
+    const calculateDistance = () => {
+      if (!trackRef.current || !sectionRef.current) return;
+      const trackWidth = trackRef.current.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      const distance = Math.max(trackWidth - viewportWidth + 80, 0);
+      setMaxScrollDistance(distance);
+      setIsMobile(viewportWidth < 810);
+    };
+
+    calculateDistance();
+    const resizeObserver = new ResizeObserver(calculateDistance);
+    if (trackRef.current) resizeObserver.observe(trackRef.current);
+    window.addEventListener('resize', calculateDistance);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', calculateDistance);
+    };
+  }, [sectionCards]);
+
+  // Scroll listener for sticky pinning, progress scrubbing, and velocity skew
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    let lastTime = performance.now();
+    let skewDecayTimeout: NodeJS.Timeout;
+
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const now = performance.now();
+      const currentScrollY = window.scrollY;
+
+      // Scroll delta & velocity
+      const dt = Math.max(now - lastTime, 16);
+      const dy = currentScrollY - lastScrollY;
+      const velocity = (dy / dt) * 1000; // pixels per second
+
+      lastScrollY = currentScrollY;
+      lastTime = now;
+
+      // When section is in view / pinning
+      // Section starts pinning when top reaches 0, ends when bottom reaches window.innerHeight
+      const totalScrollableHeight = sectionRef.current.offsetHeight - window.innerHeight;
+      if (totalScrollableHeight > 0) {
+        const scrolledIntoSection = -rect.top;
+        const progress = Math.min(Math.max(scrolledIntoSection / totalScrollableHeight, 0), 1);
+        const targetX = progress * maxScrollDistance;
+        setCurrentTranslateX(targetX);
+
+        // Calculate velocity skew
+        // Slower or faster skew clamped between -6 and +6 degrees
+        const rawSkew = Math.max(Math.min(velocity / 240, 6), -6);
+        setVelocitySkew(-rawSkew);
+
+        // Smoothly decay skew back to 0 when scroll ceases
+        clearTimeout(skewDecayTimeout);
+        skewDecayTimeout = setTimeout(() => {
+          setVelocitySkew(0);
+        }, 120);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(skewDecayTimeout);
+    };
+  }, [maxScrollDistance]);
+
+  const looksCount = (sectionCards.length || 8).toString().padStart(2, '0');
 
   if (loading && sectionCards.length === 0) {
     return (
@@ -28,104 +101,108 @@ export default function DropScroller() {
     );
   }
 
-  const looksCount = sectionCards.length.toString().padStart(2, '0');
-
   return (
-    <section className="py-20 sm:py-28 border-b border-[#ece8e1]/10 bg-[#0c0c0b] overflow-hidden">
-      {/* Top Header */}
-      <div className="max-w-[1720px] mx-auto px-4 sm:px-8 flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-        <div>
-          <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-2">
-            SEASON COLLECTION
+    <section
+      ref={sectionRef}
+      className="relative w-full bg-[#0c0c0b] border-b border-[#ece8e1]/10"
+      style={{
+        height: `calc(${maxScrollDistance}px + 100vh)`,
+      }}
+    >
+      {/* Sticky Full-Viewport Window */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center gap-6 sm:gap-10 py-6 sm:py-10">
+        {/* Top Header Bar */}
+        <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-12 flex justify-between items-end gap-6 select-none z-10">
+          <div>
+            <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-1">
+              (02) — RUNWAY ARCHIVE
+            </div>
+            <h2 className="font-anton text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
+              THE DROP — SS27
+            </h2>
           </div>
-          <h2 className="font-anton text-5xl sm:text-7xl lg:text-8xl tracking-tight text-[#ece8e1]">
-            THE DROP — SS27
-          </h2>
-        </div>
 
-        <div className="flex items-center space-x-6 text-xs font-mono tracking-widest text-[#8c8880]">
-          <span>SCROLL ⟶ {looksCount} LOOKS</span>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => scroll('left')}
-              className="w-10 h-10 border border-[#ece8e1]/20 flex items-center justify-center hover:border-[#ff3d17] hover:text-[#ff3d17] transition-colors"
-              aria-label="Previous Look"
-            >
-              <ArrowLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => scroll('right')}
-              className="w-10 h-10 border border-[#ece8e1]/20 flex items-center justify-center hover:border-[#ff3d17] hover:text-[#ff3d17] transition-colors"
-              aria-label="Next Look"
-            >
-              <ArrowRight className="w-4 h-4" />
-            </button>
+          <div className="flex items-center space-x-3 text-xs font-mono tracking-widest text-[#8c8880] whitespace-nowrap pb-2">
+            <span>SCROLL ⟶</span>
+            <TextScramble text={`${looksCount} LOOKS`} className="text-[#ff3d17] font-bold" />
           </div>
         </div>
-      </div>
 
-      {/* Horizontal Carousel Track */}
-      <div
-        ref={scrollContainerRef}
-        className="flex space-x-6 overflow-x-auto no-scrollbar px-4 sm:px-8 pb-8 pt-2 scroll-smooth"
-      >
-        {sectionCards.map((card, index) => {
-          const itemNum = card.metadata?.itemNumber || (index + 1).toString().padStart(2, '0');
-          return (
-            <div
-              key={card.id}
-              className="flex-none w-[320px] sm:w-[420px] lg:w-[460px] group flex flex-col space-y-4"
-            >
-              {/* Image Frame with Badge */}
-              <div className="relative aspect-[3/4] w-full bg-[#171716] overflow-hidden border border-[#ece8e1]/10">
-                <span className="absolute top-4 left-4 z-10 bg-[#ff3d17] text-[#0c0c0b] text-[11px] font-mono font-bold px-2 py-1 tracking-wider">
-                  {itemNum}
-                </span>
+        {/* Scrubbing Horizontal Track */}
+        <div
+          ref={trackRef}
+          className="flex gap-5 sm:gap-8 px-6 sm:px-12 w-max will-change-transform"
+          style={{
+            transform: `translateX(-${currentTranslateX}px)`,
+            transition: 'transform 0.08s linear',
+          }}
+        >
+          {sectionCards.map((card, index) => {
+            const itemNum = card.metadata?.itemNumber || (index + 1).toString().padStart(2, '0');
+            const cardWidth = isMobile ? '270px' : '440px';
 
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  sizes="(max-width: 768px) 320px, 460px"
-                />
+            return (
+              <div
+                key={card.id}
+                className="flex-none flex flex-col gap-3.5 group select-none will-change-transform"
+                style={{
+                  width: cardWidth,
+                  transform: `skewX(${velocitySkew.toFixed(2)}deg)`,
+                  transition: 'transform 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                {/* Image Container with Badge */}
+                <div className="relative w-full aspect-[3/4] bg-[#171716] overflow-hidden border border-[#ece8e1]/10">
+                  <span className="absolute top-3 left-3 z-10 bg-[#ff3d17] text-[#0c0c0b] text-[11px] font-mono font-bold px-2 py-0.5 tracking-wider">
+                    {itemNum}
+                  </span>
 
-                {/* Hover CTA Overlay */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    sizes="(max-width: 810px) 270px, 440px"
+                    priority={index < 2}
+                  />
+
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
+                    <Link
+                      href={card.ctaLink || '/shop'}
+                      className="w-full bg-[#ece8e1] text-[#0c0c0b] font-mono text-xs uppercase tracking-widest font-bold py-3 px-4 flex items-center justify-between hover:bg-[#ff3d17] transition-colors"
+                    >
+                      <span>{card.ctaText || 'SHOP THE LOOK'}</span>
+                      <ArrowUpRight className="w-4 h-4" />
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Card Meta Row */}
+                <div className="flex items-baseline justify-between pt-1">
+                  <div>
+                    <h3 className="font-anton text-xl sm:text-2xl tracking-wide text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors leading-tight">
+                      {card.title}
+                    </h3>
+                    {card.description && (
+                      <p className="text-xs font-mono text-[#8c8880] tracking-wider uppercase mt-1">
+                        {card.description}
+                      </p>
+                    )}
+                  </div>
+
                   <Link
                     href={card.ctaLink || '/shop'}
-                    className="w-full bg-[#ece8e1] text-[#0c0c0b] font-mono text-xs uppercase tracking-widest font-bold py-3 px-4 flex items-center justify-between hover:bg-[#ff3d17] transition-colors"
+                    className="text-xs font-mono tracking-wider text-[#8c8880] group-hover:text-[#ff3d17] flex items-center gap-1 transition-colors uppercase"
                   >
-                    <span>{card.ctaText || 'SHOP THE LOOK'}</span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <span>VIEW</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
-
-              {/* Look Info Bar */}
-              <div className="flex items-baseline justify-between pt-1">
-                <div>
-                  <h3 className="font-anton text-2xl tracking-wide text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors">
-                    {card.title}
-                  </h3>
-                  {card.description && (
-                    <div className="text-xs font-mono text-[#8c8880] tracking-wider uppercase mt-0.5">
-                      {card.description}
-                    </div>
-                  )}
-                </div>
-
-                <Link
-                  href={card.ctaLink || '/shop'}
-                  className="text-xs font-mono tracking-wider text-[#8c8880] group-hover:text-[#ff3d17] flex items-center gap-1 transition-colors uppercase"
-                >
-                  <span className="hidden sm:inline">EXPLORE</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

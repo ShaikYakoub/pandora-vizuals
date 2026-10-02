@@ -3,6 +3,7 @@ import { Anton, Instrument_Serif, JetBrains_Mono, Inter } from 'next/font/google
 import './globals.css';
 import { CardsProvider } from '@/context/CardsContext';
 import { CartProvider } from '@/context/CartContext';
+import SmoothScroll from '@/components/SmoothScroll';
 import Navbar from '@/components/Navbar';
 import CartDrawer from '@/components/CartDrawer';
 import Footer from '@/components/Footer';
@@ -72,10 +73,12 @@ export default function RootLayout({
       <body className="min-h-screen flex flex-col bg-[#0c0c0b] text-[#ece8e1]">
         <CardsProvider>
           <CartProvider>
-            <Navbar />
-            <main className="flex-1 w-full">{children}</main>
-            <CartDrawer />
-            <Footer />
+            <SmoothScroll>
+              <Navbar />
+              <main className="flex-1 w-full">{children}</main>
+              <CartDrawer />
+              <Footer />
+            </SmoothScroll>
           </CartProvider>
         </CardsProvider>
       </body>

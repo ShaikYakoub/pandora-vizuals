@@ -174,3 +174,27 @@ body {
 .word-blur-transition {
   transition: opacity 0.35s ease, filter 0.35s ease, color 0.35s ease;
 }
+
+@keyframes trailFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
