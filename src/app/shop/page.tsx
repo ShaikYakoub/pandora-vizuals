@@ -7,12 +7,14 @@ import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
 
 export default function ShopPage() {
-  const { sectionCards: shopCards } = useCards('shop');
+  const { cards, sectionCards: shopCards } = useCards('shop');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
   const categories = ['ALL', 'OUTERWEAR', 'TAILORING', 'KNITWEAR', 'ACCESSORIES'];
 
-  const filteredCards = shopCards.filter((card) => {
+  const availableCards = shopCards.length > 0 ? shopCards : cards.filter((c) => c.section === 'home-edit' || c.price);
+
+  const filteredCards = availableCards.filter((card) => {
     if (selectedCategory === 'ALL') return true;
     return card.metadata?.category?.toUpperCase() === selectedCategory;
   });

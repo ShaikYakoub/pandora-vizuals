@@ -15,11 +15,11 @@ const TRAIL_IMAGES = [
   'https://framerusercontent.com/images/W41nPdozIWFrp0l6HsSpmAhQj38.jpg?width=600&height=906',
   'https://framerusercontent.com/images/zMHq6UeG6UUOgGTtP0AhTVMSiA.jpg?width=600&height=900',
   'https://framerusercontent.com/images/v6StnbgGcvM2K33ViXLn6WPioQ.jpg?width=600&height=750',
+  'https://framerusercontent.com/images/ZZ83Utg2JYHfYT5n18eWqOVIq4.jpg?width=600&height=900',
+  'https://framerusercontent.com/images/iRsQcqmr5eJsfsuie4S9EwAmA.jpg?width=600&height=840',
   'https://framerusercontent.com/images/GTn9pLq00uE3ZcQhSgcA1qFPNLY.jpg?width=1000&height=1500',
   'https://framerusercontent.com/images/0nLgNHI2I09hUmNIv3HlhqNjrE.jpg?width=1000&height=1500',
   'https://framerusercontent.com/images/o3PRQp77gGJeh1W9vE4vP2dOmBE.jpg?width=1000&height=1497',
-  'https://framerusercontent.com/images/mZnHFEEvP2RtX33sJmhtxQWlFU.jpg?width=1000&height=1500',
-  'https://framerusercontent.com/images/F8nsRHrUNKzR4Mwj0156LySkAA.jpg?width=1000&height=1500',
 ];
 
 export default function ImageTrail() {
@@ -33,13 +33,13 @@ export default function ImageTrail() {
     const id = counterRef.current++;
     const src = TRAIL_IMAGES[imgIndexRef.current % TRAIL_IMAGES.length];
     imgIndexRef.current++;
-    const rotate = (Math.random() * 2 - 1) * 8; // -8 to +8 degrees
+    const rotate = (Math.random() * 2 - 1) * 6; // -6 to +6 degrees natural tilt
 
-    setItems((prev) => [...prev.slice(-9), { id, x, y, rotate, src }]);
+    setItems((prev) => [...prev.slice(-7), { id, x, y, rotate, src }]);
 
     setTimeout(() => {
       setItems((prev) => prev.filter((item) => item.id !== id));
-    }, 900);
+    }, 1100);
   };
 
   useEffect(() => {
@@ -65,7 +65,7 @@ export default function ImageTrail() {
       const dy = y - lastPosRef.current.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist >= 90) {
+      if (dist >= 130) {
         lastPosRef.current = { x, y };
         addPoint(x, y);
       }
@@ -73,22 +73,8 @@ export default function ImageTrail() {
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
 
-    // Touch / mobile fallback interval
-    let autoInterval: NodeJS.Timeout;
-    if (window.matchMedia('(hover: none)').matches) {
-      autoInterval = setInterval(() => {
-        if (!container) return;
-        const rect = container.getBoundingClientRect();
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        const rx = rect.width * (0.2 + Math.random() * 0.6);
-        const ry = rect.height * (0.25 + Math.random() * 0.5);
-        addPoint(rx, ry);
-      }, 800);
-    }
-
     return () => {
       window.removeEventListener('pointermove', handlePointerMove);
-      if (autoInterval) clearInterval(autoInterval);
     };
   }, []);
 
@@ -101,24 +87,22 @@ export default function ImageTrail() {
       {items.map((item) => (
         <div
           key={item.id}
-          className="absolute -translate-x-1/2 -translate-y-1/2 w-[160px] sm:w-[200px] aspect-[3/4] bg-[#171716] p-1.5 shadow-2xl border border-white/10 transition-opacity duration-300"
+          className="absolute pointer-events-none will-change-[transform,opacity] w-[210px] sm:w-[240px] h-[275px] sm:h-[312px] shadow-2xl overflow-hidden"
           style={{
             left: `${item.x}px`,
             top: `${item.y}px`,
-            transform: `translate(-50%, -50%) rotate(${item.rotate}deg)`,
-            animation: 'trailFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            ['--trail-rot' as any]: `${item.rotate}deg`,
+            animation: 'framerTrailReveal 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
           }}
         >
-          <div className="relative w-full h-full overflow-hidden bg-[#0c0c0b]">
-            <Image
-              src={item.src}
-              alt=""
-              fill
-              className="object-cover"
-              sizes="200px"
-              priority={false}
-            />
-          </div>
+          <Image
+            src={item.src}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="240px"
+            priority={false}
+          />
         </div>
       ))}
     </div>

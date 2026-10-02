@@ -3,7 +3,6 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import CursorTracker from '@/components/CursorTracker';
 import ImageTrail from '@/components/ImageTrail';
 import TextScramble from '@/components/TextScramble';
 import ManifestoScroll from '@/components/ManifestoScroll';
@@ -23,30 +22,30 @@ export default function HomePage() {
 
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] flex flex-col">
-      {/* Realtime Cursor Tracker Strip */}
-      <CursorTracker />
-
       {/* Hero Cover Section with Interactive Image Trail */}
-      <section className="relative min-h-[88vh] sm:min-h-[92vh] flex flex-col justify-between px-4 sm:px-8 pt-14 pb-8 border-b border-[#ece8e1]/10 overflow-hidden bg-noise select-none">
+      <section className="relative h-[calc(100vh-64px)] sm:h-[calc(100vh-80px)] min-h-[640px] sm:min-h-[720px] max-h-[1050px] flex flex-col justify-between px-4 sm:px-8 pt-6 pb-6 sm:pb-8 border-b border-[#ece8e1]/10 overflow-hidden bg-noise select-none">
         {/* Interactive Pointer Image Trail */}
         <ImageTrail />
 
         {/* Ambient Subtle Radial Glow */}
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff3d17]/5 rounded-full blur-[140px] pointer-events-none" />
 
-        {/* Top Scramble Label */}
-        <div className="relative z-10 flex items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase">
+        {/* Top Meta Bar */}
+        <div className="relative z-10 flex items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase w-full">
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-[#ff3d17] animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
             <TextScramble text="SS27 — NO SEASON COLLECTION" />
           </div>
-          <div className="hidden sm:block">
-            <TextScramble text="PORTO ATELIER · 41.1579° N, 8.6291° W" />
+          <div className="hidden md:block">
+            PORTO — MARSEILLE — ONLINE
+          </div>
+          <div className="text-[#8c8880]">
+            MOVE YOUR CURSOR
           </div>
         </div>
 
         {/* Center Editorial Quote */}
-        <div className="flex-1 flex items-center justify-center text-center px-4 z-10 my-auto py-12 pointer-events-none">
+        <div className="flex-1 flex items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none">
           <FramerHeading
             text="Garments for people who refuse a season."
             as="h2"
@@ -55,12 +54,26 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Monumental Hero Wordmark */}
-        <div className="w-full max-w-[1720px] mx-auto z-10 pointer-events-none">
-          <h1 className="font-anton text-[21vw] sm:text-[22vw] leading-[0.8] tracking-tighter select-none flex items-baseline justify-center sm:justify-start">
-            <span className="text-[#ece8e1]">BUREAU</span>
-            <span className="text-[#ff3d17]">27</span>
-          </h1>
+        {/* Monumental Hero Wordmark: Full-width Edge-to-Edge SVG */}
+        <div className="w-full z-10 pointer-events-none pb-1">
+          <svg
+            viewBox="0 0 402 92"
+            className="w-full h-auto select-none block overflow-visible"
+            preserveAspectRatio="xMidYMid meet"
+          >
+            <text
+              x="201"
+              y="80"
+              textAnchor="middle"
+              fontSize="102"
+              letterSpacing="-0.01em"
+              className="font-anton select-none"
+              style={{ fontFamily: 'var(--font-anton), Anton, sans-serif' }}
+            >
+              <tspan fill="#ece8e1">BUREAU</tspan>
+              <tspan fill="#ff3d17">27</tspan>
+            </text>
+          </svg>
         </div>
       </section>
 

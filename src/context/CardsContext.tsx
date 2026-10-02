@@ -109,7 +109,12 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
   const getCardsBySection = useCallback(
     (section: string, activeOnly = true) => {
       return cards
-        .filter((c) => c.section === section && (!activeOnly || c.isActive))
+        .filter((c) => {
+          if (section === 'shop') {
+            return (c.section === 'shop' || c.section === 'home-edit') && (!activeOnly || c.isActive);
+          }
+          return c.section === section && (!activeOnly || c.isActive);
+        })
         .sort((a, b) => a.order - b.order);
     },
     [cards]
