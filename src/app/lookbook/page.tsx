@@ -130,10 +130,10 @@ export default function LookbookPage() {
 
                 <div className="lg:col-span-4 flex lg:justify-end">
                   <Link
-                    href={ch.link}
+                    href="/shop"
                     className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest bg-[#ece8e1] text-[#0c0c0b] font-bold px-6 py-4 hover:bg-[#ff3d17] transition-colors"
                   >
-                    <span>EXPLORE PIECE</span>
+                    <span>VIEW WORK ARCHIVE</span>
                     <ArrowUpRight className="w-4 h-4" />
                   </Link>
                 </div>

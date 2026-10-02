@@ -2,9 +2,7 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useCards } from '@/context/CardsContext';
-import { ArrowUpRight } from 'lucide-react';
 import TextScramble from './TextScramble';
 
 export default function DropScroller() {
@@ -166,16 +164,8 @@ export default function DropScroller() {
                     priority={index < 2}
                   />
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-5">
-                    <Link
-                      href={card.ctaLink || '/shop'}
-                      className="w-full bg-[#ece8e1] text-[#0c0c0b] font-mono text-xs uppercase tracking-widest font-bold py-3 px-4 flex items-center justify-between hover:bg-[#ff3d17] transition-colors"
-                    >
-                      <span>{card.ctaText || 'SHOP THE LOOK'}</span>
-                      <ArrowUpRight className="w-4 h-4" />
-                    </Link>
-                  </div>
+                  {/* Subtle Vignette on Hover */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
 
                 {/* Card Meta Row */}
@@ -190,14 +180,9 @@ export default function DropScroller() {
                       </p>
                     )}
                   </div>
-
-                  <Link
-                    href={card.ctaLink || '/shop'}
-                    className="text-xs font-mono tracking-wider text-[#8c8880] group-hover:text-[#ff3d17] flex items-center gap-1 transition-colors uppercase"
-                  >
-                    <span>VIEW</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Link>
+                  <span className="text-xs font-mono tracking-wider text-[#8c8880] uppercase">
+                    {card.metadata?.category || 'SS27'}
+                  </span>
                 </div>
               </div>
             );

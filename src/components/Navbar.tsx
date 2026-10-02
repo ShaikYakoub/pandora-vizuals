@@ -3,11 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useCart } from '@/context/CartContext';
-
 export default function Navbar() {
   const pathname = usePathname();
-  const { totalCount, openCart } = useCart();
 
   const navLinks = [
     { label: 'HOME', href: '/' },
@@ -32,18 +29,6 @@ export default function Navbar() {
         >
           BUREAU27
         </Link>
-      </div>
-
-      {/* Fixed Shopping Bag on Top Right */}
-      <div className="fixed top-6 sm:top-8 right-6 sm:right-10 z-50 pointer-events-auto">
-        <button
-          onClick={openCart}
-          className="group flex items-center space-x-2 text-xs font-mono tracking-widest text-[#ece8e1] hover:text-[#ff3d17] transition-all py-2 px-3.5 rounded-full bg-[#0c0c0b]/80 backdrop-blur-md border border-[#ece8e1]/15 shadow-lg cursor-pointer"
-          aria-label="Open Shopping Bag"
-        >
-          <span className="w-2 h-2 rounded-full bg-[#ff3d17] animate-pulse" />
-          <span className="font-bold">BAG ({totalCount})</span>
-        </button>
       </div>
 
       {/* Absolute / Fixed Floating Navigation Dock at Bottom */}

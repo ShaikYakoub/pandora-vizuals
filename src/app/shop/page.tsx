@@ -27,9 +27,9 @@ export default function ShopPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Shop) — SS27 / Seasonless</span>
+              <span>(Work) — SS27 / Seasonless Archive</span>
             </div>
-            <div>{filteredCards.length.toString().padStart(2, '0')} PIECES — SHIPS WORLDWIDE</div>
+            <div>{filteredCards.length.toString().padStart(2, '0')} EDITIONS — ATELIER ARCHIVE</div>
           </div>
         </FramerReveal>
 
@@ -37,7 +37,7 @@ export default function ShopPage() {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-[#ece8e1]/10">
           <div>
             <FramerHeading
-              text="THE SHOP"
+              text="THE WORK"
               as="h1"
               className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
             />
@@ -45,7 +45,7 @@ export default function ShopPage() {
 
           <FramerReveal delay={0.15} className="space-y-5 lg:text-right max-w-xl">
             <p className="text-xs sm:text-sm font-sans text-[#8c8880] leading-relaxed">
-              Every piece is cut in small runs in Porto and stays online until the last one is gone. No markdowns, no seasons.
+              Every piece is developed in small editions in Porto. Exploring form, materiality, and proportion without seasonal constraints.
             </p>
 
             {/* Category Filter Tabs */}

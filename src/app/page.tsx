@@ -102,7 +102,7 @@ export default function HomePage() {
               href="/shop"
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-[#ece8e1] border border-[#ece8e1]/20 px-6 py-3.5 hover:border-[#ff3d17] hover:text-[#ff3d17] transition-all bg-[#171716]"
             >
-              <span>SHOP ALL PIECES</span>
+              <span>VIEW ALL WORK</span>
               <ArrowUpRight className="w-4 h-4" />
             </Link>
           </div>

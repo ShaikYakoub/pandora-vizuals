@@ -90,7 +90,7 @@ export default function Footer() {
               Index
             </div>
             <Link href="/shop" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              Shop
+              Work
             </Link>
             <Link href="/lookbook" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
               Lookbook
