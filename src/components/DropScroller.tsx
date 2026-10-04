@@ -3,7 +3,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
-import TextScramble from './TextScramble';
 
 export default function DropScroller() {
   const { sectionCards, loading } = useCards('home-drop');
@@ -110,20 +109,10 @@ export default function DropScroller() {
       {/* Sticky Full-Viewport Window */}
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center gap-6 sm:gap-10 py-6 sm:py-10">
         {/* Top Header Bar */}
-        <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-12 flex justify-between items-end gap-6 select-none z-10">
-          <div>
-            <div className="text-xs font-mono tracking-widest text-[#8c8880] uppercase mb-1">
-              (02) — PRODUCTION REELS & HIGHLIGHTS
-            </div>
-            <h2 className="font-anton text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
-              RECENT WORKS
-            </h2>
-          </div>
-
-          <div className="flex items-center space-x-3 text-xs font-mono tracking-widest text-[#8c8880] whitespace-nowrap pb-2">
-            <span>SCROLL ⟶</span>
-            <TextScramble text={`${looksCount} PROJECTS`} className="text-[#ff3d17] font-bold" />
-          </div>
+        <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-12 select-none z-10">
+          <h2 className="font-anton text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
+            RECENT WORKS
+          </h2>
         </div>
 
         {/* Scrubbing Horizontal Track */}
@@ -136,25 +125,20 @@ export default function DropScroller() {
           }}
         >
           {sectionCards.map((card, index) => {
-            const itemNum = card.metadata?.itemNumber || (index + 1).toString().padStart(2, '0');
             const cardWidth = isMobile ? '270px' : '440px';
 
             return (
               <div
                 key={card.id}
-                className="flex-none flex flex-col gap-3.5 group select-none will-change-transform"
+                className="flex-none group select-none will-change-transform"
                 style={{
                   width: cardWidth,
                   transform: `skewX(${velocitySkew.toFixed(2)}deg)`,
                   transition: 'transform 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
-                {/* Image Container with Badge */}
+                {/* Image Container */}
                 <div className="relative w-full aspect-[3/4] bg-[#171716] overflow-hidden border border-[#ece8e1]/10">
-                  <span className="absolute top-3 left-3 z-10 bg-[#ff3d17] text-[#0c0c0b] text-[11px] font-mono font-bold px-2 py-0.5 tracking-wider">
-                    {itemNum}
-                  </span>
-
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -166,23 +150,6 @@ export default function DropScroller() {
 
                   {/* Subtle Vignette on Hover */}
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                </div>
-
-                {/* Card Meta Row */}
-                <div className="flex items-baseline justify-between pt-1">
-                  <div>
-                    <h3 className="font-anton text-xl sm:text-2xl tracking-wide text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors leading-tight">
-                      {card.title}
-                    </h3>
-                    {card.description && (
-                      <p className="text-xs font-mono text-[#8c8880] tracking-wider uppercase mt-1">
-                        {card.description}
-                      </p>
-                    )}
-                  </div>
-                  <span className="text-xs font-mono tracking-wider text-[#8c8880] uppercase">
-                    {card.metadata?.category || 'REELS'}
-                  </span>
                 </div>
               </div>
             );

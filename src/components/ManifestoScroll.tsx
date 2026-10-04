@@ -4,7 +4,6 @@ import React, { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
-import TextScramble from './TextScramble';
 
 interface TextItem {
   type: 'word';
@@ -65,12 +64,36 @@ const MANIFESTO_ITEMS: ManifestoItem[] = [
   { type: 'word', text: 'inspire.', isAccent: true },
 ];
 
-export default function ManifestoScroll() {
+interface ManifestoScrollProps {
+  ctaText?: string;
+  ctaLink?: string;
+  isStandalone?: boolean;
+}
+
+export default function ManifestoScroll({
+  ctaText = 'READ OUR STORY',
+  ctaLink = '/about',
+  isStandalone = false,
+}: ManifestoScrollProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
+    if (isStandalone) {
+      itemRefs.current.forEach((el, index) => {
+        if (!el) return;
+        el.style.filter = 'none';
+        el.style.transform = 'none';
+        el.style.opacity = '1';
+        const item = MANIFESTO_ITEMS[index];
+        if (item.type === 'word' && item.isAccent) {
+          el.style.color = '#ff3d17';
+        }
+      });
+      return;
+    }
+
     let animationFrameId: number;
 
     const calculateScroll = () => {
@@ -141,19 +164,13 @@ export default function ManifestoScroll() {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 sm:py-36 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-[#0c0c0b] overflow-hidden"
+      className={`relative w-full ${
+        isStandalone
+          ? 'py-8 sm:py-16'
+          : 'py-24 sm:py-36 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-[#0c0c0b] overflow-hidden'
+      }`}
     >
       <div className="max-w-[1720px] mx-auto space-y-16">
-        {/* Label Row */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-6 border-b border-[#ece8e1]/10 gap-2">
-          <div className="flex items-center space-x-2">
-            <span className="text-[#ff3d17] font-bold">(01)</span>
-            <TextScramble text="— MANIFESTO" />
-          </div>
-          <div>
-            <TextScramble text="EST. 2019 — VISUAL PRODUCTION" />
-          </div>
-        </div>
 
         {/* Scroll Text Reveal Typography - Smaller, Better, with Inline Images */}
         <div className="max-w-5xl mx-auto text-center px-2 sm:px-4">
@@ -173,9 +190,9 @@ export default function ManifestoScroll() {
                       item.isAccent ? 'italic font-normal' : 'font-normal'
                     }`}
                     style={{
-                      filter: 'blur(7px)',
-                      transform: 'translateY(0.12em)',
-                      opacity: 0.12,
+                      filter: isStandalone ? 'none' : 'blur(7px)',
+                      transform: isStandalone ? 'none' : 'translateY(0.12em)',
+                      opacity: isStandalone ? 1 : 0.12,
                       color: item.isAccent ? '#ff3d17' : '#ece8e1',
                     }}
                   >
@@ -193,9 +210,9 @@ export default function ManifestoScroll() {
                   }}
                   className="inline-flex items-center justify-center align-middle mx-1.5 sm:mx-2.5 md:mx-3 my-1 relative overflow-hidden rounded-none border border-[#ece8e1]/30 hover:border-[#ff3d17] transition-[filter,opacity,transform,border-color] duration-300 ease-out w-14 sm:w-20 md:w-24 lg:w-28 h-7 sm:h-9 md:h-11 lg:h-12 shadow-[0_6px_20px_rgba(0,0,0,0.6)] group select-none cursor-pointer will-change-[transform,opacity,filter]"
                   style={{
-                    filter: 'blur(8px)',
-                    transform: 'translateY(0.12em) scale(0.90)',
-                    opacity: 0.15,
+                    filter: isStandalone ? 'none' : 'blur(8px)',
+                    transform: isStandalone ? 'none' : 'translateY(0.12em) scale(0.90)',
+                    opacity: isStandalone ? 1 : 0.15,
                   }}
                 >
                   <Image
@@ -222,16 +239,16 @@ export default function ManifestoScroll() {
         <div className="max-w-3xl mx-auto flex flex-col items-center text-center pt-8 sm:pt-10 border-t border-[#ece8e1]/10">
           <div>
             <Link
-              href="/about"
+              href={ctaLink}
               className="group relative inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
-              aria-label="Read Our Story"
+              aria-label={ctaText}
             >
               {/* Camera Shutter Indicator Dot */}
               <span className="w-2 h-2 rounded-full bg-[#ff3d17] group-hover:bg-[#0c0c0b] shadow-[0_0_8px_#ff3d17] group-hover:shadow-none transition-colors shrink-0" />
 
               {/* Shutter Label in Dune Font */}
               <span className="font-dune text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">
-                READ OUR STORY
+                {ctaText}
               </span>
 
               {/* Directional Shutter Arrow */}

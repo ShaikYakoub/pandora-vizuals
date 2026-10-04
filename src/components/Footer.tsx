@@ -1,201 +1,204 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import PandoraLogo from './PandoraLogo';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-  const wordmarkRef = useRef<HTMLDivElement>(null);
-  const [isInView, setIsInView] = useState(false);
+  const [timeString, setTimeString] = useState<string>('16:00:00');
 
-  // Exact Framer in-view trigger: threshold 0.2, animateOnce: false
   useEffect(() => {
-    const el = wordmarkRef.current;
-    if (!el) return;
+    const updateTime = () => {
+      const now = new Date();
+      setTimeString(
+        now.toLocaleTimeString('en-GB', {
+          hour12: false,
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          timeZone: 'Europe/London',
+        })
+      );
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          setIsInView(entry.isIntersecting);
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
   }, []);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubscribed(true);
-    setEmail('');
-    setTimeout(() => setSubscribed(false), 5000);
-  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <footer className="w-full bg-[#ece8e1] text-[#0c0c0b] pt-[120px] pb-28 sm:pb-32 px-6 sm:px-8 select-none overflow-hidden flex flex-col items-center gap-20">
-      {/* Top Container: Newsletter & Links Columns */}
-      <div className="w-full max-w-[1600px] flex flex-col lg:flex-row justify-between gap-12 lg:gap-16">
-        {/* Newsletter Column */}
-        <div className="w-full lg:max-w-[520px] flex flex-col gap-6">
-          <div className="font-mono text-xs tracking-widest text-[#8c8880] uppercase">
-            Newsletter — Cinematic reels, case studies & updates
-          </div>
-          <h3 className="font-serif-italic text-3xl sm:text-4xl lg:text-[44px] text-[#0c0c0b] leading-[1.08] tracking-tight">
-            Visual stories land in your inbox before they premiere online.
-          </h3>
+    <footer className="w-full bg-[#000000] p-2 sm:p-3 lg:p-4 select-none">
+      {/* Curved Container Card with black-to-white monochrome luminous gradient background */}
+      <div className="relative w-full rounded-[24px] sm:rounded-[32px] overflow-hidden bg-[#090909] text-white flex flex-col justify-between border border-white/10">
+        {/* Background: Deep cinematic black graduating to radiant monochrome white glow at bottom */}
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          <div className="absolute inset-0 bg-[#090909]" />
+          
+          {/* Luminous bottom silver-white radial horizon */}
+          <div 
+            className="absolute -bottom-20 sm:-bottom-32 left-1/2 -translate-x-1/2 w-[160%] sm:w-[130%] h-[75%] pointer-events-none"
+            style={{
+              background: 'radial-gradient(ellipse 60% 50% at 50% 100%, rgba(255, 255, 255, 0.32) 0%, rgba(215, 220, 230, 0.12) 40%, rgba(9, 9, 9, 0) 80%)',
+            }}
+          />
 
-          {subscribed ? (
-            <div className="h-14 flex items-center px-4 bg-[#0c0c0b] text-[#ece8e1] font-mono text-xs tracking-wider">
-              ✓ ACCESS GRANTED. YOU ARE ON THE PANDORA VISUALS DISPATCH LIST.
+          {/* Ambient vertical linear glow from bottom */}
+          <div className="absolute inset-0 bg-gradient-to-t from-white/[0.08] via-transparent to-transparent pointer-events-none" />
+
+          {/* Film grain noise overlay */}
+          <div className="absolute inset-0 bg-noise opacity-25 pointer-events-none" />
+        </div>
+
+        {/* Top Section: Three Columns (Navigation, Social, Legals) */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 pt-16 sm:pt-24 lg:pt-28 pb-16 sm:pb-24">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-10 sm:gap-14 lg:gap-24">
+            
+            {/* Column 1: Navigation */}
+            <div className="flex flex-col gap-4 sm:gap-5">
+              <span className="text-white/60 text-xs sm:text-sm font-medium tracking-wide">
+                Navigation
+              </span>
+              <nav className="flex flex-col gap-3 sm:gap-4" aria-label="Footer Navigation">
+                <Link
+                  href="/about"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  About
+                </Link>
+                <Link
+                  href="/shop"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Works
+                </Link>
+                <Link
+                  href="/lookbook"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Services
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Contact
+                </Link>
+              </nav>
             </div>
-          ) : (
-            <form onSubmit={handleSubscribe} className="w-full max-w-[520px] h-14 flex items-center">
-              {/* Input with bottom border */}
-              <div className="flex-1 h-full border-b border-[#0c0c0b] flex items-center pr-4">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="your@email.com"
-                  required
-                  className="w-full h-full bg-transparent font-mono text-[15px] placeholder-[#8c8880] text-[#0c0c0b] outline-none"
-                />
+
+            {/* Column 2: Social */}
+            <div className="flex flex-col gap-4 sm:gap-5">
+              <span className="text-white/60 text-xs sm:text-sm font-medium tracking-wide">
+                Social
+              </span>
+              <div className="flex flex-col gap-3 sm:gap-4">
+                <a
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Twitter(X)
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Instagram
+                </a>
+                <a
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  YouTube
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  LinkedIn
+                </a>
               </div>
-              {/* Attached Black Subscribe Button */}
-              <button
-                type="submit"
-                className="h-full px-[22px] bg-[#0c0c0b] text-[#ece8e1] font-mono text-xs uppercase tracking-wider flex items-center gap-2.5 hover:bg-[#ff3d17] transition-colors shrink-0 group cursor-pointer"
-              >
-                <span>Subscribe</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </form>
-          )}
-        </div>
+            </div>
 
-        {/* Navigation Columns */}
-        <div className="flex-1 flex flex-col sm:flex-row justify-start lg:justify-end gap-10 sm:gap-16 lg:gap-24">
-          {/* INDEX */}
-          <div className="flex flex-col gap-3 min-w-[100px]">
-            <div className="font-mono text-xs tracking-widest text-[#8c8880] uppercase mb-1">
-              Index
+            {/* Column 3: Legals */}
+            <div className="flex flex-col gap-4 sm:gap-5 col-span-2 md:col-span-1">
+              <span className="text-white/60 text-xs sm:text-sm font-medium tracking-wide">
+                Legals
+              </span>
+              <div className="flex flex-col gap-3 sm:gap-4">
+                <Link
+                  href="/contact"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Privacy Policy
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-xl sm:text-2xl lg:text-[28px] font-medium text-white/80 hover:text-white transition-colors duration-200 tracking-tight inline-block w-fit"
+                >
+                  Term of Service
+                </Link>
+              </div>
             </div>
-            <Link href="/shop" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              Work
-            </Link>
-            <Link href="/lookbook" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              Lookbook
-            </Link>
-            <Link href="/journal" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              Journal
-            </Link>
-            <Link href="/about" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              About
-            </Link>
-            <Link href="/contact" className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors">
-              Contact
-            </Link>
-          </div>
 
-          {/* FOLLOW */}
-          <div className="flex flex-col gap-3 min-w-[100px]">
-            <div className="font-mono text-xs tracking-widest text-[#8c8880] uppercase mb-1">
-              Follow
-            </div>
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors"
-            >
-              Instagram
-            </a>
-            <a
-              href="https://tiktok.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors"
-            >
-              TikTok
-            </a>
-            <a
-              href="https://pinterest.com"
-              target="_blank"
-              rel="noreferrer"
-              className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors"
-            >
-              Pinterest
-            </a>
-          </div>
-
-          {/* STUDIO */}
-          <div className="flex flex-col gap-3 min-w-[140px]">
-            <div className="font-mono text-xs tracking-widest text-[#8c8880] uppercase mb-1">
-              Studio
-            </div>
-            <div className="font-sans text-[15px] font-medium text-[#0c0c0b]">
-              Rua das Flores 27
-            </div>
-            <div className="font-sans text-[15px] font-medium text-[#0c0c0b]">
-              4050-265 Porto
-            </div>
-            <a
-              href="mailto:hello@pandoravisuals.studio"
-              className="font-sans text-[15px] font-medium text-[#0c0c0b] hover:text-[#ff3d17] transition-colors"
-            >
-              Write to us
-            </a>
           </div>
         </div>
-      </div>
 
-      {/* Monumental Full-Width Wordmark */}
-      <div
-        ref={wordmarkRef}
-        style={{
-          perspective: '1200px',
-          width: '100%',
-        }}
-        className="w-full flex justify-center overflow-hidden px-2 sm:px-4 my-4"
-      >
-        <div
-          style={{
-            transform: isInView
-              ? 'translateY(0px) rotateX(0deg) skewY(0deg)'
-              : 'translateY(160px) rotateX(-50deg) skewY(6deg)',
-            opacity: isInView ? 1 : 0,
-            transformOrigin: 'bottom center',
-            transition: 'transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1)',
-            willChange: 'transform, opacity',
-            width: '100%',
-          }}
-          className="flex justify-center w-full"
-        >
-          <PandoraLogo className="w-full h-auto text-[#0c0c0b] select-none block drop-shadow-sm" />
+        {/* Bottom Section: Info Row + Monumental Wordmark */}
+        <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 flex flex-col gap-8 sm:gap-12">
+          
+          {/* Middle Meta Row: Copyright | Studio Clock | Back to Top */}
+          <div className="w-full flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-white/10 text-xs sm:text-sm text-white/65 font-sans">
+            {/* Copyright */}
+            <p className="order-1">
+              © {new Date().getFullYear()} Pandora Visuals. All rights reserved.
+            </p>
+
+            {/* Live Clock */}
+            <div className="order-3 sm:order-2 flex items-center gap-1.5 font-mono text-xs sm:text-sm tracking-wider text-white/70">
+              <span className="text-white/50">London →</span>
+              <span className="tabular-nums font-medium text-white" suppressHydrationWarning>
+                {timeString}
+              </span>
+            </div>
+
+            {/* Back to top button in crisp white/silver */}
+            <button
+              onClick={scrollToTop}
+              className="order-2 sm:order-3 text-white/80 hover:text-white transition-colors duration-200 font-medium inline-flex items-center gap-1 cursor-pointer group"
+              aria-label="Back to top"
+            >
+              <span>Back to top</span>
+              <ArrowUp className="w-3.5 h-3.5 group-hover:-translate-y-0.5 transition-transform text-white/90" />
+            </button>
+          </div>
+
+          {/* Monumental Brand Wordmark over the glowing white horizon */}
+          <div className="w-full pt-4 pb-28 sm:pb-32 md:pb-36 overflow-hidden">
+            <Link
+              href="/"
+              className="w-full block select-none group"
+              aria-label="Pandora Vizuals Home"
+            >
+              <PandoraLogo 
+                theme="white"
+                className="w-full h-auto text-white/95 group-hover:text-white transition-all duration-300 drop-shadow-[0_0_45px_rgba(255,255,255,0.4)] group-hover:drop-shadow-[0_0_70px_rgba(255,255,255,0.7)]" 
+              />
+            </Link>
+          </div>
         </div>
-      </div>
-
-      {/* Bottom Bar */}
-      <div className="w-full max-w-[1600px] pt-5 border-t border-[#0c0c0b]/15 flex flex-col sm:flex-row items-start sm:items-center justify-between text-xs font-mono tracking-widest text-[#0c0c0b] uppercase gap-3">
-        <div>© 2026 PANDORA VISUALS. ALL RIGHTS RESERVED.</div>
-        <div>CINEMATIC REELS — EVENTS — DIGITAL MARKETING</div>
-        <button
-          onClick={scrollToTop}
-          className="hover:text-[#ff3d17] flex items-center gap-1.5 transition-colors uppercase font-medium cursor-pointer"
-        >
-          <span>Back to top</span>
-          <ArrowUp className="w-3.5 h-3.5" />
-        </button>
       </div>
     </footer>
   );

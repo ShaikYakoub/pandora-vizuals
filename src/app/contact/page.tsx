@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
+import Moodboard from '@/components/Moodboard';
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -24,19 +25,10 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen pt-28 pb-24 sm:pt-36 sm:pb-32 px-4 sm:px-8">
-      <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
+    <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen flex flex-col">
+      <div className="w-full pt-28 pb-24 sm:pt-36 sm:pb-32 px-4 sm:px-8 border-b border-[#ece8e1]/10">
+        <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
         
-        {/* Top Meta Bar */}
-        <FramerReveal delay={0.02} yOffset={10}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Contact) — Replies within 48h</span>
-            </div>
-            <div>MON-FRI, 10-18 WET</div>
-          </div>
-        </FramerReveal>
 
         {/* Two-Column Grid: Studio Info Left, Form Right */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
@@ -209,8 +201,11 @@ export default function ContactPage() {
           </FramerReveal>
 
         </div>
-
       </div>
+    </div>
+
+      {/* "FRAME IT. SHOOT IT. FEEL IT." Moodboard Section */}
+      <Moodboard />
     </div>
   );
 }

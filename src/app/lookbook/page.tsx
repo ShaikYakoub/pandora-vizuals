@@ -63,16 +63,6 @@ export default function LookbookPage() {
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen pt-28 pb-24 sm:pt-36 sm:pb-32 px-4 sm:px-8">
       <div className="max-w-[1580px] mx-auto space-y-20 sm:space-y-28">
         
-        {/* Top Meta Bar */}
-        <FramerReveal delay={0.02} yOffset={10}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Visual Archive) — Productions in Four Chapters</span>
-            </div>
-            <div>SCROLL TO EXPLORE FRAMES</div>
-          </div>
-        </FramerReveal>
 
         {/* Hero Title */}
         <div className="space-y-6 pb-12 border-b border-[#ece8e1]/10">

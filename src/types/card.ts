@@ -2,7 +2,6 @@ export type CardSectionKey =
   | 'home-drop'
   | 'home-edit'
   | 'home-moodboard'
-  | 'home-journal'
   | 'shop'
   | 'lookbook';
 
@@ -89,19 +88,6 @@ export const SECTIONS_CONFIG: Record<CardSectionKey, SectionDefinition> = {
     hasDescription: true,
     customFields: [
       { key: 'rotation', label: 'Initial Rotation (deg, e.g. -6, 5)', type: 'number', placeholder: '-4' }
-    ]
-  },
-  'home-journal': {
-    key: 'home-journal',
-    name: 'Production Journal Stories',
-    page: 'Homepage & Journal',
-    description: 'Editorial behind-the-scenes stories and case studies.',
-    hasPrice: false,
-    hasBadge: true,
-    hasCta: true,
-    hasDescription: true,
-    customFields: [
-      { key: 'readTime', label: 'Read Time (e.g. 5 MIN)', type: 'text', placeholder: '5 MIN' }
     ]
   },
   'shop': {

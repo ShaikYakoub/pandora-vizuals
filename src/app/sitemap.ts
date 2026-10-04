@@ -4,7 +4,7 @@ export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://pandoravisuals.studio';
-  const routes = ['', '/shop', '/lookbook', '/journal', '/about', '/contact', '/admin'];
+  const routes = ['', '/shop', '/lookbook', '/about', '/contact', '/admin'];
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}`,

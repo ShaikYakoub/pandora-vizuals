@@ -12,7 +12,7 @@ export default function ShopPage() {
 
   const categories = ['ALL', 'REELS', 'KIDS BIRTHDAYS', 'ADULT EVENTS', 'DIGITAL MARKETING', 'COMMERCIAL'];
 
-  const availableCards = shopCards.length > 0 ? shopCards : cards.filter((c) => c.section === 'home-edit' || c.price);
+  const availableCards = shopCards.length > 0 ? shopCards : cards.filter((c) => c.section === 'shop');
 
   const filteredCards = availableCards.filter((card) => {
     if (selectedCategory === 'ALL') return true;
@@ -22,48 +22,39 @@ export default function ShopPage() {
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen pt-28 pb-24 sm:pt-36 sm:pb-32 px-4 sm:px-8">
       <div className="max-w-[1580px] mx-auto space-y-12 sm:space-y-16">
-        {/* Top Meta Bar */}
-        <FramerReveal delay={0.02} yOffset={10}>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase pb-4 border-b border-[#ece8e1]/10 gap-2">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] animate-pulse" />
-              <span>(Work) — Photography, Videography & Digital Marketing</span>
-            </div>
-            <div>{filteredCards.length.toString().padStart(2, '0')} PRODUCTIONS — CREATIVE ARCHIVE</div>
-          </div>
-        </FramerReveal>
 
-        {/* Hero Title & Category Tabs Row */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 pb-8 border-b border-[#ece8e1]/10">
-          <div>
+        {/* Hero Title & Category Tabs */}
+        <div className="text-center space-y-6 sm:space-y-8 pb-10 border-b border-[#ece8e1]/10">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#ff3d17]">
+              // SELECTED ARCHIVE
+            </span>
             <FramerHeading
-              text="THE WORK"
+              text="Our work"
               as="h1"
-              className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+              className="font-anton text-5xl sm:text-7xl lg:text-8xl xl:text-9xl leading-[0.92] tracking-tight uppercase text-[#ece8e1]"
             />
           </div>
 
-          <FramerReveal delay={0.15} className="space-y-5 lg:text-right max-w-xl">
-            <p className="text-xs sm:text-sm font-sans text-[#8c8880] leading-relaxed">
-              From viral social reels and milestone celebrations for children and adults, to commercial brand shoots and full-scale digital marketing — our visual productions are crafted to inspire and convert.
-            </p>
-
-            {/* Category Filter Tabs */}
-            <div className="flex flex-wrap gap-2 lg:justify-end pt-1">
+          <FramerReveal delay={0.15}>
+            {/* Centered Category Filter Tabs with Elevated Camera Dial Styling */}
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 max-w-4xl mx-auto px-2">
               {categories.map((cat) => {
                 const isActive = selectedCategory === cat;
                 return (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`flex items-center gap-2 px-4 py-2 font-mono text-xs uppercase tracking-widest transition-all duration-200 border cursor-pointer ${
+                    className={`group relative flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 font-mono text-[11px] sm:text-xs uppercase tracking-widest transition-all duration-300 rounded-full cursor-pointer border select-none ${
                       isActive
-                        ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1] font-semibold'
-                        : 'bg-transparent text-[#8c8880] border-[#ece8e1]/15 hover:border-[#ece8e1]/40 hover:text-[#ece8e1]'
+                        ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1] font-semibold shadow-[0_0_24px_rgba(236,232,225,0.3)] scale-[1.02]'
+                        : 'bg-[#141413]/70 text-[#8c8880] border-[#ece8e1]/15 hover:border-[#ece8e1]/40 hover:text-[#ece8e1] hover:bg-[#1a1a19]'
                     }`}
                   >
-                    {isActive && <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17]" />}
-                    {cat}
+                    {isActive && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#ff3d17] shadow-[0_0_6px_#ff3d17] animate-pulse" />
+                    )}
+                    <span>{cat}</span>
                   </button>
                 );
               })}
@@ -71,7 +62,7 @@ export default function ShopPage() {
           </FramerReveal>
         </div>
 
-        {/* Products Grid (3 Columns Desktop) */}
+        {/* Productions Grid: 4 columns desktop (xl), 3 columns laptop & tablet (sm/lg), 2 columns phones (base) */}
         <FramerReveal delay={0.22} yOffset={32}>
           {filteredCards.length === 0 ? (
             <div className="text-center py-24 space-y-3">
@@ -81,9 +72,9 @@ export default function ShopPage() {
               </p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-16">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
               {filteredCards.map((card, idx) => (
-                <ProductCard key={card.id} card={card} index={idx} columns={3} />
+                <ProductCard key={card.id} card={card} index={idx} columns={4} />
               ))}
             </div>
           )}

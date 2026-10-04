@@ -416,20 +416,6 @@ export default function CardEditorModal({
                 </div>
               )}
 
-              {section === 'home-journal' && (
-                <div className="space-y-1.5">
-                  <label className="text-[#8c8880] tracking-wider uppercase block">
-                    READ TIME
-                  </label>
-                  <input
-                    type="text"
-                    value={readTime}
-                    onChange={(e) => setReadTime(e.target.value)}
-                    placeholder="e.g. 5 MIN"
-                    className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2.5 text-[#ece8e1] focus:border-[#ff3d17] outline-none"
-                  />
-                </div>
-              )}
 
               {section === 'home-moodboard' && (
                 <div className="space-y-1.5">

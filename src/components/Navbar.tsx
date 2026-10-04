@@ -53,7 +53,7 @@ export default function Navbar() {
   // Dynamic light/dark background detection for adaptive glass contrast
   useEffect(() => {
     const handleScroll = () => {
-      const lightElements = document.querySelectorAll('footer, [data-theme="light"], .bg-\\[\\#ece8e1\\]');
+      const lightElements = document.querySelectorAll('[data-theme="light"], .bg-\\[\\#ece8e1\\]');
       const windowHeight = window.innerHeight;
       
       let topLight = false;
@@ -166,11 +166,14 @@ export default function Navbar() {
             }`}
             aria-label="Pandora Visuals Home"
           >
-            <PandoraLogo className={`h-6 sm:h-7 md:h-8 lg:h-9 w-auto block select-none transition-all duration-300 ${
-              isTopOverLight 
-                ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] group-hover:scale-105' 
-                : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,0.7)]'
-            }`} />
+            <PandoraLogo 
+              theme={isTopOverLight ? 'dark' : 'white'}
+              className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto block select-none transition-all duration-300 ${
+                isTopOverLight 
+                  ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] group-hover:scale-105' 
+                  : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,0.7)]'
+              }`} 
+            />
           </Link>
         </div>
       </header>

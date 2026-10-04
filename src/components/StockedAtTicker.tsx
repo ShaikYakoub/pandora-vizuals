@@ -19,9 +19,6 @@ export default function StockedAtTicker() {
         <div className="animate-marquee-left flex items-center space-x-12 whitespace-nowrap">
           {highlights.concat(highlights).concat(highlights).map((item, idx) => (
             <div key={idx} className="flex items-center space-x-12">
-              <span className="font-mono text-xs text-[#8c8880] tracking-widest uppercase">
-                SERVICES & METRICS
-              </span>
               <span className="font-anton text-2xl sm:text-3xl text-[#ece8e1] tracking-wide">
                 {item}
               </span>

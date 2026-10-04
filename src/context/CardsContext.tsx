@@ -20,7 +20,7 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pandora_visuals_cards_v1';
+const STORAGE_KEY = 'pandora_visuals_cards_v3';
 const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
 export function CardsProvider({ children }: { children: React.ReactNode }) {
@@ -109,12 +109,7 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
   const getCardsBySection = useCallback(
     (section: string, activeOnly = true) => {
       return cards
-        .filter((c) => {
-          if (section === 'shop') {
-            return (c.section === 'shop' || c.section === 'home-edit') && (!activeOnly || c.isActive);
-          }
-          return c.section === section && (!activeOnly || c.isActive);
-        })
+        .filter((c) => c.section === section && (!activeOnly || c.isActive))
         .sort((a, b) => a.order - b.order);
     },
     [cards]

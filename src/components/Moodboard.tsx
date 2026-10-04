@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
-import TextScramble from './TextScramble';
 
 interface SlotConfig {
   top: string;
@@ -219,17 +218,6 @@ export default function Moodboard() {
       ref={containerRef}
       className="relative min-h-[920px] sm:min-h-[1000px] lg:min-h-[1060px] w-full bg-[#ece8e1] text-[#0c0c0b] overflow-hidden select-none border-b border-[#0c0c0b]/15"
     >
-      {/* Top Header Row */}
-      <div className="absolute top-7 sm:top-9 left-0 w-full px-6 sm:px-12 flex items-center justify-between z-30 pointer-events-none text-xs font-mono uppercase tracking-widest text-[#0c0c0b] select-none">
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-[12px] tracking-wider">DRAG</span>
-        </div>
-        <div className="text-center font-medium text-[12px] tracking-wider text-[#0c0c0b]">
-          <TextScramble text="(04) — PRODUCTION BOARD · DRAG THE SHOTS" />
-        </div>
-        <div className="w-12 hidden sm:block opacity-0">DRAG</div>
-      </div>
-
       {/* Monumental Center Headline */}
       <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
         <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#0c0c0b] uppercase">
