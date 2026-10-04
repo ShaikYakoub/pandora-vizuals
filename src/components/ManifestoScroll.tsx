@@ -1,33 +1,121 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import TextScramble from './TextScramble';
 
-const MANIFESTO_TEXT = 'We capture stories that outlive the moment. Viral reels, candid milestone celebrations, visual campaigns engineered to inspire.';
-const ACCENT_WORDS = new Set(['stories', 'celebrations', 'inspire']);
+interface TextItem {
+  type: 'word';
+  text: string;
+  isAccent?: boolean;
+}
+
+interface ImageItem {
+  type: 'image';
+  src: string;
+  alt: string;
+  label?: string;
+}
+
+type ManifestoItem = TextItem | ImageItem;
+
+const MANIFESTO_ITEMS: ManifestoItem[] = [
+  { type: 'word', text: 'We' },
+  { type: 'word', text: 'capture' },
+  { type: 'word', text: 'stories', isAccent: true },
+  {
+    type: 'image',
+    src: 'https://framerusercontent.com/images/GTn9pLq00uE3ZcQhSgcA1qFPNLY.jpg?width=600&height=400',
+    alt: 'Visual Storytelling',
+    label: 'STORY'
+  },
+  { type: 'word', text: 'that' },
+  { type: 'word', text: 'outlive' },
+  { type: 'word', text: 'the' },
+  { type: 'word', text: 'moment.' },
+  { type: 'word', text: 'Viral' },
+  { type: 'word', text: 'reels,' },
+  {
+    type: 'image',
+    src: 'https://framerusercontent.com/images/v6StnbgGcvM2K33ViXLn6WPioQ.jpg?width=600&height=400',
+    alt: 'Viral Reels',
+    label: 'REELS'
+  },
+  { type: 'word', text: 'candid' },
+  { type: 'word', text: 'milestone' },
+  { type: 'word', text: 'celebrations,', isAccent: true },
+  {
+    type: 'image',
+    src: 'https://framerusercontent.com/images/0nLgNHI2I09hUmNIv3HlhqNjrE.jpg?width=600&height=400',
+    alt: 'Milestone Celebrations',
+    label: 'EVENTS'
+  },
+  { type: 'word', text: 'visual' },
+  { type: 'word', text: 'campaigns' },
+  {
+    type: 'image',
+    src: 'https://framerusercontent.com/images/o3PRQp77gGJeh1W9vE4vP2dOmBE.jpg?width=600&height=400',
+    alt: 'Brand Campaigns',
+    label: 'STUDIO'
+  },
+  { type: 'word', text: 'engineered' },
+  { type: 'word', text: 'to' },
+  { type: 'word', text: 'inspire.', isAccent: true },
+];
 
 export default function ManifestoScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const textRef = useRef<HTMLHeadingElement>(null);
+  const itemRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     let animationFrameId: number;
 
     const calculateScroll = () => {
-      if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
+      // Viewport center is where words and inline images reach 100% focus and unblur
+      const viewportCenter = windowHeight * 0.50;
+      // Items begin unblurring as they enter the middle zone (65% from top)
+      const startThreshold = windowHeight * 0.65;
 
-      // Range: start unblurring when top of container reaches 85% of viewport
-      // Finish unblurring when bottom reaches 45% of viewport
-      const start = windowHeight * 0.85;
-      const end = windowHeight * 0.40;
+      itemRefs.current.forEach((el, index) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        const itemCenter = rect.top + rect.height / 2;
 
-      const progress = (start - rect.top) / (rect.height + (start - end));
-      const clamped = Math.min(Math.max(progress, 0), 1);
-      setScrollProgress(clamped);
+        // Progress: 0 at/below startThreshold (lower screen), 1 at/above viewportCenter (center to top)
+        const progress = Math.min(
+          Math.max((startThreshold - itemCenter) / (startThreshold - viewportCenter), 0),
+          1
+        );
+
+        const item = MANIFESTO_ITEMS[index];
+        if (item.type === 'word') {
+          const blurAmount = (1 - progress) * 7;
+          const translateY = (1 - progress) * 0.12;
+          const opacity = 0.12 + progress * 0.88;
+
+          el.style.filter = `blur(${blurAmount.toFixed(1)}px)`;
+          el.style.transform = `translateY(${translateY.toFixed(3)}em)`;
+          el.style.opacity = opacity.toFixed(3);
+
+          if (item.isAccent) {
+            el.style.color = progress > 0.35 ? '#ff3d17' : '#ece8e1';
+          }
+        } else {
+          // Inline Image Pill unblur & slight scale pop
+          const blurAmount = (1 - progress) * 8;
+          const translateY = (1 - progress) * 0.12;
+          const scale = 0.90 + progress * 0.10;
+          const opacity = 0.15 + progress * 0.85;
+
+          el.style.filter = `blur(${blurAmount.toFixed(1)}px)`;
+          el.style.transform = `translateY(${translateY.toFixed(3)}em) scale(${scale.toFixed(3)})`;
+          el.style.opacity = opacity.toFixed(3);
+        }
+      });
     };
 
     const handleScroll = () => {
@@ -39,14 +127,16 @@ export default function ManifestoScroll() {
     window.addEventListener('resize', handleScroll, { passive: true });
     calculateScroll();
 
+    // Re-check after layout settles to guarantee accurate positions
+    const timeoutId = setTimeout(calculateScroll, 100);
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleScroll);
       cancelAnimationFrame(animationFrameId);
+      clearTimeout(timeoutId);
     };
   }, []);
-
-  const rawWords = MANIFESTO_TEXT.split(' ');
 
   return (
     <section
@@ -65,52 +155,62 @@ export default function ManifestoScroll() {
           </div>
         </div>
 
-        {/* Scroll Text Reveal Typography */}
-        <div className="max-w-6xl">
-          <h2 className="font-anton text-4xl sm:text-6xl md:text-7xl lg:text-[88px] leading-[0.98] sm:leading-[0.94] tracking-tight text-[#ece8e1]">
-            {rawWords.map((wordWithPunct, index) => {
-              const cleanWord = wordWithPunct.toLowerCase().replace(/[^a-z0-9]/g, '');
-              const isAccent = ACCENT_WORDS.has(cleanWord);
+        {/* Scroll Text Reveal Typography - Smaller, Better, with Inline Images */}
+        <div className="max-w-5xl mx-auto text-center px-2 sm:px-4">
+          <h2
+            ref={textRef}
+            className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-[62px] leading-[1.4] sm:leading-[1.32] md:leading-[1.28] tracking-tight text-[#ece8e1] text-center"
+          >
+            {MANIFESTO_ITEMS.map((item, index) => {
+              if (item.type === 'word') {
+                return (
+                  <span
+                    key={index}
+                    ref={(el) => {
+                      itemRefs.current[index] = el;
+                    }}
+                    className={`inline-block mx-1 sm:mx-1.5 md:mx-2 whitespace-pre select-none will-change-[transform,opacity,filter] transition-[filter,opacity,transform,color] duration-300 ease-out ${
+                      item.isAccent ? 'italic font-normal' : 'font-normal'
+                    }`}
+                    style={{
+                      filter: 'blur(7px)',
+                      transform: 'translateY(0.12em)',
+                      opacity: 0.12,
+                      color: item.isAccent ? '#ff3d17' : '#ece8e1',
+                    }}
+                  >
+                    {item.text}
+                  </span>
+                );
+              }
 
-              // Calculate individual word interpolation window
-              const totalWords = rawWords.length;
-              const wordStart = index / totalWords;
-              const wordEnd = (index + 1) / totalWords;
-
-              // Local progress for this word: 0 to 1
-              const localProgress = Math.min(
-                Math.max((scrollProgress - wordStart) / (wordEnd - wordStart), 0),
-                1
-              );
-
-              // Smooth interpolation
-              const blurAmount = (1 - localProgress) * 7; // 7px down to 0px
-              const translateY = (1 - localProgress) * 0.18; // 0.18em down to 0em
-              const opacity = 0.14 + localProgress * 0.86;
-
+              // Inline Sharp Image Frame
               return (
                 <span
                   key={index}
-                  className="inline-block mr-3 sm:mr-5 whitespace-pre select-none will-change-transform"
+                  ref={(el) => {
+                    itemRefs.current[index] = el;
+                  }}
+                  className="inline-flex items-center justify-center align-middle mx-1.5 sm:mx-2.5 md:mx-3 my-1 relative overflow-hidden rounded-none border border-[#ece8e1]/30 hover:border-[#ff3d17] transition-[filter,opacity,transform,border-color] duration-300 ease-out w-14 sm:w-20 md:w-24 lg:w-28 h-7 sm:h-9 md:h-11 lg:h-12 shadow-[0_6px_20px_rgba(0,0,0,0.6)] group select-none cursor-pointer will-change-[transform,opacity,filter]"
                   style={{
-                    filter: `blur(${blurAmount.toFixed(1)}px)`,
-                    transform: `translateY(${translateY.toFixed(3)}em)`,
-                    opacity,
-                    color: isAccent
-                      ? localProgress > 0.4
-                        ? '#ff3d17'
-                        : 'rgba(236, 232, 225, 0.14)'
-                      : localProgress > 0.1
-                      ? '#ece8e1'
-                      : 'rgba(236, 232, 225, 0.14)',
+                    filter: 'blur(8px)',
+                    transform: 'translateY(0.12em) scale(0.90)',
+                    opacity: 0.15,
                   }}
                 >
-                  {isAccent ? (
-                    <span className="font-serif-italic font-normal lowercase tracking-normal">
-                      {wordWithPunct}
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    fill
+                    sizes="(max-width: 640px) 60px, (max-width: 1024px) 96px, 120px"
+                    className="object-cover group-hover:scale-115 transition-transform duration-500 ease-out pointer-events-none"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                  {/* Category Tag on Hover */}
+                  {item.label && (
+                    <span className="absolute bottom-1 left-2 font-mono text-[8px] tracking-widest text-[#ece8e1] uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none hidden sm:block">
+                      {item.label}
                     </span>
-                  ) : (
-                    wordWithPunct
                   )}
                 </span>
               );
@@ -118,20 +218,30 @@ export default function ManifestoScroll() {
           </h2>
         </div>
 
-        {/* Story Subtext & Action */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pt-8 border-t border-[#ece8e1]/10 items-end">
-          <div className="md:col-span-8 lg:col-span-7">
-            <p className="font-sans text-base sm:text-lg text-[#8c8880] leading-relaxed">
-              At Pandora Visuals, we blend cinematic storytelling with digital strategy. From high-energy viral reels and intimate child milestone birthdays to luxury adult celebrations and full-scale brand campaigns — every frame is directed with soul and technical precision.
-            </p>
-          </div>
-          <div className="md:col-span-4 lg:col-span-5 flex md:justify-end">
+        {/* Action Button - Hero Camera Viewfinder Styled */}
+        <div className="max-w-3xl mx-auto flex flex-col items-center text-center pt-8 sm:pt-10 border-t border-[#ece8e1]/10">
+          <div>
             <Link
               href="/about"
-              className="inline-flex items-center gap-2 group font-mono text-xs uppercase tracking-widest text-[#ece8e1] border border-[#ece8e1]/20 px-6 py-4 hover:border-[#ff3d17] hover:text-[#ff3d17] transition-all bg-[#171716]"
+              className="group relative inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
+              aria-label="Read Our Story"
             >
-              <span>READ OUR STORY</span>
-              <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              {/* Camera Shutter Indicator Dot */}
+              <span className="w-2 h-2 rounded-full bg-[#ff3d17] group-hover:bg-[#0c0c0b] shadow-[0_0_8px_#ff3d17] group-hover:shadow-none transition-colors shrink-0" />
+
+              {/* Shutter Label in Dune Font */}
+              <span className="font-dune text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">
+                READ OUR STORY
+              </span>
+
+              {/* Directional Shutter Arrow */}
+              <ArrowUpRight className="w-4 h-4 text-[#ece8e1] group-hover:text-[#0c0c0b] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
+
+              {/* Sharp Camera Corner Viewfinder Brackets */}
+              <span className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
+              <span className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
+              <span className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
+              <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
             </Link>
           </div>
         </div>

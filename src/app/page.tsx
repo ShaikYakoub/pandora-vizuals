@@ -32,7 +32,7 @@ export default function HomePage() {
 
 
         {/* Center Editorial Quote & Camera CTA Button */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 z-10 my-auto py-6 pointer-events-none gap-8 sm:gap-10">
+        <div className="relative z-30 flex-1 flex flex-col items-center justify-center text-center px-4 my-auto py-6 pointer-events-none gap-8 sm:gap-10">
           <FramerHeading
             text="Visuals crafted for moments that refuse to fade."
             as="h2"
@@ -41,10 +41,10 @@ export default function HomePage() {
           />
 
           {/* Camera-Styled Sharp Box CTA Button */}
-          <div className="pointer-events-auto pt-2">
+          <div className="relative z-30 pointer-events-auto pt-2">
             <Link
               href="/shop"
-              className="group relative inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
+              className="group relative z-30 inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
               aria-label="Explore The Work"
             >
               {/* Camera Shutter Indicator Dot */}
