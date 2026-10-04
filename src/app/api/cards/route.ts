@@ -4,6 +4,8 @@ import path from 'path';
 import { EditableCard } from '@/types/card';
 import { DEFAULT_CARDS } from '@/data/defaultCards';
 
+export const dynamic = 'force-static';
+
 const dataFilePath = path.join(process.cwd(), 'src', 'data', 'cards.json');
 
 function getCardsFromDisk(): EditableCard[] {

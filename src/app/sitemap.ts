@@ -3,7 +3,7 @@ import { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://bureau27.studio';
+  const baseUrl = 'https://pandoravisuals.studio';
   const routes = ['', '/shop', '/lookbook', '/journal', '/about', '/contact', '/admin'];
 
   return routes.map((route) => ({

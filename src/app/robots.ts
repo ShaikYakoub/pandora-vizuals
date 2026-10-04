@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/'],
     },
-    sitemap: 'https://bureau27.studio/sitemap.xml',
+    sitemap: 'https://pandoravisuals.studio/sitemap.xml',
   };
 }

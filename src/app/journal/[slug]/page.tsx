@@ -1,19 +1,25 @@
-'use client';
-
-import React, { use } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
 import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
 
+export function generateStaticParams() {
+  return [
+    { slug: 'crafting-viral-reels-for-modern-brands' },
+    { slug: 'the-art-of-capturing-child-birthdays' },
+    { slug: 'lighting-adult-milestone-galas' },
+    { slug: 'how-visual-content-drives-digital-marketing' },
+  ];
+}
+
 interface JournalDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export default function JournalDetailPage({ params }: JournalDetailPageProps) {
-  const resolvedParams = use(params);
-  const slug = resolvedParams.slug;
+export default async function JournalDetailPage({ params }: JournalDetailPageProps) {
+  const { slug } = await params;
 
   const allArticles: Record<
     string,
