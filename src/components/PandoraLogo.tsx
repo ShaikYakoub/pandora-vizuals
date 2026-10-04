@@ -5,12 +5,14 @@ export interface PandoraLogoProps extends React.HTMLAttributes<HTMLDivElement> {
   className?: string;
   theme?: 'white' | 'dark';
   priority?: boolean;
+  sizes?: string;
 }
 
 export default function PandoraLogo({
   className = 'w-auto h-6',
   theme = 'white',
   priority = true,
+  sizes = '(max-width: 768px) 100vw, (max-width: 1400px) 100vw, 2560px',
   ...props
 }: PandoraLogoProps) {
   const logoSrc =
@@ -29,8 +31,9 @@ export default function PandoraLogo({
         fill
         priority={priority}
         className="object-contain pointer-events-none select-none"
-        sizes="(max-width: 640px) 240px, (max-width: 1024px) 480px, 1200px"
+        sizes={sizes}
       />
     </div>
   );
 }
+

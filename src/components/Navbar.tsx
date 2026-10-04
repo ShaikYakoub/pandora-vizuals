@@ -86,7 +86,7 @@ export default function Navbar() {
     <>
       {/* Full-width Progressive Gradient Blur Top Navbar (No sharp cut, smooth feathered flow) */}
       <header
-        className="fixed top-0 left-0 right-0 w-full h-16 sm:h-20 md:h-22 z-40 pointer-events-none select-none overflow-hidden"
+        className="fixed top-0 left-0 right-0 w-full h-24 sm:h-28 md:h-32 z-40 pointer-events-none select-none overflow-hidden"
         aria-label="Top Brand Bar"
       >
         {/* Multi-tier progressive backdrop blur stack (Framer & Apple gradient blur technique) */}
@@ -97,8 +97,8 @@ export default function Navbar() {
             style={{
               backdropFilter: 'blur(32px)',
               WebkitBackdropFilter: 'blur(32px)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 45%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 15%, rgba(0,0,0,0) 45%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 50%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 20%, rgba(0,0,0,0) 50%)',
               transform: 'translateZ(0)',
             }}
           />
@@ -108,8 +108,8 @@ export default function Navbar() {
             style={{
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 65%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 70%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 10%, rgba(0,0,0,1) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,0) 70%)',
               transform: 'translateZ(0)',
             }}
           />
@@ -119,8 +119,8 @@ export default function Navbar() {
             style={{
               backdropFilter: 'blur(8px)',
               WebkitBackdropFilter: 'blur(8px)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 45%, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 80%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 45%, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 80%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 85%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 70%, rgba(0,0,0,0) 85%)',
               transform: 'translateZ(0)',
             }}
           />
@@ -130,8 +130,8 @@ export default function Navbar() {
             style={{
               backdropFilter: 'blur(4px)',
               WebkitBackdropFilter: 'blur(4px)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 92%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 65%, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 92%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 70%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 95%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 50%, rgba(0,0,0,1) 70%, rgba(0,0,0,1) 85%, rgba(0,0,0,0) 95%)',
               transform: 'translateZ(0)',
             }}
           />
@@ -141,8 +141,8 @@ export default function Navbar() {
             style={{
               backdropFilter: 'blur(2px)',
               WebkitBackdropFilter: 'blur(2px)',
-              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,1) 80%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,1) 80%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,1) 85%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0) 65%, rgba(0,0,0,1) 85%, rgba(0,0,0,1) 92%, rgba(0,0,0,0) 100%)',
               transform: 'translateZ(0)',
             }}
           />
@@ -157,7 +157,7 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Centered Pandora Logo */}
+        {/* Centered Pandora Logo - Twice the previous size */}
         <div className="relative z-10 w-full h-full flex items-start justify-center pt-3 sm:pt-3.5 md:pt-4">
           <Link 
             href="/" 
@@ -168,10 +168,10 @@ export default function Navbar() {
           >
             <PandoraLogo 
               theme={isTopOverLight ? 'dark' : 'white'}
-              className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto block select-none transition-all duration-300 ${
+              className={`h-14 sm:h-16 md:h-18 lg:h-20 w-auto block select-none transition-all duration-300 ${
                 isTopOverLight 
                   ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] group-hover:scale-105' 
-                  : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_16px_rgba(255,255,255,0.7)]'
+                  : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]'
               }`} 
             />
           </Link>
