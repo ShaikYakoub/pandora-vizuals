@@ -130,8 +130,7 @@ export default function Footer() {
         >
           <PandoraLogo 
             theme="white"
-            sizes="100vw"
-            className="w-full h-auto text-[#ece8e1] group-hover:text-white transition-all duration-300 drop-shadow-[0_0_40px_rgba(236,232,225,0.2)] group-hover:drop-shadow-[0_0_60px_rgba(236,232,225,0.4)]" 
+            className="w-full h-auto text-[#ece8e1] group-hover:text-white transition-all duration-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]" 
           />
         </Link>
       </div>
