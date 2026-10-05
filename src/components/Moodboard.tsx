@@ -713,11 +713,17 @@ export default function Moodboard() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[960px] sm:min-h-[1040px] lg:min-h-[1100px] w-full bg-[#ece8e1] text-[#0c0c0b] overflow-hidden select-none border-b border-[#0c0c0b]/15"
+      className="relative min-h-[960px] sm:min-h-[1040px] lg:min-h-[1100px] w-full bg-[#0c0c0b] text-[#ece8e1] overflow-hidden select-none border-b border-[#ece8e1]/10"
     >
+      {/* Subtle Noise Texture Overlay matching the rest of the website */}
+      <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none z-0" aria-hidden="true" />
+
+      {/* Ambient Subtle Radial Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff3d17]/5 rounded-full blur-[140px] pointer-events-none z-0" />
+
       {/* Monumental Center Headline */}
       <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
-        <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#0c0c0b] uppercase">
+        <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#ece8e1] uppercase">
           FRAME IT. SHOOT IT. <br />
           <span className="text-[#ff3d17]">FEEL IT.</span>
         </h2>
@@ -768,8 +774,8 @@ export default function Moodboard() {
               }}
               className={`select-none will-change-transform transition-shadow duration-200 ${
                 isDragging
-                  ? 'shadow-[0_36px_65px_rgba(12,12,11,0.38)]'
-                  : 'shadow-[0_20px_45px_rgba(12,12,11,0.18)]'
+                  ? 'shadow-[0_36px_70px_rgba(0,0,0,0.85),0_8px_20px_rgba(0,0,0,0.5)]'
+                  : 'shadow-[0_24px_50px_rgba(0,0,0,0.65),0_4px_12px_rgba(0,0,0,0.4)]'
               }`}
             >
               {renderCardContent(format, card, cardWidth)}
