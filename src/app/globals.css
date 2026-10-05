@@ -237,6 +237,51 @@ body {
   }
 }
 
+/* Silky ease-in bloom entrance & smooth ease-out dissolve exit */
+@keyframes trailPopInOut {
+  0% {
+    opacity: 0;
+    transform: scale(0.68);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  24% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: linear;
+  }
+  64% {
+    opacity: 1;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+}
+
+@keyframes mobileAmbientPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.75);
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  20% {
+    opacity: 0.96;
+    transform: scale(1);
+    animation-timing-function: linear;
+  }
+  80% {
+    opacity: 0.96;
+    transform: scale(1);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+}
+
 @keyframes cursorTrailAppear {
   0% {
     opacity: 0;

@@ -14,40 +14,7 @@ export default function Footer() {
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16 pt-16 sm:pt-24 lg:pt-28 pb-16 sm:pb-24">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-10 sm:gap-14 lg:gap-24">
           
-          {/* Column 1: Navigation */}
-          <div className="flex flex-col gap-4 sm:gap-6">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
-              Navigation
-            </h3>
-            <nav className="flex flex-col gap-2.5 sm:gap-3.5" aria-label="Footer Navigation">
-              <Link
-                href="/contact#about"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                About
-              </Link>
-              <Link
-                href="/shop"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Works
-              </Link>
-              <Link
-                href="/lookbook"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Services
-              </Link>
-              <Link
-                href="/contact"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Contact
-              </Link>
-            </nav>
-          </div>
-
-          {/* Column 2: Social */}
+          {/* Column 1: Social */}
           <div className="flex flex-col gap-4 sm:gap-6">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
               Social
@@ -88,10 +55,43 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 3: Legals */}
+          {/* Column 2: Navigation */}
+          <div className="flex flex-col gap-4 sm:gap-6">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
+              Navigation
+            </h3>
+            <nav className="flex flex-col gap-2.5 sm:gap-3.5" aria-label="Footer Navigation">
+              <Link
+                href="/contact#about"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+              >
+                About
+              </Link>
+              <Link
+                href="/shop"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+              >
+                Works
+              </Link>
+              <Link
+                href="/lookbook"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+              >
+                Services
+              </Link>
+              <Link
+                href="/contact"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+              >
+                Contact
+              </Link>
+            </nav>
+          </div>
+
+          {/* Column 3: Legal */}
           <div className="flex flex-col gap-4 sm:gap-6 col-span-2 md:col-span-1">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
-              Legals
+              Legal
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
               <Link

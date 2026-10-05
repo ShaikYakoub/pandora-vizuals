@@ -35,7 +35,7 @@ const MOBILE_ZONES = [
   { xPercent: 82, yPercent: 50 },
 ];
 
-// Memoized Trail Item: Isolated GPU rendering with smooth hardware transform and graceful exit fade
+// Memoized Trail Item: Isolated GPU rendering with smooth hardware transform and ease-in/ease-out bloom motion
 const TrailItemView = React.memo(function TrailItemView({
   item,
   scale,
@@ -53,30 +53,38 @@ const TrailItemView = React.memo(function TrailItemView({
         transform: `translate3d(-50%, -50%, 0) scale(${scale}) rotate(${item.rotate}deg)`,
         transition: item.isMobileAmbient
           ? 'none'
-          : 'transform 200ms cubic-bezier(0.16, 1, 0.3, 1)',
+          : 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
         backfaceVisibility: 'hidden',
-        animation: item.isMobileAmbient
-          ? 'mobileAmbientFloat 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-          : 'trailSmoothFade 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
       }}
     >
       <div
-        className={`overflow-hidden rounded-full aspect-square border-2 border-[#ece8e1]/40 shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_15px_rgba(255,255,255,0.06)] ${
-          item.isMobileAmbient
-            ? 'w-[150px] sm:w-[185px] h-[150px] sm:h-[185px]'
-            : 'w-[220px] sm:w-[250px] h-[220px] sm:h-[250px]'
-        }`}
+        className="will-change-[transform,opacity]"
+        style={{
+          animation: item.isMobileAmbient
+            ? 'mobileAmbientPop 2.8s forwards'
+            : 'trailPopInOut 1100ms forwards',
+          transformOrigin: 'center center',
+          backfaceVisibility: 'hidden',
+        }}
       >
-        <img
-          src={item.src}
-          alt=""
-          decoding="async"
-          loading="eager"
-          className="w-full h-full object-cover rounded-full select-none pointer-events-none"
-        />
-        {item.isMobileAmbient && (
-          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-        )}
+        <div
+          className={`overflow-hidden rounded-full aspect-square border-2 border-[#ece8e1]/40 shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_15px_rgba(255,255,255,0.06)] ${
+            item.isMobileAmbient
+              ? 'w-[150px] sm:w-[185px] h-[150px] sm:h-[185px]'
+              : 'w-[220px] sm:w-[250px] h-[220px] sm:h-[250px]'
+          }`}
+        >
+          <img
+            src={item.src}
+            alt=""
+            decoding="async"
+            loading="eager"
+            className="w-full h-full object-cover rounded-full select-none pointer-events-none"
+          />
+          {item.isMobileAmbient && (
+            <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+          )}
+        </div>
       </div>
     </div>
   );
@@ -125,11 +133,11 @@ export default function ImageTrail() {
     // Retain up to 8 items in state so tail items smoothly complete their 350ms fade-out
     setItems((prev) => [...prev.slice(-7), { id, x, y, rotate, src }]);
 
-    // Smooth exit: at 1000ms the item has completely dissolved (opacity: 0) via trailSmoothFade,
+    // Smooth exit: at 1100ms the item has completely dissolved (opacity: 0) via trailPopInOut,
     // so removing it from DOM is 100% invisible with zero abrupt cut
     setTimeout(() => {
       setItems((prev) => prev.filter((item) => item.id !== id));
-    }, 1000);
+    }, 1150);
   }, []);
 
   useEffect(() => {
