@@ -125,12 +125,12 @@ export default function Footer() {
       <div className="relative z-10 w-full px-2 sm:px-4 lg:px-6 pt-4 sm:pt-6 pb-24 sm:pb-28 md:pb-32 overflow-hidden">
         <Link
           href="/"
-          className="w-full block select-none group"
+          className="w-full block select-none cursor-pointer"
           aria-label="Pandora Vizuals Home"
         >
           <PandoraLogo 
             theme="white"
-            className="w-full h-auto text-[#ece8e1] group-hover:text-white transition-all duration-300 drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]" 
+            className="w-full h-auto text-[#ece8e1] drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]" 
           />
         </Link>
       </div>

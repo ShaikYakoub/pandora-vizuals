@@ -173,17 +173,17 @@ export default function Navbar() {
         <div className="relative z-10 w-full h-full flex items-start justify-center pt-3 sm:pt-3.5 md:pt-4">
           <Link 
             href="/" 
-            className={`pointer-events-auto inline-flex items-center justify-center transition-colors duration-300 select-none cursor-pointer group ${
-              isTopOverLight ? 'text-[#0c0c0b]' : 'text-[#ece8e1] hover:text-white'
+            className={`pointer-events-auto inline-flex items-center justify-center select-none cursor-pointer ${
+              isTopOverLight ? 'text-[#0c0c0b]' : 'text-[#ece8e1]'
             }`}
             aria-label="Pandora Visuals Home"
           >
             <PandoraLogo 
               theme={isTopOverLight ? 'dark' : 'white'}
-              className={`h-16 sm:h-16 md:h-18 lg:h-20 max-w-[86vw] sm:max-w-none w-auto block select-none transition-all duration-300 ${
+              className={`h-16 sm:h-16 md:h-18 lg:h-20 max-w-[86vw] sm:max-w-none w-auto block select-none ${
                 isTopOverLight 
-                  ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] group-hover:scale-105' 
-                  : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]'
+                  ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]' 
+                  : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]'
               }`} 
             />
           </Link>
