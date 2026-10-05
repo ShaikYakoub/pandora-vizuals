@@ -47,7 +47,7 @@ const TrailItemView = React.memo(function TrailItemView({ item }: { item: TrailI
         ['--trail-rot' as any]: `${item.rotate}deg`,
         animation: item.isMobileAmbient
           ? 'mobileAmbientFloat 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-          : 'cursorTrailFlow 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+          : 'cursorTrailAppear 0.08s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         transform: 'translate3d(-50%, -50%, 0)',
         backfaceVisibility: 'hidden',
       }}
@@ -177,11 +177,11 @@ export default function ImageTrail() {
     const src = getRandomImage();
     const rotate = (Math.random() * 2 - 1) * 6; // -6 to +6 degrees natural tilt
 
-    setItems((prev) => [...prev.slice(-7), { id, x, y, rotate, src }]);
+    setItems((prev) => [...prev.slice(-5), { id, x, y, rotate, src }]);
 
     setTimeout(() => {
       setItems((prev) => prev.filter((item) => item.id !== id));
-    }, 1350);
+    }, 700);
   }, [getRandomImage]);
 
   useEffect(() => {
