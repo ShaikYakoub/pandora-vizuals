@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
-import { useCards } from '@/context/CardsContext';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 interface TrailItem {
   id: number;
@@ -13,50 +12,60 @@ interface TrailItem {
   isMobileAmbient?: boolean;
 }
 
-// Fallback studio work images if context is initializing
-const FALLBACK_WORK_IMAGES = [
-  '/images/IMG_20260814_192431_1.webp',
+// Curated high-performance portrait images (deterministic sequential assignment to eliminate random pick lag)
+const CURATED_TRAIL_IMAGES = [
   '/images/IMG_20260929_180412.webp',
-  '/images/IMG_20260929_181412.webp',
-  '/images/IMG_20260929_181426.webp',
-  '/images/IMG_20260929_181441.webp',
   '/images/IMG_20261003_171238.webp',
   '/images/IMG_20261003_174658.webp',
+  '/images/IMG_20260814_192431_1.webp',
+  '/images/IMG_20260929_181412.webp',
   '/images/portrait_2160x3840.webp',
 ];
 
-// Strategic perimeter zones for mobile screens so photos frame the quote and camera button
+// Progressive trail scales: newest/main image at cursor is biggest (1.25x), rest in decreasing order
+const TRAIL_SCALES = [1.25, 1.03, 0.85, 0.70, 0.56];
+const MAX_TRAIL_ITEMS = 5;
+
+// Perimeter zones for mobile screens
 const MOBILE_ZONES = [
-  { xPercent: 25, yPercent: 24 }, // Top Left
-  { xPercent: 75, yPercent: 74 }, // Bottom Right
-  { xPercent: 75, yPercent: 26 }, // Top Right
-  { xPercent: 24, yPercent: 72 }, // Bottom Left
-  { xPercent: 18, yPercent: 48 }, // Mid Left
-  { xPercent: 82, yPercent: 50 }, // Mid Right
+  { xPercent: 25, yPercent: 24 },
+  { xPercent: 75, yPercent: 74 },
+  { xPercent: 75, yPercent: 26 },
+  { xPercent: 24, yPercent: 72 },
+  { xPercent: 18, yPercent: 48 },
+  { xPercent: 82, yPercent: 50 },
 ];
 
-// Memoized Trail Item: Isolated GPU rendering prevents re-rendering siblings on every pointer event
-const TrailItemView = React.memo(function TrailItemView({ item }: { item: TrailItem }) {
+// Memoized Trail Item: Isolated GPU rendering with smooth hardware transform
+const TrailItemView = React.memo(function TrailItemView({
+  item,
+  scale,
+}: {
+  item: TrailItem;
+  scale: number;
+}) {
   return (
     <div
-      className="absolute pointer-events-none will-change-[transform,opacity]"
+      className="absolute pointer-events-none will-change-transform"
       style={{
         left: item.isPercent ? `${item.x}%` : `${item.x}px`,
         top: item.isPercent ? `${item.y}%` : `${item.y}px`,
-        zIndex: 10 + (item.id % 30),
-        ['--trail-rot' as any]: `${item.rotate}deg`,
+        zIndex: 10 + item.id,
+        transform: `translate3d(-50%, -50%, 0) scale(${scale}) rotate(${item.rotate}deg)`,
+        transition: item.isMobileAmbient
+          ? 'none'
+          : 'transform 180ms cubic-bezier(0.16, 1, 0.3, 1)',
+        backfaceVisibility: 'hidden',
         animation: item.isMobileAmbient
           ? 'mobileAmbientFloat 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-          : 'cursorTrailAppear 0.08s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        transform: 'translate3d(-50%, -50%, 0)',
-        backfaceVisibility: 'hidden',
+          : undefined,
       }}
     >
       <div
         className={`overflow-hidden rounded-full aspect-square border-2 border-[#ece8e1]/40 shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_15px_rgba(255,255,255,0.06)] ${
           item.isMobileAmbient
             ? 'w-[150px] sm:w-[185px] h-[150px] sm:h-[185px]'
-            : 'w-[220px] sm:w-[260px] h-[220px] sm:h-[260px]'
+            : 'w-[220px] sm:w-[250px] h-[220px] sm:h-[250px]'
         }`}
       >
         <img
@@ -79,83 +88,18 @@ export default function ImageTrail() {
   const [items, setItems] = useState<TrailItem[]>([]);
   const lastPosRef = useRef<{ x: number; y: number } | null>(null);
   const counterRef = useRef(0);
-  const lastZoneRef = useRef(0);
-  const lastImageIndexRef = useRef<number>(-1);
+  const imageSeqRef = useRef(0);
+  const mobileZoneSeqRef = useRef(0);
+  const idleTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Retrieve dynamic cards from context
-  const { cards } = useCards();
-
-  // Dynamic pool of work images from active portfolio cards
-  const workImages = useMemo(() => {
-    const workCards = cards.filter(
-      (c) =>
-        c.isActive !== false &&
-        typeof c.image === 'string' &&
-        c.image.trim().length > 0 &&
-        (c.section === 'shop' ||
-          c.section === 'home-drop' ||
-          c.section === 'home-edit' ||
-          c.section === 'lookbook')
-    );
-
-    const uniqueWorkImages = Array.from(new Set(workCards.map((c) => c.image.trim())));
-    if (uniqueWorkImages.length > 0) {
-      return uniqueWorkImages;
-    }
-
-    const anyStudioCards = Array.from(
-      new Set(
-        cards
-          .filter(
-            (c) =>
-              c.isActive !== false &&
-              typeof c.image === 'string' &&
-              c.image.trim().length > 0 &&
-              c.section !== 'home-moodboard'
-          )
-          .map((c) => c.image.trim())
-      )
-    );
-
-    if (anyStudioCards.length > 0) {
-      return anyStudioCards;
-    }
-
-    return FALLBACK_WORK_IMAGES;
-  }, [cards]);
-
-  const workImagesRef = useRef(workImages);
-  useEffect(() => {
-    workImagesRef.current = workImages;
-  }, [workImages]);
-
-  // Warm image cache on mount to prevent decoding latency on pointer motion
+  // Warm image cache on mount to guarantee 0ms instant display
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    workImages.forEach((src) => {
+    CURATED_TRAIL_IMAGES.forEach((src) => {
       const img = new window.Image();
       img.src = src;
     });
-  }, [workImages]);
-
-  // Pick a random work image, avoiding immediate consecutive duplicates
-  const getRandomImage = useCallback(() => {
-    const pool = workImagesRef.current;
-    if (!pool || pool.length === 0) {
-      return FALLBACK_WORK_IMAGES[Math.floor(Math.random() * FALLBACK_WORK_IMAGES.length)];
-    }
-    if (pool.length === 1) return pool[0];
-
-    let nextIdx: number;
-    let attempts = 0;
-    do {
-      nextIdx = Math.floor(Math.random() * pool.length);
-      attempts++;
-    } while (nextIdx === lastImageIndexRef.current && attempts < 10);
-
-    lastImageIndexRef.current = nextIdx;
-    return pool[nextIdx];
   }, []);
 
   // Detect mobile / touch devices
@@ -171,18 +115,25 @@ export default function ImageTrail() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Desktop Pointer Move Trail with RAF throttling
+  // Desktop Pointer Move: Deterministic round-robin sequential assignment
   const addPointerPoint = useCallback((x: number, y: number) => {
     const id = counterRef.current++;
-    const src = getRandomImage();
-    const rotate = (Math.random() * 2 - 1) * 6; // -6 to +6 degrees natural tilt
+    // Deterministic round-robin assignment from curated list (zero random lag)
+    const src = CURATED_TRAIL_IMAGES[imageSeqRef.current % CURATED_TRAIL_IMAGES.length];
+    imageSeqRef.current++;
 
-    setItems((prev) => [...prev.slice(-5), { id, x, y, rotate, src }]);
+    // Alternating subtle organic tilt (-3.5 deg to +3.5 deg)
+    const rotate = (id % 2 === 0 ? 1 : -1) * 3.5;
 
-    setTimeout(() => {
-      setItems((prev) => prev.filter((item) => item.id !== id));
-    }, 700);
-  }, [getRandomImage]);
+    // FIFO queue: keep at most MAX_TRAIL_ITEMS; older items beyond max disappear instantly
+    setItems((prev) => [...prev.slice(-(MAX_TRAIL_ITEMS - 1)), { id, x, y, rotate, src }]);
+
+    // Reset idle timer: when pointer stops moving for 650ms, entire trail disappears instantly
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      setItems([]);
+    }, 650);
+  }, []);
 
   useEffect(() => {
     if (isMobile) return;
@@ -235,11 +186,12 @@ export default function ImageTrail() {
 
     return () => {
       if (rafId !== null) cancelAnimationFrame(rafId);
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
       window.removeEventListener('pointermove', handlePointerMove);
     };
   }, [isMobile, addPointerPoint]);
 
-  // Mobile Ambient Loop: continuous smooth perimeter display
+  // Mobile Ambient Loop: sequential curated images with perimeter float
   useEffect(() => {
     if (!isMobile) return;
 
@@ -250,53 +202,43 @@ export default function ImageTrail() {
       if (isCancelled) return;
 
       const id = counterRef.current++;
-      const src = getRandomImage();
+      const src = CURATED_TRAIL_IMAGES[imageSeqRef.current % CURATED_TRAIL_IMAGES.length];
+      imageSeqRef.current++;
 
-      // Pick zone different from previous to prevent overlap
-      const nextZoneIdx =
-        (lastZoneRef.current + 1 + Math.floor(Math.random() * (MOBILE_ZONES.length - 2))) %
-        MOBILE_ZONES.length;
-      lastZoneRef.current = nextZoneIdx;
+      const zoneIdx = mobileZoneSeqRef.current % MOBILE_ZONES.length;
+      mobileZoneSeqRef.current++;
+      const baseZone = MOBILE_ZONES[zoneIdx];
 
-      const baseZone = MOBILE_ZONES[nextZoneIdx];
-      // Subtle organic jitter
-      const jitterX = (Math.random() * 2 - 1) * 5;
-      const jitterY = (Math.random() * 2 - 1) * 4;
-      const x = Math.min(Math.max(baseZone.xPercent + jitterX, 15), 85);
-      const y = Math.min(Math.max(baseZone.yPercent + jitterY, 18), 82);
-      const rotate = (Math.random() * 2 - 1) * 5;
+      const rotate = (id % 2 === 0 ? 1 : -1) * 3;
 
       const newItem: TrailItem = {
         id,
-        x,
-        y,
+        x: baseZone.xPercent,
+        y: baseZone.yPercent,
         isPercent: true,
         rotate,
         src,
         isMobileAmbient: true,
       };
 
-      // Keep max 2 ambient images simultaneously alive
       setItems((prev) => [...prev.slice(-1), newItem]);
 
-      // Remove after 2.8s total lifetime
+      // Ambient image lives for 2.8s then disappears
       setTimeout(() => {
         if (isCancelled) return;
         setItems((prev) => prev.filter((item) => item.id !== id));
       }, 2800);
 
-      // Spawn next image in 1.4s (seamless 50% overlap cycle)
       timeoutId = setTimeout(spawnMobileImage, 1400);
     };
 
-    // First spawn immediately
     spawnMobileImage();
 
     return () => {
       isCancelled = true;
       clearTimeout(timeoutId);
     };
-  }, [isMobile, getRandomImage]);
+  }, [isMobile]);
 
   return (
     <div
@@ -304,9 +246,13 @@ export default function ImageTrail() {
       className="absolute inset-0 pointer-events-none overflow-hidden z-20"
       aria-hidden="true"
     >
-      {items.map((item) => (
-        <TrailItemView key={item.id} item={item} />
-      ))}
+      {items.map((item, index) => {
+        // Age relative to newest item: 0 is newest (main image at cursor), increasing for older items
+        const age = items.length - 1 - index;
+        const scale = item.isMobileAmbient ? 1.0 : (TRAIL_SCALES[age] ?? 0.56);
+
+        return <TrailItemView key={item.id} item={item} scale={scale} />;
+      })}
     </div>
   );
 }
