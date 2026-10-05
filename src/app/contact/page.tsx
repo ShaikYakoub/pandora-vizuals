@@ -1,278 +1,249 @@
 'use client';
 
 import React, { useState } from 'react';
-import { ArrowRight, Check } from 'lucide-react';
-import FramerHeading from '@/components/FramerHeading';
-import FramerReveal from '@/components/FramerReveal';
-import ManifestoScroll from '@/components/ManifestoScroll';
+import { Mail, Phone, ArrowUpRight, MapPin, Copy, Check, ExternalLink } from 'lucide-react';
+
+const CONTACT_INFO = {
+  email: 'hello@pandoravisuals.studio',
+  phone: '+91 98765 43210',
+  displayPhone: '+91 98765 43210',
+  location: 'Jubilee Hills, Hyderabad, Telangana, India',
+  mapQuery: 'Jubilee Hills, Hyderabad',
+  googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Jubilee+Hills+Hyderabad',
+  socials: [
+    {
+      name: 'Instagram',
+      handle: '@pandoravisuals',
+      url: 'https://instagram.com',
+    },
+    {
+      name: 'Twitter(X)',
+      handle: '@pandoravizuals',
+      url: 'https://x.com',
+    },
+    {
+      name: 'YouTube',
+      handle: 'Pandora Visuals',
+      url: 'https://youtube.com',
+    },
+    {
+      name: 'LinkedIn',
+      handle: 'Pandora Visuals Studio',
+      url: 'https://linkedin.com',
+    },
+  ],
+};
 
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    name: '',
-    email: '',
-    topic: 'General question',
-    message: '',
-  });
-  const [submitted, setSubmitted] = useState(false);
+  const [copiedField, setCopiedField] = useState<'email' | 'phone' | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setForm({ name: '', email: '', topic: 'General question', message: '' });
-    }, 4000);
+  const copyToClipboard = async (text: string, field: 'email' | 'phone') => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 2200);
+    } catch {
+      // Fallback if clipboard API is restricted
+      setCopiedField(null);
+    }
   };
 
-  // Structured Data for AI & Search Engine Optimization (AEO/SEO)
+  // Structured Data for AI Engines & Search Engines (AEO/SEO)
   const structuredData = {
     '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'AboutPage',
-        '@id': 'https://pandoravisuals.studio/contact#about',
-        'name': 'About Pandora Visuals Studio',
-        'description': 'Pandora Visuals is a creative visual media studio specializing in viral reels, milestone birthday celebrations for kids and adults, commercial photography, and full-funnel digital marketing.',
-        'url': 'https://pandoravisuals.studio/contact',
+    '@type': 'ContactPage',
+    '@id': 'https://pandoravisuals.studio/contact',
+    'name': 'Contact — Pandora Visuals Studio',
+    'url': 'https://pandoravisuals.studio/contact',
+    'mainEntity': {
+      '@type': 'ProfessionalService',
+      'name': 'Pandora Visuals',
+      'email': CONTACT_INFO.email,
+      'telephone': CONTACT_INFO.phone,
+      'address': {
+        '@type': 'PostalAddress',
+        'addressLocality': 'Hyderabad',
+        'addressRegion': 'Telangana',
+        'addressCountry': 'IN',
       },
-      {
-        '@type': 'ContactPage',
-        '@id': 'https://pandoravisuals.studio/contact#contact',
-        'name': 'Contact & Booking — Pandora Visuals Studio',
-        'url': 'https://pandoravisuals.studio/contact',
-      },
-      {
-        '@type': 'ProfessionalService',
-        'name': 'Pandora Visuals',
-        'url': 'https://pandoravisuals.studio',
-        'email': 'hello@pandoravisuals.studio',
-        'description': 'Premier videography, milestone event photography, cinematic reels, and digital marketing studio.',
-        'contactPoint': [
-          {
-            '@type': 'ContactPoint',
-            'contactType': 'Bookings & Shoots',
-            'email': 'bookings@pandoravisuals.studio',
-          },
-          {
-            '@type': 'ContactPoint',
-            'contactType': 'General & Studio Inquiries',
-            'email': 'hello@pandoravisuals.studio',
-          },
-          {
-            '@type': 'ContactPoint',
-            'contactType': 'Digital Marketing',
-            'email': 'marketing@pandoravisuals.studio',
-          },
-        ],
-      },
-    ],
+      'sameAs': CONTACT_INFO.socials.map((s) => s.url),
+    },
   };
 
   return (
-    <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen flex flex-col">
-      {/* Schema.org Structured Data for AI Engines & Crawlers */}
+    <div id="about" className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen flex flex-col justify-between pt-24 sm:pt-32 pb-36 sm:pb-44 px-4 sm:px-8 lg:px-16 selection:bg-[#ff3d17] selection:text-[#0c0c0b]">
+      {/* Schema.org Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      {/* 1. About / Studio Manifesto Hero Section */}
-      <section id="about" className="w-full pt-28 sm:pt-36 pb-14 sm:pb-20 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-noise select-none">
-        <ManifestoScroll
-          isStandalone={true}
-          ctaText="BOOK A SHOOT"
-          ctaLink="#inquire"
-          secondaryCtaText="EXPLORE WORK"
-          secondaryCtaLink="/shop"
-        />
-      </section>
-
-      {/* 2. Direct Studio Info & Inquiry Form Section */}
-      <div id="inquire" className="w-full pt-16 sm:pt-24 pb-24 sm:pb-32 px-4 sm:px-8 border-b border-[#ece8e1]/10">
-        <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
+      {/* Main Container */}
+      <div className="w-full max-w-[1400px] mx-auto space-y-12 sm:space-y-16">
         
+        {/* Page Header */}
+        <div className="space-y-3 sm:space-y-4 border-b border-[#ece8e1]/10 pb-8 sm:pb-12">
+          <div className="font-mono text-xs uppercase tracking-widest text-[#ff3d17]">
+            // CONTACT & STUDIO LOCATION
+          </div>
+          <h1 className="font-anton text-5xl sm:text-7xl lg:text-9xl uppercase tracking-tight text-[#ece8e1] leading-[0.9]">
+            GET IN TOUCH
+          </h1>
+          <p className="font-sans text-sm sm:text-base text-[#ece8e1]/60 max-w-xl">
+            Direct channels for production bookings, milestone shoots, commercial projects, and studio visits.
+          </p>
+        </div>
 
-        {/* Two-Column Grid: Studio Info Left, Form Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+        {/* 2-Column Content Grid: Contact Details Left, Map Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-16 items-stretch">
           
-          {/* Left Column: Direct Studio Contacts */}
-          <div className="lg:col-span-6 space-y-12">
-            <div className="space-y-6">
-              <FramerHeading
-                lines={['SAY', 'HELLO']}
-                as="h1"
-                className="font-anton text-6xl sm:text-7xl lg:text-[104px] leading-[0.92] tracking-wide uppercase text-[#ece8e1]"
-              />
-
-              <FramerReveal delay={0.12}>
-                <a
-                  href="mailto:hello@pandoravisuals.studio"
-                  className="font-serif italic text-3xl sm:text-4xl lg:text-5xl text-[#ece8e1] underline decoration-1 underline-offset-8 hover:text-[#ff3d17] transition-colors inline-block"
+          {/* Left Column: Email, Phone, Socials */}
+          <div className="lg:col-span-6 flex flex-col justify-between space-y-8 sm:space-y-10">
+            
+            {/* 1. Email Card */}
+            <div className="p-6 sm:p-8 bg-[#141413] border border-[#ece8e1]/12 hover:border-[#ece8e1]/25 transition-colors group">
+              <div className="flex items-center justify-between gap-4 mb-3">
+                <span className="font-mono text-xs uppercase tracking-widest text-[#ff3d17] flex items-center gap-2">
+                  <Mail className="w-3.5 h-3.5" />
+                  EMAIL
+                </span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(CONTACT_INFO.email, 'email')}
+                  className="font-mono text-[11px] text-[#ece8e1]/50 hover:text-[#ece8e1] transition-colors flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded bg-[#ece8e1]/5 hover:bg-[#ece8e1]/10"
+                  aria-label="Copy email address"
                 >
-                  hello@pandoravisuals.studio
-                </a>
-              </FramerReveal>
+                  {copiedField === 'email' ? (
+                    <>
+                      <Check className="w-3 h-3 text-[#ff3d17]" />
+                      <span className="text-[#ff3d17]">COPIED</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>COPY</span>
+                    </>
+                  )}
+                </button>
+              </div>
+              <a
+                href={`mailto:${CONTACT_INFO.email}`}
+                className="font-serif italic text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] hover:text-[#ff3d17] transition-colors break-all inline-block"
+              >
+                {CONTACT_INFO.email}
+              </a>
             </div>
 
-            {/* 4 Studio Rows */}
-            <FramerReveal delay={0.18} yOffset={24} className="space-y-8 pt-8 border-t border-[#ece8e1]/10">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pb-8 border-b border-[#ece8e1]/10">
-                <div className="space-y-2">
-                  <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    STUDIO
-                  </div>
-                  <div className="font-sans text-sm text-[#dcd6cc] leading-relaxed">
-                    Production Studio & On-Location Coverage
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    BOOKINGS
-                  </div>
-                  <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:bookings@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
-                      bookings@pandoravisuals.studio
-                    </a>
-                  </div>
-                </div>
+            {/* 2. Number (Phone) Card */}
+            <div className="p-6 sm:p-8 bg-[#141413] border border-[#ece8e1]/12 hover:border-[#ece8e1]/25 transition-colors group">
+              <div className="flex items-center justify-between gap-4 mb-3">
+                <span className="font-mono text-xs uppercase tracking-widest text-[#ff3d17] flex items-center gap-2">
+                  <Phone className="w-3.5 h-3.5" />
+                  PHONE / WHATSAPP
+                </span>
+                <button
+                  type="button"
+                  onClick={() => copyToClipboard(CONTACT_INFO.phone, 'phone')}
+                  className="font-mono text-[11px] text-[#ece8e1]/50 hover:text-[#ece8e1] transition-colors flex items-center gap-1.5 cursor-pointer px-2.5 py-1 rounded bg-[#ece8e1]/5 hover:bg-[#ece8e1]/10"
+                  aria-label="Copy phone number"
+                >
+                  {copiedField === 'phone' ? (
+                    <>
+                      <Check className="w-3 h-3 text-[#ff3d17]" />
+                      <span className="text-[#ff3d17]">COPIED</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>COPY</span>
+                    </>
+                  )}
+                </button>
               </div>
+              <a
+                href={`tel:${CONTACT_INFO.phone}`}
+                className="font-sans font-semibold text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] hover:text-[#ff3d17] transition-colors inline-block tracking-tight"
+              >
+                {CONTACT_INFO.displayPhone}
+              </a>
+            </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    DIGITAL MARKETING
-                  </div>
-                  <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:marketing@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
-                      marketing@pandoravisuals.studio
-                    </a>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <div className="text-xs font-mono uppercase tracking-widest text-[#ff3d17] font-bold">
-                    PROJECTS & REELS
-                  </div>
-                  <div className="font-sans text-sm text-[#dcd6cc]">
-                    <a href="mailto:projects@pandoravisuals.studio" className="hover:text-[#ff3d17] transition-colors">
-                      projects@pandoravisuals.studio
-                    </a>
-                  </div>
-                </div>
+            {/* 3. Socials Card */}
+            <div className="p-6 sm:p-8 bg-[#141413] border border-[#ece8e1]/12 space-y-4">
+              <div className="font-mono text-xs uppercase tracking-widest text-[#ff3d17]">
+                SOCIALS
               </div>
-            </FramerReveal>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                {CONTACT_INFO.socials.map((social) => (
+                  <a
+                    key={social.name}
+                    href={social.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="p-3.5 bg-[#0c0c0b] border border-[#ece8e1]/10 hover:border-[#ff3d17]/60 hover:bg-[#1a1a19] transition-all flex items-center justify-between group rounded-none"
+                  >
+                    <div className="space-y-0.5">
+                      <div className="font-sans font-medium text-sm text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors">
+                        {social.name}
+                      </div>
+                      <div className="font-mono text-[11px] text-[#ece8e1]/40">
+                        {social.handle}
+                      </div>
+                    </div>
+                    <ArrowUpRight className="w-4 h-4 text-[#ece8e1]/40 group-hover:text-[#ff3d17] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
           </div>
 
-          {/* Right Column: Framer Form Container */}
-          <FramerReveal delay={0.22} yOffset={32} className="lg:col-span-6 bg-[#141413] border border-[#ece8e1]/15 p-8 sm:p-12 lg:p-14 space-y-8">
-            <FramerHeading
-              text="TELL US WHAT YOU’RE AFTER."
-              as="h2"
-              className="font-anton text-2xl sm:text-3xl lg:text-[38px] text-[#ece8e1] uppercase tracking-wide leading-[1.12]"
-            />
-
-            {submitted ? (
-              <div className="p-8 bg-[#171716] border border-[#ff3d17] text-center space-y-4 animate-in fade-in">
-                <div className="w-12 h-12 rounded-full bg-[#ff3d17] text-[#0c0c0b] mx-auto flex items-center justify-center">
-                  <Check className="w-6 h-6 stroke-[3]" />
+          {/* Right Column: Interactive Studio Map */}
+          <div className="lg:col-span-6 flex flex-col bg-[#141413] border border-[#ece8e1]/12 overflow-hidden">
+            
+            {/* Map Header Bar */}
+            <div className="p-5 sm:p-6 border-b border-[#ece8e1]/10 flex flex-wrap items-center justify-between gap-4 bg-[#141413]">
+              <div className="space-y-1">
+                <div className="font-mono text-xs uppercase tracking-widest text-[#ff3d17] flex items-center gap-2">
+                  <MapPin className="w-3.5 h-3.5" />
+                  STUDIO LOCATION
                 </div>
-                <h3 className="font-anton text-2xl text-[#ece8e1] uppercase">INQUIRY RECEIVED</h3>
-                <p className="font-mono text-xs text-[#8c8880]">
-                  Our visual production coordinator will review your shoot details and respond within 24-48 business hours.
-                </p>
+                <div className="font-sans text-sm text-[#ece8e1]/80">
+                  {CONTACT_INFO.location}
+                </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-8 font-mono text-xs">
-                {/* Name */}
-                <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label htmlFor="contact-name" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
-                    YOUR NAME
-                  </label>
-                  <input
-                    id="contact-name"
-                    name="name"
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="Jane Doe"
-                    className="w-full bg-transparent text-[#ece8e1] placeholder-[#6b675f] text-sm font-sans focus:outline-none py-1"
-                  />
-                </div>
 
-                {/* Email */}
-                <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label htmlFor="contact-email" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
-                    EMAIL
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => setForm({ ...form, email: e.target.value })}
-                    placeholder="jane@studio.com"
-                    className="w-full bg-transparent text-[#ece8e1] placeholder-[#6b675f] text-sm font-sans focus:outline-none py-1"
-                  />
-                </div>
+              <a
+                href={CONTACT_INFO.googleMapsUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="font-mono text-xs text-[#ece8e1] bg-[#0c0c0b] hover:bg-[#ff3d17] hover:text-[#0c0c0b] border border-[#ece8e1]/20 px-3.5 py-2 transition-all flex items-center gap-2 shadow-sm"
+              >
+                <span>OPEN IN MAPS</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
+            </div>
 
-                {/* Topic */}
-                <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label htmlFor="contact-topic" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
-                    TOPIC
-                  </label>
-                  <select
-                    id="contact-topic"
-                    name="topic"
-                    value={form.topic}
-                    onChange={(e) => setForm({ ...form, topic: e.target.value })}
-                    className="w-full bg-transparent text-[#ece8e1] text-sm font-sans focus:outline-none py-1 cursor-pointer"
-                  >
-                    <option value="Reels & Short-Form Video" className="bg-[#141413] text-[#ece8e1]">Reels &amp; Short-Form Video</option>
-                    <option value="Child Birthday / Cake Smash" className="bg-[#141413] text-[#ece8e1]">Child Birthday / Cake Smash</option>
-                    <option value="Adult Milestone Celebration" className="bg-[#141413] text-[#ece8e1]">Adult Milestone Celebration</option>
-                    <option value="Digital Marketing & Social Growth" className="bg-[#141413] text-[#ece8e1]">Digital Marketing &amp; Social Growth</option>
-                    <option value="Commercial & Brand Photography" className="bg-[#141413] text-[#ece8e1]">Commercial &amp; Brand Photography</option>
-                    <option value="General Inquiry" className="bg-[#141413] text-[#ece8e1]">General Inquiry</option>
-                  </select>
-                </div>
+            {/* Embedded Dark Theme Google Map */}
+            <div className="relative w-full flex-1 min-h-[380px] sm:min-h-[440px] bg-[#0c0c0b]">
+              <iframe
+                title="Pandora Visuals Studio Location Map"
+                src={`https://maps.google.com/maps?q=${encodeURIComponent(CONTACT_INFO.mapQuery)}&t=&z=13&ie=UTF8&iwloc=&output=embed`}
+                className="w-full h-full min-h-[380px] sm:min-h-[440px] border-0"
+                style={{
+                  filter: 'invert(90%) hue-rotate(180deg) contrast(90%)',
+                }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
 
-                {/* Message */}
-                <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label htmlFor="contact-message" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
-                    MESSAGE / SHOOT DETAILS
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    rows={4}
-                    required
-                    value={form.message}
-                    onChange={(e) => setForm({ ...form, message: e.target.value })}
-                    placeholder="Tell us about your shoot, date, event type, or marketing objectives..."
-                    className="w-full bg-transparent text-[#ece8e1] placeholder-[#6b675f] text-sm font-sans focus:outline-none resize-none py-1"
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    className="bg-[#0c0c0b] hover:bg-[#ff3d17] hover:text-[#0c0c0b] text-[#ece8e1] border border-[#ece8e1]/20 font-mono text-xs uppercase tracking-widest px-8 py-4.5 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
-                  >
-                    <span>SEND MESSAGE</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </form>
-            )}
-          </FramerReveal>
+          </div>
 
         </div>
+
       </div>
-    </div>
     </div>
   );
 }
