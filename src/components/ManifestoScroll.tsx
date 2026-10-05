@@ -67,12 +67,16 @@ const MANIFESTO_ITEMS: ManifestoItem[] = [
 interface ManifestoScrollProps {
   ctaText?: string;
   ctaLink?: string;
+  secondaryCtaText?: string;
+  secondaryCtaLink?: string;
   isStandalone?: boolean;
 }
 
 export default function ManifestoScroll({
   ctaText = 'READ OUR STORY',
-  ctaLink = '/about',
+  ctaLink = '/shop',
+  secondaryCtaText,
+  secondaryCtaLink,
   isStandalone = false,
 }: ManifestoScrollProps = {}) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -235,12 +239,21 @@ export default function ManifestoScroll({
           </h2>
         </div>
 
-        {/* Action Button - Hero Camera Viewfinder Styled */}
+        {/* Action Buttons - Hero Camera Viewfinder Styled */}
         <div className="max-w-3xl mx-auto flex flex-col items-center text-center pt-8 sm:pt-10 border-t border-[#ece8e1]/10">
-          <div>
+          <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href={ctaLink}
-              className="group relative inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
+              onClick={(e) => {
+                if (ctaLink.startsWith('#')) {
+                  e.preventDefault();
+                  const target = document.querySelector(ctaLink);
+                  if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }
+              }}
+              className="group relative inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md cursor-pointer"
               aria-label={ctaText}
             >
               {/* Camera Shutter Indicator Dot */}
@@ -260,6 +273,19 @@ export default function ManifestoScroll({
               <span className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
               <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
             </Link>
+
+            {secondaryCtaText && secondaryCtaLink && (
+              <Link
+                href={secondaryCtaLink}
+                className="group relative inline-flex items-center gap-3.5 bg-transparent hover:bg-[#ece8e1]/10 text-[#ece8e1]/80 hover:text-white border border-[#ece8e1]/25 px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 select-none rounded-none backdrop-blur-md cursor-pointer"
+                aria-label={secondaryCtaText}
+              >
+                <span className="font-dune text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">
+                  {secondaryCtaText}
+                </span>
+                <ArrowUpRight className="w-4 h-4 text-[#ece8e1]/80 group-hover:text-white transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ImageTrail from '@/components/ImageTrail';
 import DropScroller from '@/components/DropScroller';
+import Moodboard from '@/components/Moodboard';
 import FramerHeading from '@/components/FramerHeading';
 import { ArrowUpRight } from 'lucide-react';
 
@@ -57,8 +58,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* THE DROP (Pinned horizontal scroll gallery with velocity skew) */}
+      {/* THE DROP (Pinned horizontal scroll gallery with velocity skew) — RECENT WORKS */}
       <DropScroller />
+
+      {/* FRAME IT. SHOOT IT. FEEL IT. — Interactive Draggable Moodboard */}
+      <Moodboard />
     </div>
   );
 }

@@ -14,13 +14,13 @@ export function useLenis() {
 }
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const lenisRef = useRef<Lenis | null>(null);
+  const [lenis, setLenis] = React.useState<Lenis | null>(null);
 
   useEffect(() => {
     // Avoid running on server or environments without window
     if (typeof window === 'undefined') return;
 
-    const lenis = new Lenis({
+    const lenisInstance = new Lenis({
       duration: 1.1,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
@@ -31,24 +31,24 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       infinite: false,
     });
 
-    lenisRef.current = lenis;
+    setLenis(lenisInstance);
 
     let rafId: number;
     function raf(time: number) {
-      lenis.raf(time);
+      lenisInstance.raf(time);
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
 
     return () => {
       cancelAnimationFrame(rafId);
-      lenis.destroy();
-      lenisRef.current = null;
+      lenisInstance.destroy();
+      setLenis(null);
     };
   }, []);
 
   return (
-    <LenisContext.Provider value={{ lenis: lenisRef.current }}>
+    <LenisContext.Provider value={{ lenis }}>
       {children}
     </LenisContext.Provider>
   );

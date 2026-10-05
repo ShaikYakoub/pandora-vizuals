@@ -17,12 +17,12 @@ export default function PandoraLogo({
 }: PandoraLogoProps) {
   const logoSrc =
     theme === 'dark'
-      ? '/images/PANDORA LOGO UPDATED.png'
-      : '/images/PANDORA LOGO UPDATED WHITE copy.png';
+      ? '/images/pandora-logo-dark.svg'
+      : '/images/pandora-logo-white.svg';
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center aspect-[5000/1568] ${className}`}
+      className={`relative inline-flex items-center justify-center aspect-[1024/208] ${className}`}
       {...props}
     >
       <Image

@@ -3,6 +3,48 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
+import { EditableCard } from '@/types/card';
+import {
+  Heart,
+  MessageCircle,
+  MessageSquare,
+  Send,
+  Bookmark,
+  MoreHorizontal,
+  MoreVertical,
+  ThumbsUp,
+  ThumbsDown,
+  Share2,
+  Camera,
+  ArrowLeft,
+  CheckCircle2,
+  Globe,
+  Repeat,
+  BarChart2,
+  Music,
+  Search,
+} from 'lucide-react';
+
+export type PosterFormat = 'instagram' | 'twitter' | 'snapchat' | 'whatsapp' | 'youtube' | 'facebook' | 'polaroid';
+
+const FORMATS: PosterFormat[] = ['instagram', 'twitter', 'snapchat', 'whatsapp', 'youtube', 'facebook'];
+
+const getPosterFormat = (card: EditableCard, index: number): PosterFormat => {
+  if (card.metadata?.format && FORMATS.includes(card.metadata.format as PosterFormat)) {
+    return card.metadata.format as PosterFormat;
+  }
+  const idLower = (card.id || '').toLowerCase();
+  const titleLower = (card.title || '').toLowerCase();
+
+  if (titleLower.includes('insta') || titleLower.includes('shutter') || idLower === 'mood-01') return 'instagram';
+  if (titleLower.includes('twitter') || titleLower.includes('x') || titleLower.includes('pacing') || idLower === 'mood-03') return 'twitter';
+  if (titleLower.includes('snap') || titleLower.includes('color') || idLower === 'mood-05') return 'snapchat';
+  if (titleLower.includes('whatsapp') || titleLower.includes('status') || titleLower.includes('neon') || idLower === 'mood-02') return 'whatsapp';
+  if (titleLower.includes('youtube') || titleLower.includes('shorts') || titleLower.includes('lighting') || idLower === 'mood-04') return 'youtube';
+  if (titleLower.includes('facebook') || titleLower.includes('fb') || titleLower.includes('scout') || idLower === 'mood-06') return 'facebook';
+
+  return FORMATS[index % FORMATS.length];
+};
 
 interface SlotConfig {
   top: string;
@@ -19,70 +61,70 @@ interface SlotConfig {
 
 const DEFAULT_SLOTS: SlotConfig[] = [
   {
-    // Slot 0: Top-Left (LOOK 11 — CAUTION)
-    top: '110px',
-    left: '4%',
-    rot: -8,
-    width: 250,
-    aspect: '3/4',
-    mobileTop: '75px',
-    mobileLeft: '3%',
-    mobileWidth: 150,
-  },
-  {
-    // Slot 1: Top-Right (SIGNAL RED)
-    top: '90px',
-    right: '5%',
-    rot: 7,
-    width: 260,
-    aspect: '3/4',
-    mobileTop: '65px',
-    mobileRight: '3%',
-    mobileWidth: 155,
-  },
-  {
-    // Slot 2: Bottom-Left (CASTING — NOAILLES)
-    top: '590px',
+    // Slot 0: Top-Left -> Instagram Post (4:5)
+    top: '120px',
     left: '3%',
+    rot: -7,
+    width: 265,
+    aspect: '4/5',
+    mobileTop: '75px',
+    mobileLeft: '2%',
+    mobileWidth: 160,
+  },
+  {
+    // Slot 1: Top-Right -> Twitter / X Post (4:5 vertical photo)
+    top: '110px',
+    right: '4%',
+    rot: 5,
+    width: 275,
+    aspect: '4/5',
+    mobileTop: '70px',
+    mobileRight: '2%',
+    mobileWidth: 165,
+  },
+  {
+    // Slot 2: Bottom-Left -> Snapchat Snap (9:16)
+    top: '580px',
+    left: '2.5%',
     rot: 4,
-    width: 195,
-    aspect: '3/4',
+    width: 220,
+    aspect: '9/16',
     mobileTop: '540px',
-    mobileLeft: '3%',
-    mobileWidth: 135,
+    mobileLeft: '2%',
+    mobileWidth: 145,
   },
   {
-    // Slot 3: Bottom-Center-Left (NEON TEST, 3 AM)
-    top: '650px',
-    left: '19%',
-    rot: 6,
-    width: 215,
-    aspect: '3/4',
-    mobileTop: '610px',
-    mobileLeft: '22%',
-    mobileWidth: 140,
+    // Slot 3: Bottom-Center-Left -> WhatsApp Status (9:16)
+    top: '635px',
+    left: '18%',
+    rot: 5,
+    width: 220,
+    aspect: '9/16',
+    mobileTop: '590px',
+    mobileLeft: '17%',
+    mobileWidth: 145,
   },
   {
-    // Slot 4: Bottom-Center-Right (FITTING WALL)
-    top: '620px',
-    right: '21%',
+    // Slot 4: Bottom-Center-Right -> YouTube Shorts (Famous in India) (9:16)
+    top: '600px',
+    right: '19%',
     rot: -5,
-    width: 225,
-    aspect: '3/4',
-    mobileTop: '570px',
-    mobileRight: '22%',
-    mobileWidth: 140,
+    width: 230,
+    aspect: '9/16',
+    mobileTop: '575px',
+    mobileRight: '18%',
+    mobileWidth: 145,
   },
   {
-    // Slot 5: Bottom-Far-Right (PORTO, STAIRWELL)
-    top: '610px',
-    right: '3%',
-    rot: -9,
+    // Slot 5: Bottom-Right -> Facebook Post (4:3)
+    top: '590px',
+    right: '2.5%',
+    rot: -7,
     width: 275,
     aspect: '4/3',
-    mobileTop: '630px',
-    mobileRight: '3%',
-    mobileWidth: 155,
+    mobileTop: '550px',
+    mobileRight: '2%',
+    mobileWidth: 170,
   },
 ];
 
@@ -202,21 +244,476 @@ export default function Moodboard() {
   }, []);
 
   // Match each card to its visual slot
-  const getSlotForCard = (card: (typeof sectionCards)[0], index: number): SlotConfig => {
-    const t = card.title.toLowerCase();
+  const getSlotForCard = (card: EditableCard, index: number): SlotConfig => {
+    const t = (card.title || '').toLowerCase();
     if (card.id === 'mood-01' || t.includes('shutter') || t.includes('caution')) return DEFAULT_SLOTS[0];
-    if (card.id === 'mood-03' || t.includes('pacing') || t.includes('signal')) return DEFAULT_SLOTS[1];
-    if (card.id === 'mood-05' || t.includes('grading') || t.includes('color')) return DEFAULT_SLOTS[2];
-    if (card.id === 'mood-02' || t.includes('neon') || t.includes('ambience')) return DEFAULT_SLOTS[3];
-    if (card.id === 'mood-04' || t.includes('lighting') || t.includes('setup')) return DEFAULT_SLOTS[4];
-    if (card.id === 'mood-06' || t.includes('scout') || t.includes('location')) return DEFAULT_SLOTS[5];
+    if (card.id === 'mood-03' || t.includes('twitter') || t.includes('pacing')) return DEFAULT_SLOTS[1];
+    if (card.id === 'mood-05' || t.includes('snap') || t.includes('color')) return DEFAULT_SLOTS[2];
+    if (card.id === 'mood-02' || t.includes('whatsapp') || t.includes('neon')) return DEFAULT_SLOTS[3];
+    if (card.id === 'mood-04' || t.includes('youtube') || t.includes('shorts') || t.includes('lighting')) return DEFAULT_SLOTS[4];
+    if (card.id === 'mood-06' || t.includes('facebook') || t.includes('scout')) return DEFAULT_SLOTS[5];
     return DEFAULT_SLOTS[index % DEFAULT_SLOTS.length];
+  };
+
+  /* ------------------------------------------------------------- */
+  /* INDIVIDUAL POSTER ARCHETYPE RENDERERS                         */
+  /* ------------------------------------------------------------- */
+
+  // 1. INSTAGRAM POST ARCHETYPE (4:5 Ratio)
+  const renderInstagram = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full bg-white rounded-md overflow-hidden shadow-2xl border border-black/10 text-[#262626] relative select-none">
+      {/* Frosted Atelier Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/85 backdrop-blur-[2px] -rotate-2 border border-black/10 shadow-sm opacity-90 pointer-events-none z-20" />
+
+      {/* IG Header */}
+      <div className="flex items-center justify-between px-3 py-2 border-b border-black/5 bg-white">
+        <div className="flex items-center gap-2">
+          {/* Sunset Gradient Avatar Ring */}
+          <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full p-[1.5px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shrink-0">
+            <div className="w-full h-full rounded-full bg-white p-[1px] overflow-hidden flex items-center justify-center font-bold text-[8px] text-[#0c0c0b] font-mono">
+              PV
+            </div>
+          </div>
+          <div className="leading-tight text-left">
+            <div className="flex items-center gap-1">
+              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#262626]">pandoravisuals</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0095f6]" />
+            </div>
+            <div className="text-[8px] sm:text-[9px] text-[#8e8e8e] font-sans">Pandora Studio • Original Audio</div>
+          </div>
+        </div>
+        <MoreHorizontal className="w-3.5 h-3.5 text-[#262626] opacity-60" />
+      </div>
+
+      {/* Main Image (4:5 Ratio) */}
+      <div className="relative w-full aspect-[4/5] bg-[#171716] overflow-hidden">
+        <Image
+          src={card.image}
+          alt={card.title}
+          fill
+          draggable={false}
+          className="object-cover pointer-events-none select-none"
+          sizes={`${cardWidth * 2}px`}
+        />
+      </div>
+
+      {/* Action Bar */}
+      <div className="px-3 pt-2 pb-2.5 bg-white text-[#262626]">
+        <div className="flex items-center justify-between mb-1">
+          <div className="flex items-center gap-2.5">
+            <Heart className="w-4 h-4 fill-[#ff3040] text-[#ff3040]" />
+            <MessageCircle className="w-4 h-4 -rotate-90 stroke-[2.2]" />
+            <Send className="w-4 h-4 stroke-[2.2]" />
+          </div>
+          <Bookmark className="w-4 h-4 stroke-[2.2]" />
+        </div>
+        <div className="font-sans text-[10px] font-bold text-left mb-0.5">2,842 likes</div>
+        <div className="font-sans text-[10px] text-left line-clamp-2 leading-tight">
+          <span className="font-bold mr-1">pandoravisuals</span>
+          {card.description || card.title}
+        </div>
+      </div>
+    </div>
+  );
+
+  // 2. TWITTER / X POST ARCHETYPE (With 4:5 Aspect Ratio Image)
+  const renderTwitter = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden text-[#0f1419] p-3 sm:p-3.5 relative select-none">
+      {/* Frosted Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/85 backdrop-blur-[2px] 2deg border border-black/10 shadow-sm opacity-90 pointer-events-none z-20" />
+
+      {/* Tweet Header */}
+      <div className="flex items-center justify-between pb-1.5 border-b border-black/5">
+        <div className="flex items-center gap-2">
+          {/* Avatar */}
+          <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-[#0c0c0b] text-white flex items-center justify-center font-bold text-[9px] font-mono shrink-0 shadow-sm">
+            PV
+          </div>
+          <div className="leading-tight text-left">
+            <div className="flex items-center gap-1">
+              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#0f1419]">Pandora Visuals</span>
+              <span className="w-3 h-3 rounded-full bg-[#1d9bf0] flex items-center justify-center text-white text-[7px] font-bold">
+                ✓
+              </span>
+            </div>
+            <div className="text-[8px] sm:text-[9px] text-[#536471] font-sans">@pandoravisuals • 2h</div>
+          </div>
+        </div>
+        {/* X Logo */}
+        <div className="w-4 h-4 flex items-center justify-center font-anton text-xs text-[#0f1419] opacity-75">
+          𝕏
+        </div>
+      </div>
+
+      {/* Tweet Body Text */}
+      <div className="py-1 text-left text-[9px] sm:text-[10px] font-sans text-[#0f1419] leading-snug line-clamp-2">
+        {card.description || 'Pacing, color science, and natural sound design. Every frame telling a story that refuses to fade.'}
+      </div>
+
+      {/* Tweet Media Container (Updated to 4:5 Aspect Ratio as requested) */}
+      <div className="relative w-full aspect-[4/5] bg-[#171716] rounded-xl overflow-hidden my-1.5 border border-black/10">
+        <Image
+          src={card.image}
+          alt={card.title}
+          fill
+          draggable={false}
+          className="object-cover pointer-events-none select-none"
+          sizes={`${cardWidth * 2}px`}
+        />
+        {/* ALT Badge */}
+        <div className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-sm text-white font-mono text-[7px] px-1.5 py-0.5 rounded-[3px] font-bold border border-white/20">
+          ALT
+        </div>
+      </div>
+
+      {/* Tweet Action Counters Bar */}
+      <div className="pt-1 flex items-center justify-between text-[#536471] text-[8px] sm:text-[9px] font-sans">
+        <span className="flex items-center gap-1">
+          <MessageCircle className="w-3 h-3 -rotate-90 stroke-[2]" /> 42
+        </span>
+        <span className="flex items-center gap-1">
+          <Repeat className="w-3 h-3 stroke-[2]" /> 128
+        </span>
+        <span className="flex items-center gap-1">
+          <Heart className="w-3 h-3 text-rose-500 fill-rose-500" /> 849
+        </span>
+        <span className="flex items-center gap-1">
+          <BarChart2 className="w-3 h-3 stroke-[2]" /> 18.4K
+        </span>
+        <span className="flex items-center gap-1">
+          <Bookmark className="w-3 h-3 stroke-[2]" />
+        </span>
+      </div>
+    </div>
+  );
+
+  // 3. SNAPCHAT SNAP ARCHETYPE (9:16 Ratio)
+  const renderSnapchat = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full relative aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl border-2 border-white/20 select-none">
+      {/* Corner Washi Tape */}
+      <div className="absolute -top-2.5 -left-3 w-12 h-4.5 bg-white/45 backdrop-blur-[3px] -rotate-45 border border-white/30 shadow-sm pointer-events-none z-20" />
+
+      <Image
+        src={card.image}
+        alt={card.title}
+        fill
+        draggable={false}
+        className="object-cover pointer-events-none select-none"
+        sizes={`${cardWidth * 2}px`}
+      />
+
+      {/* Top Snapchat Header Overlay */}
+      <div className="absolute top-0 inset-x-0 p-2.5 bg-gradient-to-b from-black/80 via-black/40 to-transparent flex items-center justify-between text-white z-10">
+        <div className="flex items-center gap-1.5">
+          <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-full bg-[#fffc00] p-0.5 shrink-0 flex items-center justify-center shadow-sm">
+            <span className="font-anton text-[7px] sm:text-[8px] text-black">PV</span>
+          </div>
+          <div className="text-left leading-tight">
+            <div className="font-sans font-bold text-[10px] sm:text-[11px] text-white flex items-center gap-1">
+              Pandora
+              <span className="text-[9px] text-[#fffc00]">★</span>
+            </div>
+            <div className="text-[8px] sm:text-[9px] text-white/75 font-sans">2h ago</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full text-[9px] font-mono text-white/90">
+          <span>3s</span>
+        </div>
+      </div>
+
+      {/* Classic Translucent Snapchat Center Banner */}
+      <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 bg-black/65 backdrop-blur-md py-1.5 px-3 text-center z-10 border-y border-white/10">
+        <p className="font-sans text-[11px] sm:text-xs text-white font-medium tracking-wide drop-shadow-md line-clamp-2">
+          {card.description || card.title} ✨
+        </p>
+      </div>
+
+      {/* Bottom Chat Pill */}
+      <div className="absolute bottom-2.5 inset-x-2.5 bg-black/55 backdrop-blur-md rounded-full px-3 py-1 flex items-center justify-between text-white/80 border border-white/20 z-10">
+        <span className="text-[9px] sm:text-[10px] font-sans">Send a chat...</span>
+        <Camera className="w-3 h-3 text-white/80" />
+      </div>
+    </div>
+  );
+
+  // 4. WHATSAPP STATUS ARCHETYPE (9:16 Ratio)
+  const renderWhatsApp = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full relative aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-[#0b141a] shadow-2xl border-2 border-[#25D366]/40 select-none">
+      {/* Corner Washi Tape */}
+      <div className="absolute -top-2.5 -right-3 w-12 h-4.5 bg-white/45 backdrop-blur-[3px] rotate-45 border border-white/30 shadow-sm pointer-events-none z-20" />
+
+      <Image
+        src={card.image}
+        alt={card.title}
+        fill
+        draggable={false}
+        className="object-cover pointer-events-none select-none"
+        sizes={`${cardWidth * 2}px`}
+      />
+
+      {/* WhatsApp Top Header Bar */}
+      <div className="absolute top-0 inset-x-0 p-2.5 bg-gradient-to-b from-[#0b141a]/95 via-[#0b141a]/60 to-transparent z-10">
+        {/* Story Segment Bars */}
+        <div className="flex gap-1 mb-2">
+          <div className="h-0.5 flex-1 bg-white rounded-full shadow-sm" />
+          <div className="h-0.5 flex-1 bg-white/40 rounded-full" />
+        </div>
+
+        <div className="flex items-center justify-between text-white">
+          <div className="flex items-center gap-1.5">
+            <ArrowLeft className="w-3 h-3 text-white" />
+            <div className="w-5 sm:w-6 h-5 sm:h-6 rounded-full ring-2 ring-[#25D366] overflow-hidden p-0.5 bg-[#0b141a]">
+              <div className="w-full h-full rounded-full bg-[#128C7E] flex items-center justify-center font-bold text-[7px] text-white">
+                PV
+              </div>
+            </div>
+            <div className="text-left leading-none">
+              <div className="font-sans font-semibold text-[10px] sm:text-[11px] text-white">Pandora Visuals</div>
+              <div className="text-[8px] text-[#25D366] font-sans mt-0.5">Today, 5:48 PM</div>
+            </div>
+          </div>
+          <MoreVertical className="w-3 h-3 text-white/80" />
+        </div>
+      </div>
+
+      {/* Caption Overlay */}
+      <div className="absolute bottom-11 inset-x-2.5 text-center z-10">
+        <span className="bg-black/65 backdrop-blur-md text-white text-[10px] sm:text-[11px] px-2.5 py-1 rounded-md inline-block max-w-full truncate font-sans border border-white/10">
+          {card.description || card.title}
+        </span>
+      </div>
+
+      {/* Bottom Reply Bar */}
+      <div className="absolute bottom-2 inset-x-2.5 flex flex-col items-center gap-0.5 z-10">
+        <div className="text-[9px] text-white/80 leading-none">^</div>
+        <div className="w-full bg-white/20 backdrop-blur-md rounded-full py-1 text-center text-[9px] sm:text-[10px] text-white font-sans border border-white/25 flex items-center justify-center gap-1.5">
+          <span>Reply</span>
+          <span className="text-[10px]">💬</span>
+        </div>
+      </div>
+    </div>
+  );
+
+  // 5. YOUTUBE SHORTS ARCHETYPE (Massive in India — Replacing Apple)
+  const renderYouTube = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full relative aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl border-2 border-white/20 select-none text-white">
+      {/* Corner Washi Tape */}
+      <div className="absolute -top-2.5 -left-3 w-12 h-4.5 bg-white/45 backdrop-blur-[3px] -rotate-35 border border-white/30 shadow-sm pointer-events-none z-20" />
+
+      {/* Main Video Background */}
+      <Image
+        src={card.image}
+        alt={card.title}
+        fill
+        draggable={false}
+        className="object-cover pointer-events-none select-none"
+        sizes={`${cardWidth * 2}px`}
+      />
+
+      {/* Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/85 pointer-events-none" />
+
+      {/* Top Header Bar */}
+      <div className="absolute top-0 inset-x-0 p-2.5 flex items-center justify-between z-10">
+        <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full text-[9px] font-sans border border-white/10">
+          <span className="w-2 h-2 rounded-full bg-[#ff0000] inline-block animate-pulse" />
+          <span className="font-bold tracking-wider text-[8px] sm:text-[9px]">SHORTS</span>
+        </div>
+        <div className="flex items-center gap-2 text-white/80">
+          <Search className="w-3.5 h-3.5" />
+          <MoreVertical className="w-3.5 h-3.5" />
+        </div>
+      </div>
+
+      {/* Right Column Action Rail (Iconic YouTube Shorts Bar) */}
+      <div className="absolute right-2 bottom-12 flex flex-col items-center gap-3 z-10 text-white">
+        {/* Like */}
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/15">
+            <ThumbsUp className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-[8px] font-sans font-medium">142K</span>
+        </div>
+
+        {/* Dislike */}
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/15">
+            <ThumbsDown className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-[8px] font-sans font-medium">Dislike</span>
+        </div>
+
+        {/* Comments */}
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/15">
+            <MessageSquare className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-[8px] font-sans font-medium">2.8K</span>
+        </div>
+
+        {/* Share */}
+        <div className="flex flex-col items-center gap-0.5">
+          <div className="w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center border border-white/15">
+            <Share2 className="w-3.5 h-3.5" />
+          </div>
+          <span className="text-[8px] font-sans font-medium">Share</span>
+        </div>
+
+        {/* Audio Disc */}
+        <div className="w-6 h-6 rounded-full bg-[#ff0000] p-0.5 shadow-md flex items-center justify-center border border-white/30">
+          <Music className="w-3 h-3 text-white" />
+        </div>
+      </div>
+
+      {/* Bottom Creator Row & Title */}
+      <div className="absolute bottom-2.5 left-2.5 right-12 z-10 text-left space-y-1">
+        {/* Creator Channel & Red Subscribe Button */}
+        <div className="flex items-center gap-1.5">
+          <div className="w-5 h-5 rounded-full bg-[#ff0000] text-white flex items-center justify-center font-bold text-[7px] font-mono shrink-0 shadow-sm">
+            PV
+          </div>
+          <span className="font-sans font-bold text-[10px] text-white truncate max-w-[85px]">
+            @pandoravisuals
+          </span>
+          <button className="bg-[#ff0000] text-white font-sans font-bold text-[7px] sm:text-[8px] px-2 py-0.5 rounded-full tracking-wider uppercase shrink-0 shadow-sm pointer-events-none">
+            SUBSCRIBE
+          </button>
+        </div>
+
+        {/* Video Caption */}
+        <div className="font-sans text-[9px] sm:text-[10px] text-white leading-tight line-clamp-2 drop-shadow-md">
+          {card.description || 'Milestone cinematic cut. Every frame crafted with passion. 🎬✨'}
+        </div>
+
+        {/* Audio Track */}
+        <div className="flex items-center gap-1 text-[8px] text-white/75 font-sans truncate">
+          <Music className="w-2.5 h-2.5 shrink-0" />
+          <span className="truncate">Pandora Visuals • Original Sound</span>
+        </div>
+      </div>
+
+      {/* Red YouTube Scrub Progress Bar */}
+      <div className="absolute bottom-0 inset-x-0 h-1 bg-white/20">
+        <div className="h-full bg-[#ff0000] w-[65%]" />
+      </div>
+    </div>
+  );
+
+  // 6. FACEBOOK POST ARCHETYPE (4:3 Ratio)
+  const renderFacebook = (card: EditableCard, cardWidth: number) => (
+    <div className="w-full bg-white rounded-xl shadow-xl border border-black/10 overflow-hidden text-[#050505] p-2.5 sm:p-3 relative select-none">
+      {/* Frosted Tape */}
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/85 backdrop-blur-[2px] 1deg border border-black/10 shadow-sm opacity-90 pointer-events-none z-20" />
+
+      {/* FB Header */}
+      <div className="pb-2 flex items-center justify-between border-b border-black/5">
+        <div className="flex items-center gap-1.5">
+          <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full bg-[#1877F2] text-white font-anton flex items-center justify-center text-[9px] shrink-0 shadow-sm">
+            PV
+          </div>
+          <div className="text-left leading-tight">
+            <div className="flex items-center gap-1">
+              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#050505]">Pandora Visuals</span>
+              <CheckCircle2 className="w-3 h-3 text-[#1877F2] fill-[#1877F2]" />
+            </div>
+            <div className="flex items-center gap-1 text-[8px] sm:text-[9px] text-[#65676B]">
+              <span>3 hrs ago</span>
+              <span>•</span>
+              <Globe className="w-2.5 h-2.5" />
+            </div>
+          </div>
+        </div>
+        <MoreHorizontal className="w-3.5 h-3.5 text-[#65676B]" />
+      </div>
+
+      {/* Caption */}
+      <div className="py-1 text-left text-[9px] sm:text-[10px] font-sans text-[#050505] line-clamp-2 leading-tight">
+        {card.description || 'Behind the lens on our latest milestone production. Every frame crafted with precision.'}
+      </div>
+
+      {/* Image (4:3) */}
+      <div className="relative w-full aspect-[4/3] bg-[#171716] overflow-hidden my-1">
+        <Image
+          src={card.image}
+          alt={card.title}
+          fill
+          draggable={false}
+          className="object-cover pointer-events-none select-none"
+          sizes={`${cardWidth * 2}px`}
+        />
+      </div>
+
+      {/* FB Reaction Stats Bar */}
+      <div className="py-1 flex items-center justify-between text-[8px] sm:text-[9px] text-[#65676B] border-b border-black/5">
+        <div className="flex items-center gap-1">
+          <div className="flex -space-x-1">
+            <span className="w-3.5 h-3.5 rounded-full bg-[#1877F2] text-white flex items-center justify-center text-[7px]">👍</span>
+            <span className="w-3.5 h-3.5 rounded-full bg-[#FA383E] text-white flex items-center justify-center text-[7px]">❤️</span>
+          </div>
+          <span className="font-medium text-[#050505]">384</span>
+        </div>
+        <div>48 comments • 16 shares</div>
+      </div>
+
+      {/* Like / Comment / Share Buttons */}
+      <div className="pt-1.5 flex items-center justify-around text-[#65676B] text-[9px] sm:text-[10px] font-semibold">
+        <span className="flex items-center gap-1">
+          <ThumbsUp className="w-3 h-3" /> Like
+        </span>
+        <span className="flex items-center gap-1">
+          <MessageCircle className="w-3 h-3" /> Comment
+        </span>
+        <span className="flex items-center gap-1">
+          <Share2 className="w-3 h-3" /> Share
+        </span>
+      </div>
+    </div>
+  );
+
+  // 7. CLASSIC POLAROID FALLBACK
+  const renderPolaroid = (card: EditableCard, cardWidth: number) => (
+    <div className="bg-[#f8f6f1] p-2.5 sm:p-3 pb-6 sm:pb-8 border border-[#0c0c0b]/10 select-none shadow-xl relative">
+      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/85 backdrop-blur-[2px] -rotate-2 border border-black/5 shadow-sm opacity-90 pointer-events-none z-20" />
+      <div className="relative w-full aspect-[3/4] bg-[#171716] overflow-hidden mb-2">
+        <Image
+          src={card.image}
+          alt={card.title}
+          fill
+          draggable={false}
+          className="object-cover pointer-events-none select-none"
+          sizes={`${cardWidth * 2}px`}
+        />
+      </div>
+      <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate select-none">
+        {card.title}
+      </div>
+    </div>
+  );
+
+  // Dispatch renderer by archetype
+  const renderCardContent = (format: PosterFormat, card: EditableCard, cardWidth: number) => {
+    switch (format) {
+      case 'instagram':
+        return renderInstagram(card, cardWidth);
+      case 'twitter':
+        return renderTwitter(card, cardWidth);
+      case 'snapchat':
+        return renderSnapchat(card, cardWidth);
+      case 'whatsapp':
+        return renderWhatsApp(card, cardWidth);
+      case 'youtube':
+        return renderYouTube(card, cardWidth);
+      case 'facebook':
+        return renderFacebook(card, cardWidth);
+      default:
+        return renderPolaroid(card, cardWidth);
+    }
   };
 
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[920px] sm:min-h-[1000px] lg:min-h-[1060px] w-full bg-[#ece8e1] text-[#0c0c0b] overflow-hidden select-none border-b border-[#0c0c0b]/15"
+      className="relative min-h-[960px] sm:min-h-[1040px] lg:min-h-[1100px] w-full bg-[#ece8e1] text-[#0c0c0b] overflow-hidden select-none border-b border-[#0c0c0b]/15"
     >
       {/* Monumental Center Headline */}
       <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
@@ -226,10 +723,11 @@ export default function Moodboard() {
         </h2>
       </div>
 
-      {/* Scattered Draggable Polaroids */}
+      {/* Scattered Draggable Social Media & Mobile Video Cards */}
       <div className="absolute inset-0 w-full h-full">
         {sectionCards.map((card, index) => {
           const slot = getSlotForCard(card, index);
+          const format = getPosterFormat(card, index);
           const pos = positions[card.id] || { x: 0, y: 0 };
           const z = zIndexMap[card.id] || 15 + index;
           const isDragging = draggingId === card.id;
@@ -261,41 +759,20 @@ export default function Moodboard() {
                 ...(leftPos ? { left: leftPos } : {}),
                 ...(rightPos ? { right: rightPos } : {}),
                 width: `${cardWidth}px`,
-                transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${isDragging ? 1.05 : 1})`,
+                transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${
+                  isDragging ? 1.05 : 1
+                })`,
                 zIndex: z,
                 cursor: isDragging ? 'grabbing' : 'grab',
                 touchAction: 'none',
               }}
-              className={`bg-[#f8f6f1] p-2.5 sm:p-3 pb-6 sm:pb-8 border border-[#0c0c0b]/10 select-none will-change-transform transition-shadow duration-200 ${
+              className={`select-none will-change-transform transition-shadow duration-200 ${
                 isDragging
-                  ? 'shadow-[0_36px_60px_rgba(12,12,11,0.28)]'
-                  : 'shadow-[0_24px_48px_rgba(12,12,11,0.18)]'
+                  ? 'shadow-[0_36px_65px_rgba(12,12,11,0.38)]'
+                  : 'shadow-[0_20px_45px_rgba(12,12,11,0.18)]'
               }`}
             >
-              {/* Simulated Atelier Frosted Tape */}
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/75 backdrop-blur-[2px] -rotate-2 border border-black/5 shadow-sm opacity-85 pointer-events-none" />
-
-              {/* Photo Frame */}
-              <div
-                className={`relative w-full bg-[#171716] overflow-hidden mb-2.5 sm:mb-3 ${
-                  slot.aspect === '4/3' ? 'aspect-[4/3]' : 'aspect-[3/4]'
-                }`}
-              >
-                <Image
-                  src={card.image}
-                  alt={card.title}
-                  fill
-                  draggable={false}
-                  className="object-cover pointer-events-none select-none"
-                  sizes={`${cardWidth * 2}px`}
-                  priority={index < 2}
-                />
-              </div>
-
-              {/* Polaroid Chin Caption */}
-              <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate select-none">
-                {card.title}
-              </div>
+              {renderCardContent(format, card, cardWidth)}
             </div>
           );
         })}

@@ -5,34 +5,33 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import PandoraLogo from './PandoraLogo';
 
+export const getNavIndex = (path: string): number => {
+  if (path === '/') return 1; // HOME
+  if (path.startsWith('/shop') || path === '/lookbook') return 0; // WORK
+  if (path.startsWith('/contact') || path.startsWith('/about')) return 2; // CONTACT
+  return 1;
+};
+
 export default function Navbar() {
   const pathname = usePathname();
 
   const navLinks = [
     { label: 'WORK', href: '/shop' },
-    { label: 'ABOUT', href: '/about' },
     { label: 'HOME', href: '/' },
     { label: 'CONTACT', href: '/contact' },
   ];
 
-  const getActiveIndex = (path: string) => {
-    if (path === '/') return 2; // HOME
-    if (path.startsWith('/shop') || path === '/lookbook') return 0; // WORK
-    if (path.startsWith('/about')) return 1; // ABOUT
-    if (path.startsWith('/contact')) return 3; // CONTACT
-    return 2;
-  };
-
-  const [activeIndex, setActiveIndex] = useState(() => getActiveIndex(pathname));
+  const [activeIndex, setActiveIndex] = useState(() => getNavIndex(pathname));
   const trackRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
-  const [translateX, setTranslateX] = useState<number>(0);
+  const [translateX, setTranslateX] = useState<number | null>(null);
+  const [isReady, setIsReady] = useState<boolean>(false);
   const [isTopOverLight, setIsTopOverLight] = useState<boolean>(false);
   const [isBottomOverLight, setIsBottomOverLight] = useState<boolean>(false);
 
   // Sync active index with router pathname
   useEffect(() => {
-    setActiveIndex(getActiveIndex(pathname));
+    setActiveIndex(getNavIndex(pathname));
   }, [pathname]);
 
   // Center the active item in the camera track
@@ -46,9 +45,22 @@ export default function Navbar() {
     };
 
     updatePosition();
+    const rafId = requestAnimationFrame(updatePosition);
+
+    if (!isReady) {
+      const timer = setTimeout(() => setIsReady(true), 60);
+      return () => {
+        cancelAnimationFrame(rafId);
+        clearTimeout(timer);
+      };
+    }
+
     window.addEventListener('resize', updatePosition);
-    return () => window.removeEventListener('resize', updatePosition);
-  }, [activeIndex]);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [activeIndex, isReady]);
 
   // Dynamic light/dark background detection for adaptive glass contrast
   useEffect(() => {
@@ -168,7 +180,7 @@ export default function Navbar() {
           >
             <PandoraLogo 
               theme={isTopOverLight ? 'dark' : 'white'}
-              className={`h-14 sm:h-16 md:h-18 lg:h-20 w-auto block select-none transition-all duration-300 ${
+              className={`h-16 sm:h-16 md:h-18 lg:h-20 max-w-[86vw] sm:max-w-none w-auto block select-none transition-all duration-300 ${
                 isTopOverLight 
                   ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)] group-hover:scale-105' 
                   : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)] group-hover:drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]'
@@ -263,8 +275,8 @@ export default function Navbar() {
             className="absolute flex items-center space-x-6 sm:space-x-10 pointer-events-auto whitespace-nowrap will-change-transform pb-2 sm:pb-3"
             style={{
               left: '50%',
-              transform: translateX !== 0 ? `translateX(${translateX}px)` : 'translateX(-50%)',
-              transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)',
+              transform: translateX !== null ? `translateX(${translateX}px)` : 'translateX(-50%)',
+              transition: isReady ? 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)' : 'none',
             }}
           >
             {navLinks.map((link, idx) => {
@@ -273,6 +285,7 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
+                  prefetch={true}
                   ref={(el) => {
                     itemRefs.current[idx] = el;
                   }}

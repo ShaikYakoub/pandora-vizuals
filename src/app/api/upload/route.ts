@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import sharp from 'sharp';
 
 export async function POST(request: Request) {
   try {
     const contentType = request.headers.get('content-type') || '';
+
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
 
     // Handle JSON payload with base64
     if (contentType.includes('application/json')) {
@@ -13,20 +19,26 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Missing dataUrl' }, { status: 400 });
       }
 
-      // If already a base64 or external url, can return it or write to disk
       try {
         const matches = dataUrl.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
         if (matches && matches.length === 3) {
-          const extension = matches[1].split('/')[1] || 'png';
           const buffer = Buffer.from(matches[2], 'base64');
-          const cleanName = `${Date.now()}-${(filename || 'image').replace(/[^a-zA-Z0-9.-]/g, '_')}.${extension}`;
+          const baseName = (filename || 'image').replace(/\.[^/.]+$/, '').replace(/[^a-zA-Z0-9.-]/g, '_');
           
-          const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-          if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
+          let finalBuffer = buffer;
+          let ext = 'webp';
+
+          try {
+            finalBuffer = await sharp(buffer)
+              .webp({ quality: 86, effort: 6, smartSubsample: true })
+              .toBuffer();
+          } catch (sharpErr) {
+            console.warn('Sharp optimization bypassed, saving original buffer:', sharpErr);
+            ext = matches[1].split('/')[1] || 'png';
           }
-          
-          fs.writeFileSync(path.join(uploadDir, cleanName), buffer);
+
+          const cleanName = `${Date.now()}-${baseName}.${ext}`;
+          fs.writeFileSync(path.join(uploadDir, cleanName), finalBuffer);
           return NextResponse.json({ url: `/uploads/${cleanName}` });
         }
       } catch (err) {
@@ -46,16 +58,22 @@ export async function POST(request: Request) {
 
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
+      const baseName = path.parse(file.name).name.replace(/[^a-zA-Z0-9.-]/g, '_');
 
-      const extension = path.extname(file.name) || '.jpg';
-      const cleanName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
-      
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
+      let finalBuffer = buffer;
+      let ext = 'webp';
+
+      try {
+        finalBuffer = await sharp(buffer)
+          .webp({ quality: 86, effort: 6, smartSubsample: true })
+          .toBuffer();
+      } catch (sharpErr) {
+        console.warn('Sharp optimization bypassed, saving original buffer:', sharpErr);
+        ext = path.extname(file.name).replace('.', '') || 'jpg';
       }
 
-      fs.writeFileSync(path.join(uploadDir, cleanName), buffer);
+      const cleanName = `${Date.now()}-${baseName}.${ext}`;
+      fs.writeFileSync(path.join(uploadDir, cleanName), finalBuffer);
       return NextResponse.json({ url: `/uploads/${cleanName}` });
     }
 

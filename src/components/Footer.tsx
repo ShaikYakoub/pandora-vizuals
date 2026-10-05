@@ -55,7 +55,7 @@ export default function Footer() {
               </h3>
               <nav className="flex flex-col gap-2.5 sm:gap-3.5" aria-label="Footer Navigation">
                 <Link
-                  href="/about"
+                  href="/contact#about"
                   className="text-base sm:text-lg text-white/65 hover:text-white transition-colors duration-200 tracking-normal inline-block w-fit"
                 >
                   About

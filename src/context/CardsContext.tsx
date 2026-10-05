@@ -20,20 +20,35 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pandora_visuals_cards_v3';
+const STORAGE_KEY = 'pandora_visuals_cards_v4';
 const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
+const optimizeImageUrl = (url?: string): string => {
+  if (!url || typeof url !== 'string') return '';
+  return url
+    .replace('/images/portrait_2160x3840.png', '/images/portrait_2160x3840.webp')
+    .replace(/\/images\/IMG_2026(.*)\.jpg$/, '/images/IMG_2026$1.webp');
+};
+
+const sanitizeCards = (rawCards: EditableCard[]): EditableCard[] => {
+  return rawCards.map((c) => ({
+    ...c,
+    image: optimizeImageUrl(c.image),
+  }));
+};
+
 export function CardsProvider({ children }: { children: React.ReactNode }) {
-  const [cards, setCards] = useState<EditableCard[]>(DEFAULT_CARDS);
+  const [cards, setCards] = useState<EditableCard[]>(() => sanitizeCards(DEFAULT_CARDS));
   const [loading, setLoading] = useState(true);
 
   // Synchronize state to localStorage and broadcast event
   const persistCards = useCallback((newCards: EditableCard[]) => {
-    setCards(newCards);
+    const sanitized = sanitizeCards(newCards);
+    setCards(sanitized);
     try {
       if (typeof window !== 'undefined') {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(newCards));
-        window.dispatchEvent(new CustomEvent(SYNC_EVENT_NAME, { detail: newCards }));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+        window.dispatchEvent(new CustomEvent(SYNC_EVENT_NAME, { detail: sanitized }));
       }
     } catch (e) {
       console.warn('Failed to save to localStorage:', e);
@@ -50,7 +65,7 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
           try {
             const parsed = JSON.parse(stored);
             if (Array.isArray(parsed) && parsed.length > 0) {
-              setCards(parsed);
+              setCards(sanitizeCards(parsed));
             }
           } catch (err) {
             console.error('Error parsing stored cards:', err);

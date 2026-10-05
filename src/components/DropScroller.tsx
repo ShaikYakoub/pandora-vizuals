@@ -145,7 +145,7 @@ export default function DropScroller() {
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                     sizes="(max-width: 810px) 270px, 440px"
-                    priority={index < 2}
+                    priority={index < 4}
                   />
 
                   {/* Subtle Vignette on Hover */}

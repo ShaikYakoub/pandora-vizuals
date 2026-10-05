@@ -109,6 +109,39 @@ body {
   100% { transform: translateX(0%); }
 }
 
+/* Camera Mode Switching Page Slide Keyframes (GPU Composited) */
+@keyframes camera-slide-in-right {
+  0% {
+    transform: translate3d(90px, 0, 0);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes camera-slide-in-left {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.camera-slide-right {
+  animation: camera-slide-in-right 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+.camera-slide-left {
+  animation: camera-slide-in-left 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
 .animate-marquee-left {
   display: flex;
   width: max-content;
@@ -192,23 +225,23 @@ body {
 @keyframes framerTrailReveal {
   0% {
     opacity: 0;
-    clip-path: inset(50% 0%);
-    transform: translate(-50%, -50%) scale(0.4) rotate(var(--trail-rot, 0deg));
+    transform: translate(-50%, -50%) rotate(var(--trail-rot, 0deg));
+    filter: blur(4px);
   }
-  25% {
+  12% {
     opacity: 1;
-    clip-path: inset(0% 0%);
-    transform: translate(-50%, -50%) scale(1) rotate(var(--trail-rot, 0deg));
+    transform: translate(-50%, -50%) rotate(var(--trail-rot, 0deg));
+    filter: blur(0px);
   }
-  75% {
+  80% {
     opacity: 1;
-    clip-path: inset(0% 0%);
-    transform: translate(-50%, -50%) scale(1) rotate(var(--trail-rot, 0deg));
+    transform: translate(-50%, -50%) rotate(var(--trail-rot, 0deg));
+    filter: blur(0px);
   }
   100% {
     opacity: 0;
-    clip-path: inset(45% 0%);
-    transform: translate(-50%, -50%) scale(0.7) rotate(var(--trail-rot, 0deg));
+    transform: translate(-50%, -50%) scale(0.85) rotate(var(--trail-rot, 0deg));
+    filter: blur(6px);
   }
 }
 

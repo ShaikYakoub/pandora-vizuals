@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ArrowRight, Check } from 'lucide-react';
 import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
-import Moodboard from '@/components/Moodboard';
+import ManifestoScroll from '@/components/ManifestoScroll';
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -24,9 +24,71 @@ export default function ContactPage() {
     }, 4000);
   };
 
+  // Structured Data for AI & Search Engine Optimization (AEO/SEO)
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'AboutPage',
+        '@id': 'https://pandoravisuals.studio/contact#about',
+        'name': 'About Pandora Visuals Studio',
+        'description': 'Pandora Visuals is a creative visual media studio specializing in viral reels, milestone birthday celebrations for kids and adults, commercial photography, and full-funnel digital marketing.',
+        'url': 'https://pandoravisuals.studio/contact',
+      },
+      {
+        '@type': 'ContactPage',
+        '@id': 'https://pandoravisuals.studio/contact#contact',
+        'name': 'Contact & Booking — Pandora Visuals Studio',
+        'url': 'https://pandoravisuals.studio/contact',
+      },
+      {
+        '@type': 'ProfessionalService',
+        'name': 'Pandora Visuals',
+        'url': 'https://pandoravisuals.studio',
+        'email': 'hello@pandoravisuals.studio',
+        'description': 'Premier videography, milestone event photography, cinematic reels, and digital marketing studio.',
+        'contactPoint': [
+          {
+            '@type': 'ContactPoint',
+            'contactType': 'Bookings & Shoots',
+            'email': 'bookings@pandoravisuals.studio',
+          },
+          {
+            '@type': 'ContactPoint',
+            'contactType': 'General & Studio Inquiries',
+            'email': 'hello@pandoravisuals.studio',
+          },
+          {
+            '@type': 'ContactPoint',
+            'contactType': 'Digital Marketing',
+            'email': 'marketing@pandoravisuals.studio',
+          },
+        ],
+      },
+    ],
+  };
+
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen flex flex-col">
-      <div className="w-full pt-28 pb-24 sm:pt-36 sm:pb-32 px-4 sm:px-8 border-b border-[#ece8e1]/10">
+      {/* Schema.org Structured Data for AI Engines & Crawlers */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+
+      {/* 1. About / Studio Manifesto Hero Section */}
+      <section id="about" className="w-full pt-28 sm:pt-36 pb-14 sm:pb-20 px-4 sm:px-8 border-b border-[#ece8e1]/10 bg-noise select-none">
+        <ManifestoScroll
+          isStandalone={true}
+          ctaText="BOOK A SHOOT"
+          ctaLink="#inquire"
+          secondaryCtaText="EXPLORE WORK"
+          secondaryCtaLink="/shop"
+        />
+      </section>
+
+      {/* 2. Direct Studio Info & Inquiry Form Section */}
+      <div id="inquire" className="w-full pt-16 sm:pt-24 pb-24 sm:pb-32 px-4 sm:px-8 border-b border-[#ece8e1]/10">
         <div className="max-w-[1580px] mx-auto space-y-16 sm:space-y-24">
         
 
@@ -124,10 +186,12 @@ export default function ContactPage() {
               <form onSubmit={handleSubmit} className="space-y-8 font-mono text-xs">
                 {/* Name */}
                 <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label className="tracking-widest text-[#8c8880] uppercase block text-[11px]">
+                  <label htmlFor="contact-name" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
                     YOUR NAME
                   </label>
                   <input
+                    id="contact-name"
+                    name="name"
                     type="text"
                     required
                     value={form.name}
@@ -139,10 +203,12 @@ export default function ContactPage() {
 
                 {/* Email */}
                 <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label className="tracking-widest text-[#8c8880] uppercase block text-[11px]">
+                  <label htmlFor="contact-email" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
                     EMAIL
                   </label>
                   <input
+                    id="contact-email"
+                    name="email"
                     type="email"
                     required
                     value={form.email}
@@ -154,10 +220,12 @@ export default function ContactPage() {
 
                 {/* Topic */}
                 <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label className="tracking-widest text-[#8c8880] uppercase block text-[11px]">
+                  <label htmlFor="contact-topic" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
                     TOPIC
                   </label>
                   <select
+                    id="contact-topic"
+                    name="topic"
                     value={form.topic}
                     onChange={(e) => setForm({ ...form, topic: e.target.value })}
                     className="w-full bg-transparent text-[#ece8e1] text-sm font-sans focus:outline-none py-1 cursor-pointer"
@@ -173,10 +241,12 @@ export default function ContactPage() {
 
                 {/* Message */}
                 <div className="space-y-2 border-b border-[#ece8e1]/20 pb-2">
-                  <label className="tracking-widest text-[#8c8880] uppercase block text-[11px]">
+                  <label htmlFor="contact-message" className="tracking-widest text-[#8c8880] uppercase block text-[11px] cursor-pointer">
                     MESSAGE / SHOOT DETAILS
                   </label>
                   <textarea
+                    id="contact-message"
+                    name="message"
                     rows={4}
                     required
                     value={form.message}
@@ -203,9 +273,6 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
-
-      {/* "FRAME IT. SHOOT IT. FEEL IT." Moodboard Section */}
-      <Moodboard />
     </div>
   );
 }
