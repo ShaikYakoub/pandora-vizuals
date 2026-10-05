@@ -222,6 +222,21 @@ body {
   transition: opacity 0.35s ease, filter 0.35s ease, color 0.35s ease;
 }
 
+@keyframes trailSmoothFade {
+  0% {
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes cursorTrailAppear {
   0% {
     opacity: 0;
