@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useRef, useState, useEffect, useMemo, useCallback } from 'react';
-import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
 
 interface TrailItem {
@@ -36,6 +35,45 @@ const MOBILE_ZONES = [
   { xPercent: 82, yPercent: 50 }, // Mid Right
 ];
 
+// Memoized Trail Item: Isolated GPU rendering prevents re-rendering siblings on every pointer event
+const TrailItemView = React.memo(function TrailItemView({ item }: { item: TrailItem }) {
+  return (
+    <div
+      className="absolute pointer-events-none will-change-[transform,opacity]"
+      style={{
+        left: item.isPercent ? `${item.x}%` : `${item.x}px`,
+        top: item.isPercent ? `${item.y}%` : `${item.y}px`,
+        zIndex: 10 + (item.id % 30),
+        ['--trail-rot' as any]: `${item.rotate}deg`,
+        animation: item.isMobileAmbient
+          ? 'mobileAmbientFloat 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+          : 'cursorTrailFlow 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        transform: 'translate3d(-50%, -50%, 0)',
+        backfaceVisibility: 'hidden',
+      }}
+    >
+      <div
+        className={`overflow-hidden rounded-full aspect-square border-2 border-[#ece8e1]/40 shadow-[0_20px_45px_rgba(0,0,0,0.85),0_0_15px_rgba(255,255,255,0.06)] ${
+          item.isMobileAmbient
+            ? 'w-[150px] sm:w-[185px] h-[150px] sm:h-[185px]'
+            : 'w-[220px] sm:w-[260px] h-[220px] sm:h-[260px]'
+        }`}
+      >
+        <img
+          src={item.src}
+          alt=""
+          decoding="async"
+          loading="eager"
+          className="w-full h-full object-cover rounded-full select-none pointer-events-none"
+        />
+        {item.isMobileAmbient && (
+          <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        )}
+      </div>
+    </div>
+  );
+});
+
 export default function ImageTrail() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [items, setItems] = useState<TrailItem[]>([]);
@@ -50,7 +88,6 @@ export default function ImageTrail() {
 
   // Dynamic pool of work images from active portfolio cards
   const workImages = useMemo(() => {
-    // 1. Prioritize active cards from work-specific sections ('shop' / Our Work, 'home-drop', 'home-edit', 'lookbook')
     const workCards = cards.filter(
       (c) =>
         c.isActive !== false &&
@@ -67,7 +104,6 @@ export default function ImageTrail() {
       return uniqueWorkImages;
     }
 
-    // 2. If work-specific cards are empty, include any active non-moodboard card image
     const anyStudioCards = Array.from(
       new Set(
         cards
@@ -86,13 +122,21 @@ export default function ImageTrail() {
       return anyStudioCards;
     }
 
-    // 3. Fallback to default studio work images
     return FALLBACK_WORK_IMAGES;
   }, [cards]);
 
   const workImagesRef = useRef(workImages);
   useEffect(() => {
     workImagesRef.current = workImages;
+  }, [workImages]);
+
+  // Warm image cache on mount to prevent decoding latency on pointer motion
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    workImages.forEach((src) => {
+      const img = new window.Image();
+      img.src = src;
+    });
   }, [workImages]);
 
   // Pick a random work image, avoiding immediate consecutive duplicates
@@ -127,7 +171,7 @@ export default function ImageTrail() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Desktop Pointer Move Trail
+  // Desktop Pointer Move Trail with RAF throttling
   const addPointerPoint = useCallback((x: number, y: number) => {
     const id = counterRef.current++;
     const src = getRandomImage();
@@ -137,18 +181,22 @@ export default function ImageTrail() {
 
     setTimeout(() => {
       setItems((prev) => prev.filter((item) => item.id !== id));
-    }, 1200);
+    }, 1350);
   }, [getRandomImage]);
 
   useEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
-    const handlePointerMove = (e: PointerEvent) => {
-      const container = containerRef.current;
-      if (!container) return;
+    let rafId: number | null = null;
+    let pendingPoint: { x: number; y: number } | null = null;
 
-      const rect = container.getBoundingClientRect();
+    const handlePointerMove = (e: PointerEvent) => {
+      const containerEl = containerRef.current;
+      if (!containerEl) return;
+
+      const rect = containerEl.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
@@ -164,38 +212,34 @@ export default function ImageTrail() {
 
       const dx = x - lastPosRef.current.x;
       const dy = y - lastPosRef.current.y;
-      const dist = Math.hypot(dx, dy);
+      const distSq = dx * dx + dy * dy;
 
-      if (dist >= 95) {
+      // 80px distance threshold: 80 * 80 = 6400
+      if (distSq >= 6400) {
         lastPosRef.current = { x, y };
-        addPointerPoint(x, y);
-      }
-    };
+        pendingPoint = { x, y };
 
-    let lastWheelTime = 0;
-    const handleWheel = (e: WheelEvent) => {
-      const now = performance.now();
-      if (now - lastWheelTime < 240) return;
-      if (!lastPosRef.current) return;
-
-      if (Math.abs(e.deltaY) > 30) {
-        lastWheelTime = now;
-        const jitterX = (Math.random() * 2 - 1) * 35;
-        const jitterY = (Math.random() * 2 - 1) * 35;
-        addPointerPoint(lastPosRef.current.x + jitterX, lastPosRef.current.y + jitterY);
+        if (rafId === null) {
+          rafId = requestAnimationFrame(() => {
+            rafId = null;
+            if (pendingPoint) {
+              addPointerPoint(pendingPoint.x, pendingPoint.y);
+              pendingPoint = null;
+            }
+          });
+        }
       }
     };
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    window.addEventListener('wheel', handleWheel, { passive: true });
 
     return () => {
+      if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('wheel', handleWheel);
     };
-  }, [addPointerPoint]);
+  }, [isMobile, addPointerPoint]);
 
-  // Mobile Ambient Loop: continuous flow keeping 1-2 images alive at all times
+  // Mobile Ambient Loop: continuous smooth perimeter display
   useEffect(() => {
     if (!isMobile) return;
 
@@ -216,8 +260,8 @@ export default function ImageTrail() {
 
       const baseZone = MOBILE_ZONES[nextZoneIdx];
       // Subtle organic jitter
-      const jitterX = (Math.random() * 2 - 1) * 6;
-      const jitterY = (Math.random() * 2 - 1) * 5;
+      const jitterX = (Math.random() * 2 - 1) * 5;
+      const jitterY = (Math.random() * 2 - 1) * 4;
       const x = Math.min(Math.max(baseZone.xPercent + jitterX, 15), 85);
       const y = Math.min(Math.max(baseZone.yPercent + jitterY, 18), 82);
       const rotate = (Math.random() * 2 - 1) * 5;
@@ -260,53 +304,9 @@ export default function ImageTrail() {
       className="absolute inset-0 pointer-events-none overflow-hidden z-20"
       aria-hidden="true"
     >
-      {items.map((item, index) => {
-        // Calculate age relative to newest item (0 is newest/first image at cursor)
-        const age = items.length - 1 - index;
-        // First image is largest (1.40x ~350px), subsequent trailing images reduce size one after another
-        const scale = item.isMobileAmbient
-          ? age === 0 ? 1.15 : 0.85
-          : Math.max(1.4 * Math.pow(0.82, age), 0.32);
-
-        return (
-          <div
-            key={item.id}
-            className="absolute pointer-events-none will-change-[transform,opacity]"
-            style={{
-              left: item.isPercent ? `${item.x}%` : `${item.x}px`,
-              top: item.isPercent ? `${item.y}%` : `${item.y}px`,
-              zIndex: 10 + index,
-              ['--trail-rot' as any]: `${item.rotate}deg`,
-              animation: item.isMobileAmbient
-                ? 'mobileAmbientFloat 2.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
-                : 'framerTrailReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            }}
-          >
-            {/* Inner Scaling Container: newest image is biggest, trailing circles step down progressively */}
-            <div
-              className={`overflow-hidden rounded-full aspect-square border-2 border-[#ece8e1]/40 shadow-[0_24px_50px_rgba(0,0,0,0.85),0_0_20px_rgba(255,255,255,0.06)] will-change-transform ${
-                item.isMobileAmbient
-                  ? 'w-[150px] sm:w-[185px] h-[150px] sm:h-[185px]'
-                  : 'w-[210px] sm:w-[250px] h-[210px] sm:h-[250px]'
-              }`}
-              style={{
-                transform: `scale(${scale})`,
-                transition: 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
-              }}
-            >
-              <img
-                src={item.src}
-                alt=""
-                decoding="async"
-                className="w-full h-full object-cover rounded-full select-none pointer-events-none"
-              />
-              {item.isMobileAmbient && (
-                <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              )}
-            </div>
-          </div>
-        );
-      })}
+      {items.map((item) => (
+        <TrailItemView key={item.id} item={item} />
+      ))}
     </div>
   );
 }
