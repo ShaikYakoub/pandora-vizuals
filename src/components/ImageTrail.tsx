@@ -145,6 +145,9 @@ export default function ImageTrail() {
     if (!container) return;
 
     const handlePointerMove = (e: PointerEvent) => {
+      const container = containerRef.current;
+      if (!container) return;
+
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -163,7 +166,7 @@ export default function ImageTrail() {
       const dy = y - lastPosRef.current.y;
       const dist = Math.hypot(dx, dy);
 
-      if (dist >= 105) {
+      if (dist >= 95) {
         lastPosRef.current = { x, y };
         addPointerPoint(x, y);
       }
@@ -291,13 +294,11 @@ export default function ImageTrail() {
                 transition: 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
               }}
             >
-              <Image
+              <img
                 src={item.src}
                 alt=""
-                fill
-                className="object-cover rounded-full"
-                sizes="(max-width: 640px) 185px, 260px"
-                priority={false}
+                decoding="async"
+                className="w-full h-full object-cover rounded-full select-none pointer-events-none"
               />
               {item.isMobileAmbient && (
                 <div className="absolute inset-0 rounded-full bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />

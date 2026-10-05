@@ -30,7 +30,9 @@ export async function POST(request: Request) {
 
           try {
             finalBuffer = await sharp(buffer)
-              .webp({ quality: 86, effort: 6, smartSubsample: true })
+              .rotate() // Auto-orient EXIF
+              .resize({ width: 1440, height: 1440, fit: 'inside', withoutEnlargement: true })
+              .webp({ quality: 84, effort: 6, smartSubsample: true })
               .toBuffer();
           } catch (sharpErr) {
             console.warn('Sharp optimization bypassed, saving original buffer:', sharpErr);
@@ -65,7 +67,9 @@ export async function POST(request: Request) {
 
       try {
         finalBuffer = await sharp(buffer)
-          .webp({ quality: 86, effort: 6, smartSubsample: true })
+          .rotate() // Auto-orient EXIF
+          .resize({ width: 1440, height: 1440, fit: 'inside', withoutEnlargement: true })
+          .webp({ quality: 84, effort: 6, smartSubsample: true })
           .toBuffer();
       } catch (sharpErr) {
         console.warn('Sharp optimization bypassed, saving original buffer:', sharpErr);

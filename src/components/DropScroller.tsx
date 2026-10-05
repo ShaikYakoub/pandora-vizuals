@@ -3,16 +3,21 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useCards } from '@/context/CardsContext';
+import { useLenis } from '@/components/SmoothScroll';
 
 export default function DropScroller() {
   const { sectionCards, loading } = useCards('home-drop');
   const sectionRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const { lenis } = useLenis();
 
   const [maxScrollDistance, setMaxScrollDistance] = useState(2000);
-  const [currentTranslateX, setCurrentTranslateX] = useState(0);
-  const [velocitySkew, setVelocitySkew] = useState(0);
+  const maxScrollDistanceRef = useRef(2000);
   const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    maxScrollDistanceRef.current = maxScrollDistance;
+  }, [maxScrollDistance]);
 
   // Measure track scroll width vs viewport width
   useEffect(() => {
@@ -22,6 +27,7 @@ export default function DropScroller() {
       const viewportWidth = window.innerWidth;
       const distance = Math.max(trackWidth - viewportWidth + 80, 0);
       setMaxScrollDistance(distance);
+      maxScrollDistanceRef.current = distance;
       setIsMobile(viewportWidth < 810);
     };
 
@@ -36,58 +42,37 @@ export default function DropScroller() {
     };
   }, [sectionCards]);
 
-  // Scroll listener for sticky pinning, progress scrubbing, and velocity skew
+  // Smooth scroll sync: direct hardware-accelerated translate3d synced with Lenis
   useEffect(() => {
-    let lastScrollY = window.scrollY;
-    let lastTime = performance.now();
-    let skewDecayTimeout: NodeJS.Timeout;
-
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
+    const updateScroller = () => {
+      if (!sectionRef.current || !trackRef.current) return;
       const rect = sectionRef.current.getBoundingClientRect();
-      const now = performance.now();
-      const currentScrollY = window.scrollY;
-
-      // Scroll delta & velocity
-      const dt = Math.max(now - lastTime, 16);
-      const dy = currentScrollY - lastScrollY;
-      const velocity = (dy / dt) * 1000; // pixels per second
-
-      lastScrollY = currentScrollY;
-      lastTime = now;
-
-      // When section is in view / pinning
-      // Section starts pinning when top reaches 0, ends when bottom reaches window.innerHeight
       const totalScrollableHeight = sectionRef.current.offsetHeight - window.innerHeight;
-      if (totalScrollableHeight > 0) {
-        const scrolledIntoSection = -rect.top;
-        const progress = Math.min(Math.max(scrolledIntoSection / totalScrollableHeight, 0), 1);
-        const targetX = progress * maxScrollDistance;
-        setCurrentTranslateX(targetX);
+      if (totalScrollableHeight <= 0) return;
 
-        // Calculate velocity skew
-        // Slower or faster skew clamped between -6 and +6 degrees
-        const rawSkew = Math.max(Math.min(velocity / 240, 6), -6);
-        setVelocitySkew(-rawSkew);
+      const scrolledIntoSection = -rect.top;
+      const progress = Math.min(Math.max(scrolledIntoSection / totalScrollableHeight, 0), 1);
+      const targetX = progress * maxScrollDistanceRef.current;
 
-        // Smoothly decay skew back to 0 when scroll ceases
-        clearTimeout(skewDecayTimeout);
-        skewDecayTimeout = setTimeout(() => {
-          setVelocitySkew(0);
-        }, 120);
-      }
+      trackRef.current.style.transform = `translate3d(-${targetX.toFixed(2)}px, 0, 0)`;
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    if (lenis) {
+      lenis.on('scroll', updateScroller);
+    } else {
+      window.addEventListener('scroll', updateScroller, { passive: true });
+    }
+
+    updateScroller();
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(skewDecayTimeout);
+      if (lenis) {
+        lenis.off('scroll', updateScroller);
+      } else {
+        window.removeEventListener('scroll', updateScroller);
+      }
     };
-  }, [maxScrollDistance]);
-
-  const looksCount = (sectionCards.length || 8).toString().padStart(2, '0');
+  }, [lenis, maxScrollDistance]);
 
   if (loading && sectionCards.length === 0) {
     return (
@@ -120,8 +105,7 @@ export default function DropScroller() {
           ref={trackRef}
           className="flex gap-5 sm:gap-8 px-6 sm:px-12 w-max will-change-transform"
           style={{
-            transform: `translateX(-${currentTranslateX}px)`,
-            transition: 'transform 0.08s linear',
+            transform: 'translate3d(0, 0, 0)',
           }}
         >
           {sectionCards.map((card, index) => {
@@ -130,11 +114,9 @@ export default function DropScroller() {
             return (
               <div
                 key={card.id}
-                className="flex-none group select-none will-change-transform"
+                className="flex-none group select-none"
                 style={{
                   width: cardWidth,
-                  transform: `skewX(${velocitySkew.toFixed(2)}deg)`,
-                  transition: 'transform 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
               >
                 {/* Image Container */}
