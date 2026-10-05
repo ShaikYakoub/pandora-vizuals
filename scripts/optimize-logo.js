@@ -3,26 +3,31 @@ const path = require('path');
 const sharp = require('sharp');
 const potrace = require('potrace');
 
-const inputPath = 'C:/Users/Windows/.gemini/antigravity-ide/brain/74abd4ca-62be-4f14-8326-a367fecb30f2/.user_uploaded/media_1790948963375.png';
 const publicDir = path.join(__dirname, '../public/images');
-fs.mkdirSync(publicDir, { recursive: true });
+const darkInput = path.join(publicDir, 'PANDORA LOGO UPDATED.png');
+const whiteInput = path.join(publicDir, 'PANDORA LOGO UPDATED WHITE copy.png');
 
 async function processLogos() {
-  console.log('Optimizing logo from:', inputPath);
+  console.log('Processing new logos:');
+  console.log('- Dark input:', darkInput);
+  console.log('- White input:', whiteInput);
 
-  // 1. High precision vector trace with potrace
-  const flattened = await sharp(inputPath)
+  // 1. Trim dark image to get exact bounding box and flatten to white background for potrace
+  const trimmedDarkBuffer = await sharp(darkInput)
+    .trim()
     .flatten({ background: { r: 255, g: 255, b: 255 } })
     .toBuffer();
 
+  // 2. High precision vector trace with potrace
   const svg = await new Promise((resolve, reject) => {
     potrace.trace(
-      flattened,
+      trimmedDarkBuffer,
       {
         threshold: 128,
-        optTolerance: 0.15,
-        turnPolicy: potrace.Potrace.TURNPOLICY_MINORITY,
+        optTolerance: 0.1,
         turdSize: 2,
+        optCurve: true,
+        turnPolicy: potrace.Potrace.TURNPOLICY_MINORITY,
       },
       (err, result) => {
         if (err) reject(err);
@@ -44,34 +49,38 @@ async function processLogos() {
   const svgDark = svgClean.replace(/<path/g, '<path fill="#0c0c0b"');
   fs.writeFileSync(path.join(publicDir, 'pandora-logo-dark.svg'), svgDark);
 
-  // 2. Generate optimized lossy and lossless WebP assets
-  const { data, info } = await sharp(inputPath)
-    .raw()
-    .toBuffer({ resolveWithObject: true });
+  console.log('SVGs generated successfully.');
 
-  // White RGB (#ece8e1) preserving original alpha
-  const whiteData = Buffer.from(data);
-  for (let i = 0; i < whiteData.length; i += 4) {
-    whiteData[i] = 236;
-    whiteData[i + 1] = 232;
-    whiteData[i + 2] = 225;
-  }
+  // 3. Trim PNG inputs
+  const trimmedWhite = await sharp(whiteInput).trim().toBuffer();
+  const trimmedDark = await sharp(darkInput).trim().toBuffer();
 
-  // Lossless WebP (sharp and crisp, ~15-20 KB)
-  await sharp(whiteData, { raw: { width: info.width, height: info.height, channels: 4 } })
+  // Optimized Master PNGs
+  await sharp(trimmedWhite)
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(publicDir, 'pandora-logo-white.png'));
+
+  await sharp(trimmedDark)
+    .png({ compressionLevel: 9 })
+    .toFile(path.join(publicDir, 'pandora-logo-dark.png'));
+
+  // Lossless WebP (master resolution 4135px, pristine crispness)
+  await sharp(trimmedWhite)
     .webp({ lossless: true })
     .toFile(path.join(publicDir, 'pandora-logo-white.webp'));
 
-  await sharp(inputPath)
+  await sharp(trimmedDark)
     .webp({ lossless: true })
     .toFile(path.join(publicDir, 'pandora-logo-dark.webp'));
 
-  // Also lightweight compressed WebP (5-8 KB for instant sub-millisecond network load)
-  await sharp(whiteData, { raw: { width: info.width, height: info.height, channels: 4 } })
+  // Compressed WebP (capped at max 2560px for hyper-fast web delivery, ~15-25 KB)
+  await sharp(trimmedWhite)
+    .resize(2560, null, { withoutEnlargement: true })
     .webp({ quality: 85, effort: 6 })
     .toFile(path.join(publicDir, 'pandora-logo-white-compressed.webp'));
 
-  await sharp(inputPath)
+  await sharp(trimmedDark)
+    .resize(2560, null, { withoutEnlargement: true })
     .webp({ quality: 85, effort: 6 })
     .toFile(path.join(publicDir, 'pandora-logo-dark-compressed.webp'));
 
@@ -83,6 +92,8 @@ async function processLogos() {
   console.log('Dark WebP (Lossless):', fs.statSync(path.join(publicDir, 'pandora-logo-dark.webp')).size, 'bytes');
   console.log('White WebP (Compressed):', fs.statSync(path.join(publicDir, 'pandora-logo-white-compressed.webp')).size, 'bytes');
   console.log('Dark WebP (Compressed):', fs.statSync(path.join(publicDir, 'pandora-logo-dark-compressed.webp')).size, 'bytes');
+  console.log('White PNG (Optimized):', fs.statSync(path.join(publicDir, 'pandora-logo-white.png')).size, 'bytes');
+  console.log('Dark PNG (Optimized):', fs.statSync(path.join(publicDir, 'pandora-logo-dark.png')).size, 'bytes');
 }
 
 processLogos().catch(console.error);

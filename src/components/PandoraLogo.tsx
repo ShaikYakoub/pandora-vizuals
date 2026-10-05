@@ -22,7 +22,7 @@ export default function PandoraLogo({
 
   return (
     <div
-      className={`relative inline-flex items-center justify-center aspect-[1024/208] ${className}`}
+      className={`relative inline-flex items-center justify-center aspect-[4135/838] ${className}`}
       {...props}
     >
       <Image
