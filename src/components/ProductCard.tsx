@@ -56,8 +56,6 @@ export default function ProductCard({ card, index = 0, columns = 4 }: ProductCar
           sizes="(max-width: 640px) 50vw, (max-width: 1280px) 33vw, 25vw"
         />
 
-        {/* Subtle Dark Vignette & Shutter Glass on Hover */}
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
         {/* Corner Viewfinder Camera Marks on Hover */}
         <div className="absolute top-2 left-2 w-1.5 h-1.5 border-t border-l border-white/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />

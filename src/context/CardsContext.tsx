@@ -20,7 +20,7 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pandora_visuals_cards_v4';
+const STORAGE_KEY = 'pandora_visuals_cards_v8';
 const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
 const optimizeImageUrl = (url?: string): string => {

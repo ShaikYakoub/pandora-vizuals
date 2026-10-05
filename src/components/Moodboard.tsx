@@ -19,15 +19,13 @@ import {
   ArrowLeft,
   CheckCircle2,
   Globe,
-  Repeat,
-  BarChart2,
   Music,
   Search,
 } from 'lucide-react';
 
-export type PosterFormat = 'instagram' | 'twitter' | 'snapchat' | 'whatsapp' | 'youtube' | 'facebook' | 'polaroid';
+export type PosterFormat = 'instagram' | 'snapchat' | 'whatsapp' | 'youtube' | 'facebook' | 'polaroid';
 
-const FORMATS: PosterFormat[] = ['instagram', 'twitter', 'snapchat', 'whatsapp', 'youtube', 'facebook'];
+const FORMATS: PosterFormat[] = ['instagram', 'facebook', 'youtube', 'snapchat', 'whatsapp'];
 
 const getPosterFormat = (card: EditableCard, index: number): PosterFormat => {
   if (card.metadata?.format && FORMATS.includes(card.metadata.format as PosterFormat)) {
@@ -36,24 +34,26 @@ const getPosterFormat = (card: EditableCard, index: number): PosterFormat => {
   const idLower = (card.id || '').toLowerCase();
   const titleLower = (card.title || '').toLowerCase();
 
-  if (titleLower.includes('insta') || titleLower.includes('shutter') || idLower === 'mood-01') return 'instagram';
-  if (titleLower.includes('twitter') || titleLower.includes('x') || titleLower.includes('pacing') || idLower === 'mood-03') return 'twitter';
-  if (titleLower.includes('snap') || titleLower.includes('color') || idLower === 'mood-05') return 'snapchat';
-  if (titleLower.includes('whatsapp') || titleLower.includes('status') || titleLower.includes('neon') || idLower === 'mood-02') return 'whatsapp';
-  if (titleLower.includes('youtube') || titleLower.includes('shorts') || titleLower.includes('lighting') || idLower === 'mood-04') return 'youtube';
-  if (titleLower.includes('facebook') || titleLower.includes('fb') || titleLower.includes('scout') || idLower === 'mood-06') return 'facebook';
+  if (titleLower.includes('insta') || titleLower.includes('shutter') || titleLower.includes('birthday') || titleLower.includes('applause') || idLower === 'mood-01') return 'instagram';
+  if (titleLower.includes('facebook') || titleLower.includes('fb') || titleLower.includes('scout') || titleLower.includes('sweet') || titleLower.includes('cravings') || titleLower.includes('ice cream') || idLower === 'mood-06') return 'facebook';
+  if (titleLower.includes('youtube') || titleLower.includes('shorts') || titleLower.includes('lighting') || titleLower.includes('streetwear') || titleLower.includes('botanical') || titleLower.includes('drip') || idLower === 'mood-04') return 'youtube';
+  if (titleLower.includes('snap') || titleLower.includes('color') || titleLower.includes('mango') || titleLower.includes('smoothie') || titleLower.includes('shake') || idLower === 'mood-05') return 'snapchat';
+  if (titleLower.includes('whatsapp') || titleLower.includes('status') || titleLower.includes('neon') || titleLower.includes('bridge') || titleLower.includes('garden') || idLower === 'mood-02') return 'whatsapp';
 
   return FORMATS[index % FORMATS.length];
 };
 
 interface SlotConfig {
-  top: string;
+  top?: string;
+  bottom?: string;
   left?: string;
   right?: string;
+  isCenter?: boolean;
   rot: number;
   width: number;
   aspect: string;
-  mobileTop: string;
+  mobileTop?: string;
+  mobileBottom?: string;
   mobileLeft?: string;
   mobileRight?: string;
   mobileWidth: number;
@@ -62,74 +62,70 @@ interface SlotConfig {
 const DEFAULT_SLOTS: SlotConfig[] = [
   {
     // Slot 0: Top-Left -> Instagram Post (4:5)
-    top: '120px',
-    left: '3%',
-    rot: -7,
-    width: 265,
+    top: '80px',
+    left: '3.5%',
+    rot: -6,
+    width: 270,
     aspect: '4/5',
-    mobileTop: '75px',
-    mobileLeft: '2%',
-    mobileWidth: 160,
+    mobileTop: '65px',
+    mobileLeft: '2.5%',
+    mobileWidth: 150,
   },
   {
-    // Slot 1: Top-Right -> Twitter / X Post (4:5 vertical photo)
-    top: '110px',
-    right: '4%',
+    // Slot 1: Top-Right -> Facebook Post (4:5)
+    top: '80px',
+    right: '3.5%',
     rot: 5,
     width: 275,
     aspect: '4/5',
-    mobileTop: '70px',
-    mobileRight: '2%',
-    mobileWidth: 165,
+    mobileTop: '65px',
+    mobileRight: '2.5%',
+    mobileWidth: 155,
   },
   {
-    // Slot 2: Bottom-Left -> Snapchat Snap (9:16)
-    top: '580px',
-    left: '2.5%',
+    // Slot 2: Bottom-Left -> YouTube Shorts (9:16)
+    bottom: '50px',
+    left: '3.5%',
+    rot: -4,
+    width: 225,
+    aspect: '9/16',
+    mobileBottom: '90px',
+    mobileLeft: '2.5%',
+    mobileWidth: 135,
+  },
+  {
+    // Slot 3: Bottom-Middle (Center) -> Snapchat Snap (9:16)
+    bottom: '35px',
+    isCenter: true,
+    rot: 1,
+    width: 215,
+    aspect: '9/16',
+    mobileBottom: '20px',
+    mobileWidth: 140,
+  },
+  {
+    // Slot 4: Bottom-Right -> WhatsApp Status (9:16)
+    bottom: '50px',
+    right: '3.5%',
     rot: 4,
-    width: 220,
+    width: 215,
     aspect: '9/16',
-    mobileTop: '540px',
-    mobileLeft: '2%',
-    mobileWidth: 145,
-  },
-  {
-    // Slot 3: Bottom-Center-Left -> WhatsApp Status (9:16)
-    top: '635px',
-    left: '18%',
-    rot: 5,
-    width: 220,
-    aspect: '9/16',
-    mobileTop: '590px',
-    mobileLeft: '17%',
-    mobileWidth: 145,
-  },
-  {
-    // Slot 4: Bottom-Center-Right -> YouTube Shorts (Famous in India) (9:16)
-    top: '600px',
-    right: '19%',
-    rot: -5,
-    width: 230,
-    aspect: '9/16',
-    mobileTop: '575px',
-    mobileRight: '18%',
-    mobileWidth: 145,
-  },
-  {
-    // Slot 5: Bottom-Right -> Facebook Post (4:5)
-    top: '590px',
-    right: '2.5%',
-    rot: -7,
-    width: 275,
-    aspect: '4/5',
-    mobileTop: '550px',
-    mobileRight: '2%',
-    mobileWidth: 170,
+    mobileBottom: '90px',
+    mobileRight: '2.5%',
+    mobileWidth: 135,
   },
 ];
 
 export default function Moodboard() {
-  const { sectionCards } = useCards('home-moodboard');
+  const { sectionCards: allMoodCards } = useCards('home-moodboard');
+  const sectionCards = allMoodCards.filter((card) => {
+    const idLower = (card.id || '').toLowerCase();
+    const titleLower = (card.title || '').toLowerCase();
+    if (idLower === 'mood-03' || titleLower.includes('twitter') || titleLower.includes('pacing')) {
+      return false;
+    }
+    return true;
+  });
   const containerRef = useRef<HTMLElement>(null);
   const [positions, setPositions] = useState<Record<string, { x: number; y: number }>>({});
   const [draggingId, setDraggingId] = useState<string | null>(null);
@@ -246,12 +242,19 @@ export default function Moodboard() {
   // Match each card to its visual slot
   const getSlotForCard = (card: EditableCard, index: number): SlotConfig => {
     const t = (card.title || '').toLowerCase();
-    if (card.id === 'mood-01' || t.includes('shutter') || t.includes('caution')) return DEFAULT_SLOTS[0];
-    if (card.id === 'mood-03' || t.includes('twitter') || t.includes('pacing')) return DEFAULT_SLOTS[1];
-    if (card.id === 'mood-05' || t.includes('snap') || t.includes('color')) return DEFAULT_SLOTS[2];
-    if (card.id === 'mood-02' || t.includes('whatsapp') || t.includes('neon')) return DEFAULT_SLOTS[3];
-    if (card.id === 'mood-04' || t.includes('youtube') || t.includes('shorts') || t.includes('lighting')) return DEFAULT_SLOTS[4];
-    if (card.id === 'mood-06' || t.includes('facebook') || t.includes('scout')) return DEFAULT_SLOTS[5];
+    const id = (card.id || '').toLowerCase();
+
+    // Slot 0: Top-Left (Instagram)
+    if (id === 'mood-01' || t.includes('shutter') || t.includes('insta') || t.includes('birthday') || t.includes('applause')) return DEFAULT_SLOTS[0];
+    // Slot 1: Top-Right (Facebook)
+    if (id === 'mood-06' || t.includes('scout') || t.includes('facebook') || t.includes('fb') || t.includes('sweet') || t.includes('ice cream') || t.includes('cravings')) return DEFAULT_SLOTS[1];
+    // Slot 2: Bottom-Left (YouTube Shorts)
+    if (id === 'mood-04' || t.includes('youtube') || t.includes('shorts') || t.includes('lighting') || t.includes('streetwear') || t.includes('botanical') || t.includes('drip')) return DEFAULT_SLOTS[2];
+    // Slot 3: Bottom-Middle (Snapchat)
+    if (id === 'mood-05' || t.includes('snap') || t.includes('color') || t.includes('mango') || t.includes('smoothie') || t.includes('shake')) return DEFAULT_SLOTS[3];
+    // Slot 4: Bottom-Right (WhatsApp)
+    if (id === 'mood-02' || t.includes('whatsapp') || t.includes('status') || t.includes('neon') || t.includes('bridge') || t.includes('garden')) return DEFAULT_SLOTS[4];
+
     return DEFAULT_SLOTS[index % DEFAULT_SLOTS.length];
   };
 
@@ -316,77 +319,6 @@ export default function Moodboard() {
     </div>
   );
 
-  // 2. TWITTER / X POST ARCHETYPE (With 4:5 Aspect Ratio Image)
-  const renderTwitter = (card: EditableCard, cardWidth: number) => (
-    <div className="w-full bg-white rounded-2xl shadow-2xl border border-black/10 overflow-hidden text-[#0f1419] p-3 sm:p-3.5 relative select-none">
-      {/* Frosted Tape */}
-      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-14 h-5 bg-[#ece8e1]/85 backdrop-blur-[2px] 2deg border border-black/10 shadow-sm opacity-90 pointer-events-none z-20" />
-
-      {/* Tweet Header */}
-      <div className="flex items-center justify-between pb-1.5 border-b border-black/5">
-        <div className="flex items-center gap-2">
-          {/* Avatar */}
-          <div className="w-7 sm:w-8 h-7 sm:h-8 rounded-full bg-[#0c0c0b] text-white flex items-center justify-center font-bold text-[9px] font-mono shrink-0 shadow-sm">
-            PV
-          </div>
-          <div className="leading-tight text-left">
-            <div className="flex items-center gap-1">
-              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#0f1419]">Pandora Visuals</span>
-              <span className="w-3 h-3 rounded-full bg-[#1d9bf0] flex items-center justify-center text-white text-[7px] font-bold">
-                ✓
-              </span>
-            </div>
-            <div className="text-[8px] sm:text-[9px] text-[#536471] font-sans">@pandoravisuals • 2h</div>
-          </div>
-        </div>
-        {/* X Logo */}
-        <div className="w-4 h-4 flex items-center justify-center font-anton text-xs text-[#0f1419] opacity-75">
-          𝕏
-        </div>
-      </div>
-
-      {/* Tweet Body Text */}
-      <div className="py-1 text-left text-[9px] sm:text-[10px] font-sans text-[#0f1419] leading-snug line-clamp-2">
-        {card.description || 'Pacing, color science, and natural sound design. Every frame telling a story that refuses to fade.'}
-      </div>
-
-      {/* Tweet Media Container (Updated to 4:5 Aspect Ratio as requested) */}
-      <div className="relative w-full aspect-[4/5] bg-[#171716] rounded-xl overflow-hidden my-1.5 border border-black/10">
-        <Image
-          src={card.image}
-          alt={card.title}
-          fill
-          draggable={false}
-          className="object-cover pointer-events-none select-none"
-          sizes={`${cardWidth * 2}px`}
-        />
-        {/* ALT Badge */}
-        <div className="absolute bottom-2 left-2 bg-black/75 backdrop-blur-sm text-white font-mono text-[7px] px-1.5 py-0.5 rounded-[3px] font-bold border border-white/20">
-          ALT
-        </div>
-      </div>
-
-      {/* Tweet Action Counters Bar */}
-      <div className="pt-1 flex items-center justify-between text-[#536471] text-[8px] sm:text-[9px] font-sans">
-        <span className="flex items-center gap-1">
-          <MessageCircle className="w-3 h-3 -rotate-90 stroke-[2]" /> 42
-        </span>
-        <span className="flex items-center gap-1">
-          <Repeat className="w-3 h-3 stroke-[2]" /> 128
-        </span>
-        <span className="flex items-center gap-1">
-          <Heart className="w-3 h-3 text-rose-500 fill-rose-500" /> 849
-        </span>
-        <span className="flex items-center gap-1">
-          <BarChart2 className="w-3 h-3 stroke-[2]" /> 18.4K
-        </span>
-        <span className="flex items-center gap-1">
-          <Bookmark className="w-3 h-3 stroke-[2]" />
-        </span>
-      </div>
-    </div>
-  );
-
   // 3. SNAPCHAT SNAP ARCHETYPE (9:16 Ratio)
   const renderSnapchat = (card: EditableCard, cardWidth: number) => (
     <div className="w-full relative aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-black shadow-2xl border-2 border-white/20 select-none">
@@ -424,7 +356,7 @@ export default function Moodboard() {
       {/* Classic Translucent Snapchat Center Banner */}
       <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 bg-black/65 backdrop-blur-md py-1.5 px-3 text-center z-10 border-y border-white/10">
         <p className="font-sans text-[11px] sm:text-xs text-white font-medium tracking-wide drop-shadow-md line-clamp-2">
-          {card.description || card.title} ✨
+          {card.description || card.title}
         </p>
       </div>
 
@@ -695,16 +627,14 @@ export default function Moodboard() {
     switch (format) {
       case 'instagram':
         return renderInstagram(card, cardWidth);
-      case 'twitter':
-        return renderTwitter(card, cardWidth);
+      case 'facebook':
+        return renderFacebook(card, cardWidth);
       case 'snapchat':
         return renderSnapchat(card, cardWidth);
       case 'whatsapp':
         return renderWhatsApp(card, cardWidth);
       case 'youtube':
         return renderYouTube(card, cardWidth);
-      case 'facebook':
-        return renderFacebook(card, cardWidth);
       default:
         return renderPolaroid(card, cardWidth);
     }
@@ -713,7 +643,7 @@ export default function Moodboard() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[960px] sm:min-h-[1040px] lg:min-h-[1100px] w-full bg-[#0c0c0b] text-[#ece8e1] overflow-hidden select-none border-b border-[#ece8e1]/10"
+      className="relative min-h-[960px] sm:min-h-[1040px] lg:min-h-[1120px] w-full bg-[#0c0c0b] text-[#ece8e1] overflow-hidden select-none border-b border-[#ece8e1]/10"
     >
       {/* Subtle Noise Texture Overlay matching the rest of the website */}
       <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none z-0" aria-hidden="true" />
@@ -722,7 +652,7 @@ export default function Moodboard() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff3d17]/5 rounded-full blur-[140px] pointer-events-none z-0" />
 
       {/* Monumental Center Headline */}
-      <div className="absolute top-[52%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
+      <div className="absolute top-[48%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
         <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#ece8e1] uppercase">
           FRAME IT. SHOOT IT. <br />
           <span className="text-[#ff3d17]">FEEL IT.</span>
@@ -745,8 +675,10 @@ export default function Moodboard() {
           const rot = card.metadata?.rotation ?? slot.rot;
           const cardWidth = isMobile ? slot.mobileWidth : slot.width;
           const topPos = isMobile ? slot.mobileTop : slot.top;
+          const bottomPos = isMobile ? slot.mobileBottom : slot.bottom;
           const leftPos = isMobile ? slot.mobileLeft : slot.left;
           const rightPos = isMobile ? slot.mobileRight : slot.right;
+          const isCenter = slot.isCenter;
 
           return (
             <div
@@ -761,9 +693,14 @@ export default function Moodboard() {
               }}
               style={{
                 position: 'absolute',
-                top: topPos,
-                ...(leftPos ? { left: leftPos } : {}),
-                ...(rightPos ? { right: rightPos } : {}),
+                ...(topPos ? { top: topPos } : {}),
+                ...(bottomPos ? { bottom: bottomPos } : {}),
+                ...(isCenter
+                  ? { left: `calc(50% - ${cardWidth / 2}px)` }
+                  : {
+                      ...(leftPos ? { left: leftPos } : {}),
+                      ...(rightPos ? { right: rightPos } : {}),
+                    }),
                 width: `${cardWidth}px`,
                 transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${
                   isDragging ? 1.05 : 1

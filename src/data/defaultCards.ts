@@ -348,67 +348,50 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     "id": "mood-01",
     "section": "home-moodboard",
-    "title": "SHUTTER TEST — 1/1000s",
-    "description": "High-speed shutter calibration freezing spontaneous cake smash laughter.",
-    "image": "https://framerusercontent.com/images/OkeLbQeKuBRLamnbU9LLxQIdrHA.jpg?width=1200&height=1500",
+    "title": "BIRTHDAY SMILES & APPLAUSE",
+    "description": "Spontaneous claps and cake-smash laughter! Freezing the purest childhood joy in every single frame. 🎂✨",
+    "image": "/images/001.webp",
     "order": 1,
     "isActive": true,
     "metadata": {
-      "rotation": -8,
+      "rotation": -6,
       "position": {
-        "top": 96,
-        "leftPercent": 4
+        "top": 80,
+        "leftPercent": 3.5
       },
-      "width": 250
+      "width": 270
     }
   },
   {
-    "id": "mood-02",
+    "id": "mood-06",
     "section": "home-moodboard",
-    "title": "NEON AMBIENCE, 3 AM",
-    "description": "Low-light cinema sensor test for private milestone gala afterparties.",
-    "image": "https://framerusercontent.com/images/0gsbo01tHNjFVTqRQUZMkUsgu0.jpg?width=1200&height=1797",
+    "title": "SWEET ICE CREAM CRAVINGS",
+    "description": "Nothing beats waffle cone treats and sweet afternoon smiles! Celebrating life's sweetest little moments with family. 🍦🌸",
+    "image": "/images/IMG_20260929_181412.webp",
     "order": 2,
     "isActive": true,
     "metadata": {
-      "rotation": 6,
-      "position": {
-        "top": 630,
-        "leftPercent": 19
-      },
-      "width": 215
-    }
-  },
-  {
-    "id": "mood-03",
-    "section": "home-moodboard",
-    "title": "REEL PACING BOARD",
-    "description": "Frame-by-frame beat breakdown for viral rhythmic reel editing.",
-    "image": "https://framerusercontent.com/images/5GERA8vfDzpLRWsFjP7JAaoAk.jpg?width=1200&height=1800",
-    "order": 3,
-    "isActive": true,
-    "metadata": {
-      "rotation": 7,
+      "rotation": 5,
       "position": {
         "top": 80,
-        "rightPercent": 5
+        "rightPercent": 3.5
       },
-      "width": 260
+      "width": 275
     }
   },
   {
     "id": "mood-04",
     "section": "home-moodboard",
-    "title": "STUDIO LIGHTING SETUP",
-    "description": "Three-point softbox and rim light diagram for children fine-art portraits.",
-    "image": "https://framerusercontent.com/images/hxmN7VRpyuk9FEjO0OWRX4r8s.jpg?width=1200&height=1601",
-    "order": 4,
+    "title": "STUDIO STREETWEAR DRIP",
+    "description": "Little dude brought pure model confidence and botanical studio vibes. Trendsetter energy on 100! 🌿🐯👟",
+    "image": "/images/003.webp",
+    "order": 3,
     "isActive": true,
     "metadata": {
-      "rotation": -5,
+      "rotation": -4,
       "position": {
-        "top": 600,
-        "rightPercent": 21
+        "bottom": 50,
+        "leftPercent": 3.5
       },
       "width": 225
     }
@@ -416,35 +399,35 @@ export const DEFAULT_CARDS: EditableCard[] = [
   {
     "id": "mood-05",
     "section": "home-moodboard",
-    "title": "COLOR GRADING PASS",
-    "description": "Custom cinematic LUT application balancing warm skin tones and deep blacks.",
-    "image": "https://framerusercontent.com/images/5EvfCvtdgtLkYBTHA4hfuVE4jA.jpg?width=1200&height=1800",
+    "title": "MANGO SHAKE SUNSHINE",
+    "description": "Mango shake & sunshine giggles! Best outdoor treats with the family 🥭🥤✨",
+    "image": "/images/IMG_20261003_174658.webp",
+    "order": 4,
+    "isActive": true,
+    "metadata": {
+      "rotation": 1,
+      "position": {
+        "bottom": 35,
+        "center": true
+      },
+      "width": 215
+    }
+  },
+  {
+    "id": "mood-02",
+    "section": "home-moodboard",
+    "title": "GARDEN BRIDGE SMILES",
+    "description": "Golden hour walk across the wooden bridge. Gentle garden breeze and sweet smiles. 🌿🌉",
+    "image": "/images/IMG_20261003_171238.webp",
     "order": 5,
     "isActive": true,
     "metadata": {
       "rotation": 4,
       "position": {
-        "top": 560,
-        "leftPercent": 3
+        "bottom": 50,
+        "rightPercent": 3.5
       },
-      "width": 195
-    }
-  },
-  {
-    "id": "mood-06",
-    "section": "home-moodboard",
-    "title": "ON-LOCATION SCOUT",
-    "description": "Golden hour natural backlight framing for milestone outdoor celebrations.",
-    "image": "https://framerusercontent.com/images/kyMRfBPxaYBLDFxRlb8txtD5h4.jpg?width=2400&height=1600",
-    "order": 6,
-    "isActive": true,
-    "metadata": {
-      "rotation": -9,
-      "position": {
-        "top": 600,
-        "rightPercent": 3
-      },
-      "width": 270
+      "width": 215
     }
   },
   {
