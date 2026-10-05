@@ -276,7 +276,7 @@ export default function Moodboard() {
           </div>
           <div className="leading-tight text-left">
             <div className="flex items-center gap-1">
-              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#262626]">pandoravisuals</span>
+              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#262626]">pandoravizuals</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#0095f6]" />
             </div>
             <div className="text-[8px] sm:text-[9px] text-[#8e8e8e] font-sans">Pandora Studio • Original Audio</div>
@@ -309,7 +309,7 @@ export default function Moodboard() {
         </div>
         <div className="font-sans text-[10px] font-bold text-left mb-0.5">2,842 likes</div>
         <div className="font-sans text-[10px] text-left line-clamp-2 leading-tight">
-          <span className="font-bold mr-1">pandoravisuals</span>
+          <span className="font-bold mr-1">pandoravizuals</span>
           {card.description || card.title}
         </div>
       </div>
@@ -573,7 +573,7 @@ export default function Moodboard() {
             PV
           </div>
           <span className="font-sans font-bold text-[10px] text-white truncate max-w-[85px]">
-            @pandoravisuals
+            @PandoraVizuals
           </span>
           <button className="bg-[#ff0000] text-white font-sans font-bold text-[7px] sm:text-[8px] px-2 py-0.5 rounded-full tracking-wider uppercase shrink-0 shadow-sm pointer-events-none">
             SUBSCRIBE
@@ -613,7 +613,7 @@ export default function Moodboard() {
           </div>
           <div className="text-left leading-tight">
             <div className="flex items-center gap-1">
-              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#050505]">Pandora Visuals</span>
+              <span className="font-sans font-bold text-[10px] sm:text-[11px] text-[#050505]">Pandora Vizuals</span>
               <CheckCircle2 className="w-3 h-3 text-[#1877F2] fill-[#1877F2]" />
             </div>
             <div className="flex items-center gap-1 text-[8px] sm:text-[9px] text-[#65676B]">

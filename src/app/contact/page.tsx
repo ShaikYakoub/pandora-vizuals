@@ -13,23 +13,18 @@ const CONTACT_INFO = {
   socials: [
     {
       name: 'Instagram',
-      handle: '@pandoravisuals',
-      url: 'https://instagram.com',
-    },
-    {
-      name: 'Twitter(X)',
       handle: '@pandoravizuals',
-      url: 'https://x.com',
+      url: 'https://www.instagram.com/pandoravizuals',
     },
     {
       name: 'YouTube',
-      handle: 'Pandora Visuals',
-      url: 'https://youtube.com',
+      handle: '@PandoraVizuals',
+      url: 'https://www.youtube.com/@PandoraVizuals',
     },
     {
-      name: 'LinkedIn',
-      handle: 'Pandora Visuals Studio',
-      url: 'https://linkedin.com',
+      name: 'Facebook',
+      handle: 'Pandora Vizuals',
+      url: 'https://www.facebook.com/profile.php?id=61595026984781',
     },
   ],
 };
@@ -173,7 +168,7 @@ export default function ContactPage() {
               <div className="font-mono text-xs uppercase tracking-widest text-[#ff3d17]">
                 SOCIALS
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 {CONTACT_INFO.socials.map((social) => (
                   <a
                     key={social.name}

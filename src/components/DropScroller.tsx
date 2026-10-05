@@ -114,24 +114,21 @@ export default function DropScroller() {
             return (
               <div
                 key={card.id}
-                className="flex-none group select-none"
+                className="flex-none group select-none cursor-pointer"
                 style={{
                   width: cardWidth,
                 }}
               >
                 {/* Image Container */}
-                <div className="relative w-full aspect-[3/4] bg-[#171716] overflow-hidden border border-[#ece8e1]/10">
+                <div className="relative w-full aspect-[3/4] bg-[#171716] overflow-hidden border border-[#ece8e1]/10 group-hover:border-[#ece8e1]/30 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.85)] transition-all duration-500">
                   <Image
                     src={card.image}
                     alt={card.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 will-change-transform"
                     sizes="(max-width: 810px) 270px, 440px"
                     priority={index < 4}
                   />
-
-                  {/* Subtle Vignette on Hover */}
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
               </div>
             );

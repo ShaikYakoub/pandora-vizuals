@@ -21,15 +21,7 @@ export default function Footer() {
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
               <a
-                href="https://x.com"
-                target="_blank"
-                rel="noreferrer"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Twitter(X)
-              </a>
-              <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/pandoravizuals"
                 target="_blank"
                 rel="noreferrer"
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
@@ -37,7 +29,7 @@ export default function Footer() {
                 Instagram
               </a>
               <a
-                href="https://youtube.com"
+                href="https://www.youtube.com/@PandoraVizuals"
                 target="_blank"
                 rel="noreferrer"
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
@@ -45,12 +37,12 @@ export default function Footer() {
                 YouTube
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.facebook.com/profile.php?id=61595026984781"
                 target="_blank"
                 rel="noreferrer"
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
               >
-                LinkedIn
+                Facebook
               </a>
             </div>
           </div>
