@@ -116,12 +116,12 @@ const DEFAULT_SLOTS: SlotConfig[] = [
     mobileWidth: 145,
   },
   {
-    // Slot 5: Bottom-Right -> Facebook Post (4:3)
+    // Slot 5: Bottom-Right -> Facebook Post (4:5)
     top: '590px',
     right: '2.5%',
     rot: -7,
     width: 275,
-    aspect: '4/3',
+    aspect: '4/5',
     mobileTop: '550px',
     mobileRight: '2%',
     mobileWidth: 170,
@@ -631,8 +631,8 @@ export default function Moodboard() {
         {card.description || 'Behind the lens on our latest milestone production. Every frame crafted with precision.'}
       </div>
 
-      {/* Image (4:3) */}
-      <div className="relative w-full aspect-[4/3] bg-[#171716] overflow-hidden my-1">
+      {/* Image (4:5) */}
+      <div className="relative w-full aspect-[4/5] bg-[#171716] overflow-hidden my-1">
         <Image
           src={card.image}
           alt={card.title}
