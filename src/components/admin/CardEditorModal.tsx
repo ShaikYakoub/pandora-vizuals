@@ -176,7 +176,7 @@ export default function CardEditorModal({
         </div>
 
         {/* Form Body */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto font-mono text-xs">
+        <form onSubmit={handleSubmit} className="p-6 space-y-6 max-h-[80vh] overflow-y-auto font-sans text-xs">
           {/* Section Selection */}
           <div className="space-y-1.5">
             <label className="text-[#8c8880] tracking-wider uppercase block">

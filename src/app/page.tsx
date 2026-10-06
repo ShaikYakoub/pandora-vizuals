@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import ImageTrail from '@/components/ImageTrail';
 import DropScroller from '@/components/DropScroller';
@@ -25,7 +24,7 @@ export default function HomePage() {
         <div className="relative z-30 flex-1 flex flex-col items-center justify-center text-center px-4 my-auto py-6 pointer-events-none gap-8 sm:gap-10">
           <FramerHeading
             text="Visuals crafted for moments that refuse to fade."
-            as="h2"
+            as="h1"
             variant="subtle"
             className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#ece8e1] max-w-5xl tracking-tight leading-tight"
           />

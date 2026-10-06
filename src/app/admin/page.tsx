@@ -159,7 +159,7 @@ export default function AdminPage() {
         {/* Top Management Header Bar */}
         <div className="border border-[#ece8e1]/15 bg-[#141413] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-2xl">
           <div className="space-y-2">
-            <div className="flex items-center space-x-3 text-xs font-mono tracking-widest text-[#8c8880] uppercase">
+            <div className="flex items-center space-x-3 text-xs font-sans tracking-widest text-[#8c8880] uppercase">
               <span className="flex items-center gap-1.5 text-[#ff3d17] font-bold">
                 <span className="w-2 h-2 rounded-full bg-[#ff3d17] animate-pulse" />
                 SYSTEM ONLINE
@@ -170,7 +170,7 @@ export default function AdminPage() {
             <h1 className="font-anton text-4xl sm:text-5xl text-[#ece8e1] tracking-tight uppercase">
               CARD MANAGEMENT
             </h1>
-            <p className="text-xs font-mono text-[#8c8880] max-w-xl">
+            <p className="text-xs font-sans text-[#8c8880] max-w-xl">
               Edit card titles, descriptions, imagery, pricing, and display orders. Changes synchronize in real-time with the live website without touching code.
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function AdminPage() {
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ece8e1]/20 font-mono text-xs uppercase tracking-wider text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ece8e1] transition-colors bg-[#0c0c0b]"
+              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ece8e1]/20 font-sans text-xs uppercase tracking-wider text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ece8e1] transition-colors bg-[#0c0c0b]"
               title="Reset all sections to original factory seed cards"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -188,7 +188,7 @@ export default function AdminPage() {
             <Link
               href="/"
               target="_blank"
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ff3d17]/40 font-mono text-xs uppercase tracking-wider text-[#ff3d17] hover:bg-[#ff3d17]/10 transition-colors bg-[#0c0c0b]"
+              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ff3d17]/40 font-sans text-xs uppercase tracking-wider text-[#ff3d17] hover:bg-[#ff3d17]/10 transition-colors bg-[#0c0c0b]"
             >
               <span>VIEW LIVE SITE</span>
               <ExternalLink className="w-3.5 h-3.5" />
@@ -215,7 +215,7 @@ export default function AdminPage() {
               <button
                 key={secKey}
                 onClick={() => setActiveSection(secKey)}
-                className={`flex-none font-mono text-xs tracking-wider uppercase px-5 py-3 border transition-all flex items-center space-x-3 ${
+                className={`flex-none font-sans text-xs tracking-wider uppercase px-5 py-3 border transition-all flex items-center space-x-3 ${
                   isTabActive
                     ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1] font-bold shadow-md'
                     : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ff3d17] bg-[#141413]'
@@ -235,7 +235,7 @@ export default function AdminPage() {
         </div>
 
         {/* Section Context Info Banner */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-[#171716] border border-[#ece8e1]/10 px-6 py-4 text-xs font-mono gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between bg-[#171716] border border-[#ece8e1]/10 px-6 py-4 text-xs font-sans gap-4">
           <div className="space-y-1">
             <div className="text-[#ece8e1] font-bold tracking-wider uppercase">
               {activeConfig.name}
@@ -253,7 +253,7 @@ export default function AdminPage() {
         </div>
 
         {/* Search, Filter & Actions Toolbar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs">
           {/* Search Box */}
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8c8880]" />
@@ -288,7 +288,7 @@ export default function AdminPage() {
         {/* Cards Table / List */}
         <div className="border border-[#ece8e1]/15 bg-[#141413] shadow-xl overflow-hidden">
           {displayedCards.length === 0 ? (
-            <div className="p-16 text-center space-y-4 font-mono">
+            <div className="p-16 text-center space-y-4 font-sans">
               <div className="w-12 h-12 rounded-full bg-[#171716] border border-[#ece8e1]/20 flex items-center justify-center mx-auto text-[#ff3d17]">
                 <SlidersHorizontal className="w-5 h-5" />
               </div>
@@ -306,7 +306,7 @@ export default function AdminPage() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left font-mono text-xs border-collapse">
+              <table className="w-full text-left font-sans text-xs border-collapse">
                 <thead>
                   <tr className="border-b border-[#ece8e1]/10 bg-[#191918] text-[#8c8880] uppercase tracking-wider text-[11px]">
                     <th className="py-4 px-4 w-20 text-center">ORDER</th>
@@ -399,7 +399,7 @@ export default function AdminPage() {
                               {card.title}
                             </span>
                             {card.metadata?.itemNumber && (
-                              <span className="text-[10px] font-mono text-[#ff3d17] bg-[#1f1f1d] px-1.5 py-0.5 border border-[#ece8e1]/10">
+                              <span className="text-[10px] font-sans font-semibold text-[#ff3d17] bg-[#1f1f1d] px-1.5 py-0.5 border border-[#ece8e1]/10">
                                 {card.metadata.itemNumber}
                               </span>
                             )}

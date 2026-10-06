@@ -22,7 +22,7 @@ export default function Toast({ toasts, onDismiss }: ToastProps) {
       {toasts.map((toast) => (
         <div
           key={toast.id}
-          className={`pointer-events-auto flex items-center justify-between p-4 border font-mono text-xs shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-2 fade-in duration-200 ${
+          className={`pointer-events-auto flex items-center justify-between p-4 border font-sans text-xs shadow-2xl backdrop-blur-md animate-in slide-in-from-bottom-2 fade-in duration-200 ${
             toast.type === 'success'
               ? 'bg-[#141413] border-[#ff3d17] text-[#ece8e1]'
               : toast.type === 'error'

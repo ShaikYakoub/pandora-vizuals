@@ -29,7 +29,7 @@ export default function ShopPage() {
           {availableCards.length === 0 ? (
             <div className="text-center py-24 space-y-3">
               <div className="font-anton text-3xl text-[#8c8880]">NO PRODUCTIONS FOUND</div>
-              <p className="font-mono text-xs text-[#6b675f]">
+              <p className="font-sans text-xs text-[#6b675f]">
                 Productions will appear here shortly.
               </p>
             </div>

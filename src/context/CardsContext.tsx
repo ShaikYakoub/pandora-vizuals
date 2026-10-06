@@ -27,6 +27,7 @@ const optimizeImageUrl = (url?: string): string => {
   if (!url || typeof url !== 'string') return '';
   return url
     .replace('/images/portrait_2160x3840.png', '/images/portrait_2160x3840.webp')
+    .replace(/\/images\/00(\d)\.jpg$/, '/images/00$1.webp')
     .replace(/\/images\/IMG_2026(.*)\.jpg$/, '/images/IMG_2026$1.webp');
 };
 

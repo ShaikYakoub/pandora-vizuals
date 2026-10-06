@@ -85,7 +85,7 @@ export default function LookbookPage() {
             <div key={idx} className="space-y-6 border-b border-[#ece8e1]/10 pb-20">
               
               {/* Chapter Meta Row */}
-              <div className="flex items-center justify-between text-xs font-mono tracking-widest text-[#8c8880] uppercase">
+              <div className="flex items-center justify-between text-xs font-sans tracking-widest text-[#8c8880] uppercase">
                 <span className="text-[#ff3d17] font-bold">{ch.marker}</span>
                 <span>{ch.location}</span>
               </div>
@@ -121,7 +121,7 @@ export default function LookbookPage() {
                 <div className="lg:col-span-4 flex lg:justify-end">
                   <Link
                     href="/shop"
-                    className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest bg-[#ece8e1] text-[#0c0c0b] font-bold px-6 py-4 hover:bg-[#ff3d17] transition-colors"
+                    className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest bg-[#ece8e1] text-[#0c0c0b] font-bold px-6 py-4 hover:bg-[#ff3d17] transition-colors"
                   >
                     <span>VIEW WORK ARCHIVE</span>
                     <ArrowUpRight className="w-4 h-4" />
@@ -136,7 +136,7 @@ export default function LookbookPage() {
         {/* Section: EVERY FRAME, RAW & GRADED */}
         <FramerReveal delay={0.18} yOffset={32} className="space-y-12 sm:space-y-16 pt-8">
           <div className="space-y-4">
-            <div className="text-xs font-mono tracking-widest text-[#ff3d17] uppercase">
+            <div className="text-xs font-sans tracking-widest text-[#ff3d17] uppercase">
               (Archive) — Production Stills & Contact Sheets
             </div>
             <FramerHeading
@@ -158,7 +158,7 @@ export default function LookbookPage() {
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
-                  <div className="absolute top-3 left-3 bg-[#0c0c0b]/80 backdrop-blur-sm text-[#ece8e1] text-[11px] font-mono px-2.5 py-1 tracking-wider uppercase">
+                  <div className="absolute top-3 left-3 bg-[#0c0c0b]/80 backdrop-blur-sm text-[#ece8e1] text-[11px] font-sans px-2.5 py-1 tracking-wider uppercase">
                     {look.number}
                   </div>
                 </div>

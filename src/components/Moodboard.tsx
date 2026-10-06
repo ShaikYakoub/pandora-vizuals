@@ -273,7 +273,7 @@ export default function Moodboard() {
         <div className="flex items-center gap-2">
           {/* Sunset Gradient Avatar Ring */}
           <div className="w-6 sm:w-7 h-6 sm:h-7 rounded-full p-[1.5px] bg-gradient-to-tr from-[#f09433] via-[#dc2743] to-[#bc1888] shrink-0">
-            <div className="w-full h-full rounded-full bg-white p-[1px] overflow-hidden flex items-center justify-center font-bold text-[8px] text-[#0c0c0b] font-mono">
+            <div className="w-full h-full rounded-full bg-white p-[1px] overflow-hidden flex items-center justify-center font-bold text-[8px] text-[#0c0c0b] font-sans">
               PV
             </div>
           </div>
@@ -348,7 +348,7 @@ export default function Moodboard() {
             <div className="text-[8px] sm:text-[9px] text-white/75 font-sans">2h ago</div>
           </div>
         </div>
-        <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full text-[9px] font-mono text-white/90">
+        <div className="flex items-center gap-1 bg-black/40 backdrop-blur-sm px-2 py-0.5 rounded-full text-[9px] font-sans text-white/90">
           <span>3s</span>
         </div>
       </div>
@@ -501,7 +501,7 @@ export default function Moodboard() {
       <div className="absolute bottom-2.5 left-2.5 right-12 z-10 text-left space-y-1">
         {/* Creator Channel & Red Subscribe Button */}
         <div className="flex items-center gap-1.5">
-          <div className="w-5 h-5 rounded-full bg-[#ff0000] text-white flex items-center justify-center font-bold text-[7px] font-mono shrink-0 shadow-sm">
+          <div className="w-5 h-5 rounded-full bg-[#ff0000] text-white flex items-center justify-center font-bold text-[7px] font-sans shrink-0 shadow-sm">
             PV
           </div>
           <span className="font-sans font-bold text-[10px] text-white truncate max-w-[85px]">
@@ -616,7 +616,7 @@ export default function Moodboard() {
           sizes={`${cardWidth * 2}px`}
         />
       </div>
-      <div className="font-mono text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate select-none">
+      <div className="font-sans text-[10px] sm:text-[11px] font-bold text-[#0c0c0b] uppercase tracking-wider text-center pt-1 truncate select-none">
         {card.title}
       </div>
     </div>

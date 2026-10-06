@@ -2,7 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import PandoraLogo from './PandoraLogo';
+
+import SocialBrandLogo from './SocialBrandLogo';
 
 export default function Footer() {
   return (
@@ -19,65 +22,68 @@ export default function Footer() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
               Social
             </h3>
-            <div className="flex flex-col gap-2.5 sm:gap-3.5">
+            <div className="flex flex-col gap-4 sm:gap-5">
               <a
                 href="https://www.instagram.com/pandoravizuals"
                 target="_blank"
                 rel="noreferrer"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+                className="inline-flex items-center w-fit"
+                aria-label="Pandora Visuals Instagram"
               >
-                Instagram
+                <SocialBrandLogo
+                  platform="instagram"
+                  theme="white"
+                  className="h-6 sm:h-7 w-auto"
+                />
               </a>
               <a
                 href="https://www.youtube.com/@PandoraVizuals"
                 target="_blank"
                 rel="noreferrer"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+                className="inline-flex items-center w-fit"
+                aria-label="Pandora Visuals YouTube"
               >
-                YouTube
+                <SocialBrandLogo
+                  platform="youtube"
+                  theme="white"
+                  className="h-6 sm:h-7 w-auto"
+                />
               </a>
               <a
                 href="https://www.facebook.com/profile.php?id=61595026984781"
                 target="_blank"
                 rel="noreferrer"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+                className="inline-flex items-center w-fit"
+                aria-label="Pandora Visuals Facebook"
               >
-                Facebook
+                <SocialBrandLogo
+                  platform="facebook"
+                  theme="white"
+                  className="h-6 sm:h-7 w-auto"
+                />
               </a>
             </div>
           </div>
 
-          {/* Column 2: Navigation */}
+          {/* Column 2: Contact */}
           <div className="flex flex-col gap-4 sm:gap-6">
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
-              Navigation
+              Contact
             </h3>
-            <nav className="flex flex-col gap-2.5 sm:gap-3.5" aria-label="Footer Navigation">
-              <Link
-                href="/contact#about"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+            <div className="flex flex-col gap-2.5 sm:gap-3.5">
+              <a
+                href="tel:+916309897003"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
-                About
-              </Link>
-              <Link
-                href="/shop"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+                +91 63098 97003
+              </a>
+              <a
+                href="mailto:satpandora@gmail.com"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
-                Works
-              </Link>
-              <Link
-                href="/lookbook"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Services
-              </Link>
-              <Link
-                href="/contact"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Contact
-              </Link>
-            </nav>
+                satpandora@gmail.com
+              </a>
+            </div>
           </div>
 
           {/* Column 3: Legal */}
@@ -87,16 +93,10 @@ export default function Footer() {
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
               <Link
-                href="/contact"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
+                href="/terms"
+                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/contact"
-                className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit"
-              >
-                Term of Service
+                Terms & Policy
               </Link>
             </div>
           </div>
@@ -104,12 +104,31 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Middle Meta Row: Copyright */}
+      {/* Middle Meta Row: Copyright & Website by Techmecs */}
       <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 sm:px-12 lg:px-16">
-        <div className="w-full pt-6 border-t border-[#ece8e1]/10 text-xs sm:text-sm text-[#ece8e1]/50 font-sans">
+        <div className="w-full py-8 sm:py-10 border-t border-[#ece8e1]/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 text-base sm:text-lg text-[#ece8e1]/80 font-sans">
           <p>
             © {new Date().getFullYear()} Pandora Visuals. All rights reserved.
           </p>
+
+          <div className="flex items-center gap-3">
+            <span className="text-[#ece8e1]/65">Website by</span>
+            <a
+              href="https://techmecs.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Techmecs (opens in a new tab)"
+              className="inline-flex items-center transition-opacity hover:opacity-80"
+            >
+              <Image
+                src="/images/techmecs-logo-white.webp"
+                alt="Techmecs"
+                width={136}
+                height={24}
+                className="h-5 sm:h-6 w-auto object-contain"
+              />
+            </a>
+          </div>
         </div>
       </div>
 
