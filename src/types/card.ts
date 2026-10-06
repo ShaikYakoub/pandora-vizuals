@@ -11,6 +11,8 @@ export interface EditableCard {
   title: string;
   description: string;
   image: string;
+  videoUrl?: string;
+  aspectRatio?: '16:9' | '9:16' | '3:4' | string;
   price?: string;
   badge?: string;
   ctaText?: string;
@@ -25,6 +27,9 @@ export interface EditableCard {
     colorway?: string;
     sizes?: string[];
     details?: string[];
+    mediaType?: 'photo' | 'video';
+    videoUrl?: string;
+    aspectRatio?: '16:9' | '9:16' | '3:4' | string;
     [key: string]: any;
   };
   createdAt?: string;

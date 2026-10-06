@@ -20,7 +20,7 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pandora_visuals_cards_v10';
+const STORAGE_KEY = 'pandora_visuals_cards_v14';
 const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
 const optimizeImageUrl = (url?: string): string => {
@@ -32,12 +32,26 @@ const optimizeImageUrl = (url?: string): string => {
 };
 
 const sanitizeCards = (rawCards: EditableCard[]): EditableCard[] => {
-  return rawCards.map((c) => ({
-    ...c,
-    section: c.section === 'shop' ? 'work' : c.section,
-    ctaLink: c.ctaLink === '/shop' || c.ctaLink === '/shop/' ? '/work/' : c.ctaLink,
-    image: optimizeImageUrl(c.image),
-  }));
+  return rawCards.map((c) => {
+    const isVideo = Boolean(
+      c.id.startsWith('work-video-') ||
+      c.videoUrl ||
+      c.metadata?.videoUrl ||
+      c.metadata?.mediaType === 'video'
+    );
+    const mediaType: 'photo' | 'video' = isVideo ? 'video' : 'photo';
+
+    return {
+      ...c,
+      section: c.section === 'shop' ? 'work' : c.section,
+      ctaLink: c.ctaLink === '/shop' || c.ctaLink === '/shop/' ? '/work/' : c.ctaLink,
+      image: optimizeImageUrl(c.image),
+      metadata: {
+        ...c.metadata,
+        mediaType,
+      },
+    };
+  });
 };
 
 export function CardsProvider({ children }: { children: React.ReactNode }) {

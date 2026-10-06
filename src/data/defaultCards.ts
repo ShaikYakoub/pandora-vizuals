@@ -445,7 +445,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "001",
       "category": "Kids Birthdays",
-      "colorway": "GOLDEN HOUR / RAW"
+      "colorway": "GOLDEN HOUR / RAW",
+      "mediaType": "photo"
     }
   },
   {
@@ -463,7 +464,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "002",
       "category": "Commercial",
-      "colorway": "STUDIO GRADE / 4K"
+      "colorway": "STUDIO GRADE / 4K",
+      "mediaType": "photo"
     }
   },
   {
@@ -481,7 +483,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "003",
       "category": "Reels",
-      "colorway": "4K CINEMA / 9:16"
+      "colorway": "4K CINEMA / 9:16",
+      "mediaType": "photo"
     }
   },
   {
@@ -499,7 +502,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "004",
       "category": "Kids Birthdays",
-      "colorway": "STUDIO & OUTDOOR"
+      "colorway": "STUDIO & OUTDOOR",
+      "mediaType": "photo"
     }
   },
   {
@@ -517,7 +521,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "005",
       "category": "Adult Events",
-      "colorway": "LOW-LIGHT 4K"
+      "colorway": "LOW-LIGHT 4K",
+      "mediaType": "photo"
     }
   },
   {
@@ -535,7 +540,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "006",
       "category": "Commercial",
-      "colorway": "COMMERCIAL GRADE"
+      "colorway": "COMMERCIAL GRADE",
+      "mediaType": "photo"
     }
   },
   {
@@ -553,7 +559,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "007",
       "category": "Kids Birthdays",
-      "colorway": "NATURAL LIGHT"
+      "colorway": "NATURAL LIGHT",
+      "mediaType": "photo"
     }
   },
   {
@@ -571,7 +578,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "008",
       "category": "Kids Birthdays",
-      "colorway": "ARCHIVAL GRADE"
+      "colorway": "ARCHIVAL GRADE",
+      "mediaType": "photo"
     }
   },
   {
@@ -589,7 +597,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "009",
       "category": "Adult Events",
-      "colorway": "TWILIGHT REEL"
+      "colorway": "TWILIGHT REEL",
+      "mediaType": "photo"
     }
   },
   {
@@ -607,7 +616,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "010",
       "category": "Kids Birthdays",
-      "colorway": "WARM TONES"
+      "colorway": "WARM TONES",
+      "mediaType": "photo"
     }
   },
   {
@@ -625,7 +635,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "011",
       "category": "Reels",
-      "colorway": "9:16 VERTICAL"
+      "colorway": "9:16 VERTICAL",
+      "mediaType": "photo"
     }
   },
   {
@@ -643,7 +654,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "012",
       "category": "Adult Events",
-      "colorway": "GOLDEN HOUR"
+      "colorway": "GOLDEN HOUR",
+      "mediaType": "photo"
     }
   },
   {
@@ -661,7 +673,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "013",
       "category": "Commercial",
-      "colorway": "HIGH RESOLUTION"
+      "colorway": "HIGH RESOLUTION",
+      "mediaType": "photo"
     }
   },
   {
@@ -679,7 +692,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "014",
       "category": "Kids Birthdays",
-      "colorway": "STUDIO SET"
+      "colorway": "STUDIO SET",
+      "mediaType": "photo"
     }
   },
   {
@@ -697,7 +711,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "015",
       "category": "Kids Birthdays",
-      "colorway": "NATURAL GLOW"
+      "colorway": "NATURAL GLOW",
+      "mediaType": "photo"
     }
   },
   {
@@ -715,7 +730,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "016",
       "category": "Adult Events",
-      "colorway": "CANDID TOASTS"
+      "colorway": "CANDID TOASTS",
+      "mediaType": "photo"
     }
   },
   {
@@ -733,7 +749,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "017",
       "category": "Kids Birthdays",
-      "colorway": "UNSCRIPTED"
+      "colorway": "UNSCRIPTED",
+      "mediaType": "photo"
     }
   },
   {
@@ -751,7 +768,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "018",
       "category": "Adult Events",
-      "colorway": "4K MASTER"
+      "colorway": "4K MASTER",
+      "mediaType": "photo"
     }
   },
   {
@@ -769,7 +787,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "019",
       "category": "Kids Birthdays",
-      "colorway": "SOFT PASTELS"
+      "colorway": "SOFT PASTELS",
+      "mediaType": "photo"
     }
   },
   {
@@ -787,7 +806,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "020",
       "category": "Commercial",
-      "colorway": "ADS SUITE"
+      "colorway": "ADS SUITE",
+      "mediaType": "photo"
     }
   },
   {
@@ -805,7 +825,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "021",
       "category": "Kids Birthdays",
-      "colorway": "PARK MEMORIES"
+      "colorway": "PARK MEMORIES",
+      "mediaType": "photo"
     }
   },
   {
@@ -823,7 +844,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "022",
       "category": "Adult Events",
-      "colorway": "SHADOW & LIGHT"
+      "colorway": "SHADOW & LIGHT",
+      "mediaType": "photo"
     }
   },
   {
@@ -841,7 +863,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "023",
       "category": "Kids Birthdays",
-      "colorway": "STORYBOOK"
+      "colorway": "STORYBOOK",
+      "mediaType": "photo"
     }
   },
   {
@@ -859,7 +882,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "024",
       "category": "Reels",
-      "colorway": "BEAT SYNC"
+      "colorway": "BEAT SYNC",
+      "mediaType": "photo"
     }
   },
   {
@@ -877,7 +901,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "025",
       "category": "Adult Events",
-      "colorway": "EMOTIONAL CUT"
+      "colorway": "EMOTIONAL CUT",
+      "mediaType": "photo"
     }
   },
   {
@@ -895,7 +920,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "026",
       "category": "Kids Birthdays",
-      "colorway": "SIBLING BOND"
+      "colorway": "SIBLING BOND",
+      "mediaType": "photo"
     }
   },
   {
@@ -913,7 +939,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "027",
       "category": "Kids Birthdays",
-      "colorway": "FULL DOCUMENTARY"
+      "colorway": "FULL DOCUMENTARY",
+      "mediaType": "photo"
     }
   },
   {
@@ -931,7 +958,152 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "metadata": {
       "itemNumber": "028",
       "category": "Commercial",
-      "colorway": "CINEMA KEEPSAKE"
+      "colorway": "CINEMA KEEPSAKE",
+      "mediaType": "photo"
+    }
+  },
+  {
+    "id": "work-video-01",
+    "section": "work",
+    "title": "4K Cinema Commercial",
+    "description": "Widescreen 16:9 commercial production shot with prime cinema glass.",
+    "image": "/images/edited_photo_2160x3840.webp",
+    "videoUrl": "/videos/cinema-reel.mp4",
+    "aspectRatio": "16:9",
+    "order": 101,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V01",
+      "mediaType": "video",
+      "videoUrl": "/videos/cinema-reel.mp4",
+      "aspectRatio": "16:9",
+      "format": "16:9 Widescreen"
+    }
+  },
+  {
+    "id": "work-video-02",
+    "section": "work",
+    "title": "Brand Anthem Campaign",
+    "description": "16:9 widescreen brand campaign with dynamic color grading.",
+    "image": "/images/IMG_20260929_181412.webp",
+    "videoUrl": "/videos/hero-expand.mp4",
+    "aspectRatio": "16:9",
+    "order": 102,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V02",
+      "mediaType": "video",
+      "videoUrl": "/videos/hero-expand.mp4",
+      "aspectRatio": "16:9",
+      "format": "16:9 Widescreen"
+    }
+  },
+  {
+    "id": "work-video-03",
+    "section": "work",
+    "title": "Vertical Cinema Reel 01",
+    "description": "9:16 vertical format reel engineered for viral social reach.",
+    "image": "/images/IMG_20260814_192430.webp",
+    "videoUrl": "/videos/vertical-reel-01.mp4",
+    "aspectRatio": "9:16",
+    "order": 103,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V03",
+      "mediaType": "video",
+      "videoUrl": "/videos/vertical-reel-01.mp4",
+      "aspectRatio": "9:16",
+      "format": "9:16 Vertical Reel"
+    }
+  },
+  {
+    "id": "work-video-04",
+    "section": "work",
+    "title": "Vertical Cinema Reel 02",
+    "description": "Paced speed ramps and audio-synced vertical motion edits.",
+    "image": "/images/IMG_20260929_181426.webp",
+    "videoUrl": "/videos/vertical-reel-02.mp4",
+    "aspectRatio": "9:16",
+    "order": 104,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V04",
+      "mediaType": "video",
+      "videoUrl": "/videos/vertical-reel-02.mp4",
+      "aspectRatio": "9:16",
+      "format": "9:16 Vertical Reel"
+    }
+  },
+  {
+    "id": "work-video-05",
+    "section": "work",
+    "title": "Vertical Cinema Reel 03",
+    "description": "Fast-paced vertical fashion and lifestyle cuts.",
+    "image": "/images/IMG_20261003_170037.webp",
+    "videoUrl": "/videos/vertical-reel-03.mp4",
+    "aspectRatio": "9:16",
+    "order": 105,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V05",
+      "mediaType": "video",
+      "videoUrl": "/videos/vertical-reel-03.mp4",
+      "aspectRatio": "9:16",
+      "format": "9:16 Vertical Reel"
+    }
+  },
+  {
+    "id": "work-video-06",
+    "section": "work",
+    "title": "Vertical Cinema Reel 04",
+    "description": "Ambient vertical documentary and celebration highlight.",
+    "image": "/images/IMG_20261003_172154.webp",
+    "videoUrl": "/videos/vertical-reel-04.mp4",
+    "aspectRatio": "9:16",
+    "order": 106,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V06",
+      "mediaType": "video",
+      "videoUrl": "/videos/vertical-reel-04.mp4",
+      "aspectRatio": "9:16",
+      "format": "9:16 Vertical Reel"
+    }
+  },
+  {
+    "id": "work-video-07",
+    "section": "work",
+    "title": "Cinematic Documentary Trailer",
+    "description": "Ambient low-light widescreen cinematography and documentary pacing.",
+    "image": "/images/IMG_20261003_172154.webp",
+    "videoUrl": "/videos/test-3971844.mp4",
+    "aspectRatio": "16:9",
+    "order": 107,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V07",
+      "mediaType": "video",
+      "videoUrl": "/videos/test-3971844.mp4",
+      "aspectRatio": "16:9",
+      "format": "16:9 Widescreen"
+    }
+  },
+  {
+    "id": "work-video-08",
+    "section": "work",
+    "title": "Evening Celebration Recap",
+    "description": "16:9 widescreen celebratory gala multi-angle recap.",
+    "image": "/images/IMG_20261003_170037.webp",
+    "videoUrl": "/videos/test-4540332.mp4",
+    "aspectRatio": "16:9",
+    "order": 108,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "V08",
+      "mediaType": "video",
+      "videoUrl": "/videos/test-4540332.mp4",
+      "aspectRatio": "16:9",
+      "format": "16:9 Widescreen"
     }
   }
 ];
