@@ -22,44 +22,50 @@ export default function Footer() {
             <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
               Social
             </h3>
-            <div className="flex flex-col gap-4 sm:gap-5">
+            <div className="flex flex-col gap-3.5 sm:gap-4.5">
               <a
                 href="https://www.instagram.com/pandoravizuals"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center w-fit"
-                aria-label="Pandora Visuals Instagram"
+                className="inline-flex items-center w-fit group"
+                aria-label="Pandora Visuals Instagram (#pandoravizuals)"
               >
                 <SocialBrandLogo
                   platform="instagram"
+                  username="#pandoravizuals"
                   theme="white"
-                  className="h-6 sm:h-7 w-auto"
+                  iconClassName="w-5 h-5 sm:w-6 sm:h-6"
+                  textClassName="text-base sm:text-lg text-[#ece8e1]/75 group-hover:text-[#ece8e1] transition-colors duration-200 font-sans"
                 />
               </a>
               <a
                 href="https://www.youtube.com/@PandoraVizuals"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center w-fit"
-                aria-label="Pandora Visuals YouTube"
+                className="inline-flex items-center w-fit group"
+                aria-label="Pandora Visuals YouTube (@PandoraVizuals)"
               >
                 <SocialBrandLogo
                   platform="youtube"
+                  username="@PandoraVizuals"
                   theme="white"
-                  className="h-6 sm:h-7 w-auto"
+                  iconClassName="w-6 h-4.5 sm:w-7 sm:h-5"
+                  textClassName="text-base sm:text-lg text-[#ece8e1]/75 group-hover:text-[#ece8e1] transition-colors duration-200 font-sans"
                 />
               </a>
               <a
                 href="https://www.facebook.com/profile.php?id=61595026984781"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center w-fit"
-                aria-label="Pandora Visuals Facebook"
+                className="inline-flex items-center w-fit group"
+                aria-label="Pandora Visuals Facebook (@Pandora Vizuals)"
               >
                 <SocialBrandLogo
                   platform="facebook"
+                  username="@Pandora Vizuals"
                   theme="white"
-                  className="h-6 sm:h-7 w-auto"
+                  iconClassName="w-5 h-5 sm:w-6 sm:h-6"
+                  textClassName="text-base sm:text-lg text-[#ece8e1]/75 group-hover:text-[#ece8e1] transition-colors duration-200 font-sans"
                 />
               </a>
             </div>

@@ -5,21 +5,24 @@ import StudioHeading from '@/components/StudioHeading';
 import SocialBrandLogo, { SocialPlatform } from '@/components/SocialBrandLogo';
 
 export default function ContactPage() {
-  const socials: { name: string; platform: SocialPlatform; url: string }[] = [
+  const socials: { name: string; platform: SocialPlatform; url: string; username: string }[] = [
     {
       name: 'Instagram',
       platform: 'instagram',
       url: 'https://www.instagram.com/pandoravizuals',
+      username: '#pandoravizuals',
     },
     {
       name: 'YouTube',
       platform: 'youtube',
       url: 'https://www.youtube.com/@PandoraVizuals',
+      username: '@PandoraVizuals',
     },
     {
       name: 'Facebook',
       platform: 'facebook',
       url: 'https://www.facebook.com/profile.php?id=61595026984781',
+      username: '@Pandora Vizuals',
     },
   ];
 
@@ -75,20 +78,23 @@ export default function ContactPage() {
             SOCIAL
           </span>
 
-          <div className="flex flex-wrap items-center justify-center gap-7 sm:gap-10 md:gap-12 pt-3">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 md:gap-8 pt-3">
             {socials.map((social) => (
               <a
                 key={social.name}
                 href={social.url}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={`Pandora Visuals ${social.name}`}
-                className="inline-flex items-center"
+                aria-label={`Pandora Visuals ${social.name} (${social.username})`}
+                className="group inline-flex items-center"
               >
                 <SocialBrandLogo
                   platform={social.platform}
+                  username={social.username}
                   theme="white"
-                  className="h-8 sm:h-10 md:h-11 w-auto"
+                  className="px-5 py-3 sm:px-6 sm:py-3.5 rounded-full border border-[#ece8e1]/15 bg-[#141413]/70 hover:border-[#ff3d17]/50 hover:bg-[#1a1a19] transition-all duration-200 shadow-lg"
+                  iconClassName="w-6 h-6 sm:w-7 sm:h-7"
+                  textClassName="text-base sm:text-lg md:text-xl font-sans font-semibold text-[#ece8e1] group-hover:text-[#ff3d17] transition-colors"
                 />
               </a>
             ))}
