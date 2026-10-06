@@ -71,7 +71,9 @@ export default function Navbar() {
       if (!ticking) {
         ticking = true;
         requestAnimationFrame(() => {
-          const lightElements = document.querySelectorAll('[data-theme="light"], .bg-\\[\\#ece8e1\\]');
+          const lightElements = document.querySelectorAll(
+            '[data-theme="light"], [data-bg="white"], [data-bg="light"], .bg-white, .bg-\\[\\#ece8e1\\], .bg-\\[\\#ffffff\\], .bg-\\[\\#fff\\]'
+          );
           if (lightElements.length > 0) {
             const windowHeight = window.innerHeight;
             let topLight = false;
@@ -139,15 +141,15 @@ export default function Navbar() {
               transform: 'translateZ(0)',
             }}
           />
-          {/* Adaptive frosted glass gradient (Active only over light sections, completely transparent over dark) */}
-          {isTopOverLight && (
-            <div 
-              className="absolute inset-0 pointer-events-none transition-all duration-300"
-              style={{
-                background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 100%)',
-              }}
-            />
-          )}
+          {/* Adaptive frosted glass gradient (Smoothly fades in over light sections, transparent over dark) */}
+          <div 
+            className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${
+              isTopOverLight ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 100%)',
+            }}
+          />
         </div>
 
         {/* Centered Pandora Logo - Twice the previous size */}
@@ -189,15 +191,15 @@ export default function Navbar() {
               transform: 'translateZ(0)',
             }}
           />
-          {/* Adaptive frosted glass gradient (Active only over light sections, completely transparent over dark) */}
-          {isBottomOverLight && (
-            <div 
-              className="absolute inset-0 pointer-events-none transition-all duration-300"
-              style={{
-                background: 'linear-gradient(to top, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 100%)',
-              }}
-            />
-          )}
+          {/* Adaptive frosted glass gradient (Smoothly fades in over light sections, transparent over dark) */}
+          <div 
+            className={`absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${
+              isBottomOverLight ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              background: 'linear-gradient(to top, rgba(255, 255, 255, 0.90) 0%, rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 100%)',
+            }}
+          />
         </div>
 
         {/* Center Reticle / Subtle Camera Indicator Dot */}

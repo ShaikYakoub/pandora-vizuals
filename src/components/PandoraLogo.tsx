@@ -19,7 +19,7 @@ export default function PandoraLogo({
       fill="currentColor"
       aria-label="Pandora Vizuals"
       role="img"
-      className={`block select-none aspect-[4135/838] ${themeClass} ${className}`}
+      className={`block select-none aspect-[4135/838] transition-colors duration-500 ${themeClass} ${className}`}
       {...props}
     >
       <path
