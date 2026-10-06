@@ -5,18 +5,18 @@ export const metadata: Metadata = {
   description:
     'Experience the Pandora Visuals lookbook: high-velocity cinematic reels, candid childhood milestones, luxury adult celebrations, and commercial digital campaigns shot on cinema primes.',
   alternates: {
-    canonical: 'https://pandoravisuals.studio/lookbook',
+    canonical: 'https://pandoravizuals.com/lookbook/',
   },
   openGraph: {
     title: 'Lookbook Portfolio | Pandora Visuals',
     description:
       'High-velocity cinematic reels, candid childhood milestones, luxury adult celebrations, and commercial digital campaigns shot on cinema primes.',
-    url: 'https://pandoravisuals.studio/lookbook',
+    url: 'https://pandoravizuals.com/lookbook/',
     siteName: 'Pandora Visuals',
     type: 'website',
     images: [
       {
-        url: 'https://pandoravisuals.studio/images/portrait_2160x3840.webp',
+        url: 'https://pandoravizuals.com/images/portrait_2160x3840.webp',
         width: 810,
         height: 1440,
         alt: 'Pandora Visuals Lookbook Portfolio',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: 'Lookbook Portfolio | Pandora Visuals',
     description:
       'High-velocity cinematic reels, candid childhood milestones, and luxury adult celebrations.',
-    images: ['https://pandoravisuals.studio/images/portrait_2160x3840.webp'],
+    images: ['https://pandoravizuals.com/images/portrait_2160x3840.webp'],
   },
 };
 

@@ -1,0 +1,44 @@
+# ==============================================================================
+# Cloudflare Pages Edge Caching & Performance Headers
+# Pandora Vizuals (https://pandoravizuals.com)
+# ==============================================================================
+
+# Next.js Static Compiled Assets (Hashed chunks, css, media - Cache 1 Year Immutable)
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+  X-Content-Type-Options: nosniff
+
+# High-Performance WebP & SVG Static Images (Cache 1 Year Immutable)
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+
+# Web Fonts (TTF, OTF, WOFF2 - Cache 1 Year Immutable with CORS)
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+  X-Content-Type-Options: nosniff
+
+# High-Definition Video Assets (Cache 1 Year Immutable with Range Requests)
+/videos/*
+  Cache-Control: public, max-age=31536000, immutable
+  Accept-Ranges: bytes
+  X-Content-Type-Options: nosniff
+
+# Static Icons & Meta files
+/favicon.ico
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/robots.txt
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+/sitemap.xml
+  Cache-Control: public, max-age=86400, stale-while-revalidate=604800
+
+# HTML Pages & Static Documents - Instant edge response with revalidation
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()

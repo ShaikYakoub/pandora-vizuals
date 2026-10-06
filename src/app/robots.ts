@@ -25,7 +25,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/admin'],
       },
     ],
-    sitemap: 'https://pandoravisuals.studio/sitemap.xml',
+    sitemap: 'https://pandoravizuals.com/sitemap.xml',
   };
 }
-

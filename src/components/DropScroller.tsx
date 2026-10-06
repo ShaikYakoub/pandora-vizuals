@@ -44,17 +44,28 @@ export default function DropScroller() {
 
   // Smooth scroll sync: direct hardware-accelerated translate3d synced with Lenis
   useEffect(() => {
+    let lastProgress = -1;
+
     const updateScroller = () => {
       if (!sectionRef.current || !trackRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const totalScrollableHeight = sectionRef.current.offsetHeight - window.innerHeight;
+      const totalScrollableHeight = maxScrollDistanceRef.current;
       if (totalScrollableHeight <= 0) return;
+
+      const rect = sectionRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Skip computation if outside active viewport bounds and already settled
+      if (rect.bottom < 0 && lastProgress === 1) return;
+      if (rect.top > windowHeight && lastProgress === 0) return;
 
       const scrolledIntoSection = -rect.top;
       const progress = Math.min(Math.max(scrolledIntoSection / totalScrollableHeight, 0), 1);
-      const targetX = progress * maxScrollDistanceRef.current;
 
-      trackRef.current.style.transform = `translate3d(-${targetX.toFixed(2)}px, 0, 0)`;
+      if (Math.abs(progress - lastProgress) < 0.0005) return;
+      lastProgress = progress;
+
+      const targetX = progress * totalScrollableHeight;
+      trackRef.current.style.transform = `translate3d(-${targetX.toFixed(1)}px, 0, 0)`;
     };
 
     if (lenis) {

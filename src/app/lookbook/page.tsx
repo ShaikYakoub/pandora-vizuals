@@ -118,7 +118,7 @@ export default function LookbookPage() {
                 </div>
 
                 <div className="lg:col-span-4 flex lg:justify-end">
-                  <CameraCTAButton href="/shop">
+                  <CameraCTAButton href="/shop/">
                     VIEW WORK ARCHIVE
                   </CameraCTAButton>
                 </div>

@@ -21,13 +21,14 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
     if (typeof window === 'undefined') return;
 
     const lenisInstance = new Lenis({
-      duration: 1.1,
+      duration: 1.0,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
       wheelMultiplier: 1.0,
-      touchMultiplier: 1.3,
+      touchMultiplier: 1.0,
+      syncTouch: false,
       infinite: false,
     });
 

@@ -1,1 +1,6 @@
-/about  /contact  301
+/about       /contact/   301
+/about/      /contact/   301
+/shop        /shop/      301
+/contact     /contact/   301
+/lookbook    /lookbook/  301
+/terms       /terms/     301

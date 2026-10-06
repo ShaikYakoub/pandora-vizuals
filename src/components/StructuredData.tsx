@@ -4,16 +4,16 @@ export default function StructuredData() {
   const businessSchema = {
     '@context': 'https://schema.org',
     '@type': ['ProfessionalService', 'LocalBusiness'],
-    '@id': 'https://pandoravisuals.studio/#business',
+    '@id': 'https://pandoravizuals.com/#business',
     name: 'Pandora Visuals',
     alternateName: ['Pandora Vizuals', 'Pandora Visuals Studio'],
     description:
       'Pandora Visuals is a premier creative media production studio specializing in viral social media reels, children’s milestone birthday photography & cake smash sessions, adult milestone celebrations, commercial brand campaigns, and digital marketing.',
-    url: 'https://pandoravisuals.studio',
-    logo: 'https://pandoravisuals.studio/images/pandora-logo.svg',
-    image: 'https://pandoravisuals.studio/images/portrait_2160x3840.webp',
+    url: 'https://pandoravizuals.com',
+    logo: 'https://pandoravizuals.com/images/pandora-logo.svg',
+    image: 'https://pandoravizuals.com/images/portrait_2160x3840.webp',
     telephone: '+91 63098 97003',
-    email: 'satpandora@gmail.com',
+    email: 'pandoravisualsat@gmail.com',
     priceRange: '$$$',
     currenciesAccepted: 'INR, USD',
     paymentAccepted: 'Cash, Credit Card, UPI, Bank Transfer',
@@ -135,11 +135,11 @@ export default function StructuredData() {
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    '@id': 'https://pandoravisuals.studio/#website',
-    url: 'https://pandoravisuals.studio',
+    '@id': 'https://pandoravizuals.com/#website',
+    url: 'https://pandoravizuals.com',
     name: 'Pandora Visuals',
     publisher: {
-      '@id': 'https://pandoravisuals.studio/#business',
+      '@id': 'https://pandoravizuals.com/#business',
     },
   };
 
@@ -168,7 +168,7 @@ export default function StructuredData() {
         name: 'How do I book a shoot or inquire about pricing?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'You can book directly by calling +91 63098 97003, emailing satpandora@gmail.com, tapping our direct WhatsApp chat icon on the website, or exploring our services page at pandoravisuals.studio/shop.',
+          text: 'You can book directly by calling +91 63098 97003, emailing pandoravisualsat@gmail.com, tapping our direct WhatsApp chat icon on the website, or exploring our services page at pandoravizuals.com/shop.',
         },
       },
       {

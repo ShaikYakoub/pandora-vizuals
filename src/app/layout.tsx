@@ -45,7 +45,7 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://pandoravisuals.studio'),
+  metadataBase: new URL('https://pandoravizuals.com'),
   title: {
     default: 'Pandora Visuals — Cinematic Videography, Photography & Media Studio',
     template: '%s | Pandora Visuals',
@@ -67,7 +67,7 @@ export const metadata: Metadata = {
     '4K video production',
     'creative agency Hyderabad',
   ],
-  authors: [{ name: 'Pandora Visuals Studio', url: 'https://pandoravisuals.studio' }],
+  authors: [{ name: 'Pandora Visuals Studio', url: 'https://pandoravizuals.com' }],
   creator: 'Pandora Visuals',
   publisher: 'Pandora Visuals',
   formatDetection: {
@@ -82,13 +82,13 @@ export const metadata: Metadata = {
     title: 'Pandora Visuals — Cinematic Videography, Photography & Media Studio',
     description:
       'Viral 4K short-form reels, childhood milestone celebrations, adult birthday events, commercial lookbooks, and high-impact digital marketing.',
-    url: 'https://pandoravisuals.studio',
+    url: 'https://pandoravizuals.com',
     siteName: 'Pandora Visuals',
     locale: 'en_US',
     type: 'website',
     images: [
       {
-        url: 'https://pandoravisuals.studio/images/portrait_2160x3840.webp',
+        url: 'https://pandoravizuals.com/images/portrait_2160x3840.webp',
         width: 810,
         height: 1440,
         alt: 'Pandora Visuals Studio Showreel',
@@ -100,7 +100,7 @@ export const metadata: Metadata = {
     title: 'Pandora Visuals — Cinematic Videography & Media Studio',
     description:
       'Viral 4K short-form reels, milestone celebrations for kids & adults, and digital marketing campaigns.',
-    images: ['https://pandoravisuals.studio/images/portrait_2160x3840.webp'],
+    images: ['https://pandoravizuals.com/images/portrait_2160x3840.webp'],
   },
   icons: {
     icon: [

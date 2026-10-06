@@ -56,10 +56,9 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  // Fetch cards from API, falling back to localStorage or DEFAULT_CARDS
+  // Initialize cards instantly from localStorage or DEFAULT_CARDS (0ms network latency)
   const fetchCards = useCallback(async () => {
     try {
-      // First check local storage for instant render
       if (typeof window !== 'undefined') {
         const stored = localStorage.getItem(STORAGE_KEY);
         if (stored) {
@@ -73,24 +72,6 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
           }
         }
       }
-
-      // Try server fetch
-      const res = await fetch('/api/cards');
-      if (res.ok) {
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          // If server responded, check if localStorage was empty or initialize
-          if (typeof window !== 'undefined') {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (!stored) {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-              setCards(data);
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.warn('Could not fetch from /api/cards, using local state:', err);
     } finally {
       setLoading(false);
     }

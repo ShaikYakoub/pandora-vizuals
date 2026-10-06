@@ -34,7 +34,7 @@ export default function ShopPage() {
                 Productions will appear here shortly.
               </p>
               <div className="pt-2">
-                <CameraCTAButton href="/contact">
+                <CameraCTAButton href="/contact/">
                   BOOK CUSTOM SHOOT
                 </CameraCTAButton>
               </div>
@@ -56,7 +56,7 @@ export default function ShopPage() {
                   From viral reels and milestone celebrations to commercial campaigns, let&apos;s produce something unforgettable.
                 </p>
                 <div className="pt-3">
-                  <CameraCTAButton href="/contact">
+                  <CameraCTAButton href="/contact/">
                     START A PROJECT
                   </CameraCTAButton>
                 </div>

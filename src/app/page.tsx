@@ -30,7 +30,7 @@ export default function HomePage() {
 
           {/* Camera-Styled Sharp Box CTA Button */}
           <div className="relative z-30 pointer-events-auto pt-2">
-            <CameraCTAButton href="/shop" ariaLabel="Explore The Work">
+            <CameraCTAButton href="/shop/" ariaLabel="Explore The Work">
               EXPLORE WORK
             </CameraCTAButton>
           </div>

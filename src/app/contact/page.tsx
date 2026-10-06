@@ -46,10 +46,10 @@ export default function ContactPage() {
               EMAIL
             </span>
             <a
-              href="mailto:satpandora@gmail.com"
+              href="mailto:pandoravisualsat@gmail.com"
               className="font-sans font-semibold text-2xl sm:text-3xl lg:text-4xl text-[#ece8e1] hover:text-[#ff3d17] transition-colors duration-200 block tracking-tight"
             >
-              satpandora@gmail.com
+              pandoravisualsat@gmail.com
             </a>
           </div>
 

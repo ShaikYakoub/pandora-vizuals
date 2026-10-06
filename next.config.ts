@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
+  compress: true,
+  poweredByHeader: false,
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -15,6 +17,9 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+  },
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
   },
 };
 

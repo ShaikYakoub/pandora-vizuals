@@ -131,7 +131,6 @@ export default function Moodboard() {
   const [draggingId, setDraggingId] = useState<string | null>(null);
   const [zIndexMap, setZIndexMap] = useState<Record<string, number>>({});
   const [highestZ, setHighestZ] = useState(25);
-  const [scrollYOffset, setScrollYOffset] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
   // High-performance drag references to eliminate React state latency during pointer movement
@@ -149,20 +148,26 @@ export default function Moodboard() {
     return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
-  // Parallax float on scroll
+  // Hardware-accelerated parallax float via CSS variable (0 React re-renders on scroll)
   useEffect(() => {
     let animationFrameId = 0;
+    let ticking = false;
 
     const handleScroll = () => {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(() => {
-        if (!containerRef.current) return;
-        const rect = containerRef.current.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          const centerOffset = (window.innerHeight / 2 - (rect.top + rect.height / 2)) * 0.05;
-          setScrollYOffset(centerOffset);
-        }
-      });
+      if (!ticking) {
+        ticking = true;
+        animationFrameId = requestAnimationFrame(() => {
+          if (containerRef.current) {
+            const rect = containerRef.current.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            if (rect.top < windowHeight && rect.bottom > 0) {
+              const centerOffset = (windowHeight / 2 - (rect.top + rect.height / 2)) * 0.05;
+              containerRef.current.style.setProperty('--parallax-offset', `${centerOffset.toFixed(1)}px`);
+            }
+          }
+          ticking = false;
+        });
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -668,9 +673,8 @@ export default function Moodboard() {
           const z = zIndexMap[card.id] || 15 + index;
           const isDragging = draggingId === card.id;
 
-          // Subtle organic parallax offset
+          // Subtle organic parallax offset via CSS variable
           const parallaxMultiplier = (index % 3 - 1) * 1.2;
-          const cardParallaxY = scrollYOffset * parallaxMultiplier;
 
           const rot = card.metadata?.rotation ?? slot.rot;
           const cardWidth = isMobile ? slot.mobileWidth : slot.width;
@@ -702,7 +706,7 @@ export default function Moodboard() {
                       ...(rightPos ? { right: rightPos } : {}),
                     }),
                 width: `${cardWidth}px`,
-                transform: `translate(${pos.x}px, ${pos.y + cardParallaxY}px) rotate(${rot}deg) scale(${
+                transform: `translate(${pos.x}px, calc(${pos.y}px + var(--parallax-offset, 0px) * ${parallaxMultiplier})) rotate(${rot}deg) scale(${
                   isDragging ? 1.05 : 1
                 })`,
                 zIndex: z,

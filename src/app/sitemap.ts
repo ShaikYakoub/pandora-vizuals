@@ -3,40 +3,39 @@ import { MetadataRoute } from 'next';
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://pandoravisuals.studio';
+  const baseUrl = 'https://pandoravizuals.com';
   const lastModified = new Date();
 
   return [
     {
-      url: `${baseUrl}`,
+      url: `${baseUrl}/`,
       lastModified,
       changeFrequency: 'daily',
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/shop`,
+      url: `${baseUrl}/shop/`,
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/lookbook`,
+      url: `${baseUrl}/lookbook/`,
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.85,
     },
     {
-      url: `${baseUrl}/contact`,
+      url: `${baseUrl}/contact/`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/terms`,
+      url: `${baseUrl}/terms/`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.4,
     },
   ];
 }
-

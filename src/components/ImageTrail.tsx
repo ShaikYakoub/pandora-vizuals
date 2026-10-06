@@ -140,8 +140,42 @@ export default function ImageTrail() {
     }, 1150);
   }, []);
 
+  // Intersection Observer to completely sleep ImageTrail when scrolled off-screen
+  const [isInViewport, setIsInViewport] = useState(true);
+  const containerRectRef = useRef<DOMRect | null>(null);
+
   useEffect(() => {
-    if (isMobile) return;
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsInViewport(entries[0].isIntersecting);
+      },
+      { rootMargin: '100px' }
+    );
+
+    observer.observe(container);
+
+    const updateRect = () => {
+      if (containerRef.current) {
+        containerRectRef.current = containerRef.current.getBoundingClientRect();
+      }
+    };
+
+    updateRect();
+    window.addEventListener('resize', updateRect, { passive: true });
+    window.addEventListener('scroll', updateRect, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateRect);
+      window.removeEventListener('scroll', updateRect);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isMobile || !isInViewport) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -149,10 +183,13 @@ export default function ImageTrail() {
     let pendingPoint: { x: number; y: number } | null = null;
 
     const handlePointerMove = (e: PointerEvent) => {
-      const containerEl = containerRef.current;
-      if (!containerEl) return;
+      let rect = containerRectRef.current;
+      if (!rect) {
+        if (!containerRef.current) return;
+        rect = containerRef.current.getBoundingClientRect();
+        containerRectRef.current = rect;
+      }
 
-      const rect = containerEl.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
@@ -193,11 +230,11 @@ export default function ImageTrail() {
       if (rafId !== null) cancelAnimationFrame(rafId);
       window.removeEventListener('pointermove', handlePointerMove);
     };
-  }, [isMobile, addPointerPoint]);
+  }, [isMobile, isInViewport, addPointerPoint]);
 
-  // Mobile Ambient Loop: sequential curated images with perimeter float
+  // Mobile Ambient Loop: sequential curated images with perimeter float (active only when in viewport)
   useEffect(() => {
-    if (!isMobile) return;
+    if (!isMobile || !isInViewport) return;
 
     let timeoutId: NodeJS.Timeout;
     let isCancelled = false;
@@ -242,7 +279,7 @@ export default function ImageTrail() {
       isCancelled = true;
       clearTimeout(timeoutId);
     };
-  }, [isMobile]);
+  }, [isMobile, isInViewport]);
 
   return (
     <div

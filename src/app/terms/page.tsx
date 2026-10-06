@@ -6,13 +6,13 @@ export const metadata: Metadata = {
   description:
     'Terms of service, production guidelines, usage licensing, and privacy policy for Pandora Visuals creative studio clients.',
   alternates: {
-    canonical: 'https://pandoravisuals.studio/terms',
+    canonical: 'https://pandoravizuals.com/terms/',
   },
   openGraph: {
     title: 'Terms & Policy | Pandora Visuals',
     description:
       'Transparent terms of service, creative direction guidelines, and client privacy policy for Pandora Visuals.',
-    url: 'https://pandoravisuals.studio/terms',
+    url: 'https://pandoravizuals.com/terms/',
   },
 };
 
@@ -54,7 +54,7 @@ export default function TermsAndPolicyPage() {
       num: '06',
       title: 'Questions & Inquiries',
       content:
-        'For inquiries regarding custom commercial licenses, non-disclosure agreements, or specific data retention requests, contact our studio team directly at satpandora@gmail.com or +91 63098 97003.',
+        'For inquiries regarding custom commercial licenses, non-disclosure agreements, or specific data retention requests, contact our studio team directly at pandoravisualsat@gmail.com or +91 63098 97003.',
     },
   ];
 
@@ -114,7 +114,7 @@ export default function TermsAndPolicyPage() {
             <span className="text-sm text-[#ece8e1]/50 font-sans">Need custom production terms?</span>
             <p className="text-base font-semibold text-[#ece8e1]">Let&apos;s draft an agreement for your project.</p>
           </div>
-          <CameraCTAButton href="/contact">
+          <CameraCTAButton href="/contact/">
             GET IN TOUCH
           </CameraCTAButton>
         </footer>

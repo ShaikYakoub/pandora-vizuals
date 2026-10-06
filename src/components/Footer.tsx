@@ -78,10 +78,10 @@ export default function Footer() {
                 +91 63098 97003
               </a>
               <a
-                href="mailto:satpandora@gmail.com"
+                href="mailto:pandoravisualsat@gmail.com"
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
-                satpandora@gmail.com
+                pandoravisualsat@gmail.com
               </a>
             </div>
           </div>
@@ -93,7 +93,7 @@ export default function Footer() {
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
               <Link
-                href="/terms"
+                href="/terms/"
                 prefetch={false}
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
