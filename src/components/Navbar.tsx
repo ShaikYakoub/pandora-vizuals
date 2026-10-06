@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import PandoraLogo from './PandoraLogo';
 
 export const getNavIndex = (path: string): number => {
-  if (path === '/') return 1; // HOME
+  if (!path || path === '/') return 1; // HOME
   if (path.startsWith('/shop') || path === '/lookbook') return 0; // WORK
   if (path.startsWith('/contact') || path.startsWith('/about')) return 2; // CONTACT
   return 1;
@@ -14,11 +14,12 @@ export const getNavIndex = (path: string): number => {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
 
   const navLinks = [
-    { label: 'WORK', href: '/shop' },
+    { label: 'WORK', href: '/shop/' },
     { label: 'HOME', href: '/' },
-    { label: 'CONTACT', href: '/contact' },
+    { label: 'CONTACT', href: '/contact/' },
   ];
 
   const [activeIndex, setActiveIndex] = useState(() => getNavIndex(pathname));
@@ -93,6 +94,35 @@ export default function Navbar() {
       window.removeEventListener('resize', handleScroll);
     };
   }, [pathname]);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, idx: number) => {
+    const currentClean = (pathname || '/').replace(/\/$/, '') || '/';
+    const targetClean = href.replace(/\/$/, '') || '/';
+
+    if (currentClean === targetClean) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    setActiveIndex(idx);
+
+    try {
+      router.push(href);
+    } catch {
+      window.location.href = href;
+    }
+
+    // Fail-safe for static CDN deployment (Cloudflare Pages):
+    // If client-side router transition does not update window location within 120ms,
+    // ensure standard document navigation executes so user is never stuck.
+    setTimeout(() => {
+      const nowClean = window.location.pathname.replace(/\/$/, '') || '/';
+      if (nowClean !== targetClean) {
+        window.location.href = href;
+      }
+    }, 120);
+  };
 
   return (
     <>
@@ -173,6 +203,7 @@ export default function Navbar() {
         <div className="relative z-10 w-full h-full flex items-start justify-center pt-3 sm:pt-3.5 md:pt-4">
           <Link 
             href="/" 
+            prefetch={false}
             className={`pointer-events-auto inline-flex items-center justify-center select-none cursor-pointer ${
               isTopOverLight ? 'text-[#0c0c0b]' : 'text-[#ece8e1]'
             }`}
@@ -285,11 +316,11 @@ export default function Navbar() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  prefetch={true}
+                  prefetch={false}
                   ref={(el) => {
                     itemRefs.current[idx] = el;
                   }}
-                  onClick={() => setActiveIndex(idx)}
+                  onClick={(e) => handleNavClick(e, link.href, idx)}
                   className={`font-dune relative py-2 px-3 sm:px-4 flex items-center gap-1.5 text-[13px] sm:text-[15px] md:text-base tracking-[0.12em] sm:tracking-[0.14em] uppercase font-semibold transition-all duration-300 cursor-pointer select-none ${
                     active
                       ? 'text-[#ff3d17] !font-bold scale-110 drop-shadow-[0_0_14px_rgba(255,61,23,0.9)]'

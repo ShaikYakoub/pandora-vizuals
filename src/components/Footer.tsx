@@ -94,6 +94,7 @@ export default function Footer() {
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
               <Link
                 href="/terms"
+                prefetch={false}
                 className="text-base sm:text-lg text-[#ece8e1]/65 hover:text-[#ece8e1] transition-colors duration-200 tracking-normal inline-block w-fit font-sans"
               >
                 Terms & Policy
@@ -136,6 +137,7 @@ export default function Footer() {
       <div className="relative z-10 w-full px-2 sm:px-4 lg:px-6 pt-4 sm:pt-6 pb-24 sm:pb-28 md:pb-32 overflow-hidden">
         <Link
           href="/"
+          prefetch={false}
           className="w-full block select-none cursor-pointer"
           aria-label="Pandora Vizuals Home"
         >

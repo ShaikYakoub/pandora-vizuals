@@ -100,6 +100,7 @@ export default function CameraCTAButton({
     return (
       <Link
         href={href}
+        prefetch={false}
         className={baseClasses}
         aria-label={ariaLabel || (typeof children === 'string' ? children : undefined)}
         target={target}
