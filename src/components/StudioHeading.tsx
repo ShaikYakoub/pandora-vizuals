@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 
-interface FramerHeadingProps {
+interface StudioHeadingProps {
   text?: string;
   lines?: string[];
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span' | 'div';
@@ -13,7 +13,7 @@ interface FramerHeadingProps {
   children?: React.ReactNode;
 }
 
-export default function FramerHeading({
+export default function StudioHeading({
   text,
   lines,
   as: Component = 'h1',
@@ -21,7 +21,7 @@ export default function FramerHeading({
   baseDelay = 0.05,
   variant = 'default',
   children,
-}: FramerHeadingProps) {
+}: StudioHeadingProps) {
   // If children passed instead of text, extract text or render as is if not string
   const rawText = text || (typeof children === 'string' ? children : '');
   const textLines = lines || (rawText ? rawText.split('\n') : []);
@@ -50,7 +50,7 @@ export default function FramerHeading({
                       const charIndex = globalCharCount++;
                       const delay = baseDelay + charIndex * 0.016;
 
-                      // Exact Framer Appear physics
+                      // Smooth cinematic appear physics
                       const initialProps =
                         variant === 'journal'
                           ? {

@@ -7,7 +7,7 @@ import PandoraLogo from './PandoraLogo';
 
 export const getNavIndex = (path: string): number => {
   if (!path || path === '/') return 1; // HOME
-  if (path.startsWith('/shop') || path === '/lookbook') return 0; // WORK
+  if (path.startsWith('/work') || path.startsWith('/shop') || path === '/lookbook') return 0; // WORK
   if (path.startsWith('/contact') || path.startsWith('/about')) return 2; // CONTACT
   return 1;
 };
@@ -17,7 +17,7 @@ export default function Navbar() {
   const router = useRouter();
 
   const navLinks = [
-    { label: 'WORK', href: '/shop/' },
+    { label: 'WORK', href: '/work/' },
     { label: 'HOME', href: '/' },
     { label: 'CONTACT', href: '/contact/' },
   ];

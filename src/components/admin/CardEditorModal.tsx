@@ -344,7 +344,7 @@ export default function CardEditorModal({
                 type="text"
                 value={ctaText}
                 onChange={(e) => setCtaText(e.target.value)}
-                placeholder="e.g. SHOP THE LOOK, VIEW PIECE"
+                placeholder="e.g. BOOK PRODUCTION, VIEW WORK"
                 className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-3 text-[#ece8e1] focus:border-[#ff3d17] outline-none"
               />
             </div>
@@ -357,7 +357,7 @@ export default function CardEditorModal({
                 type="text"
                 value={ctaLink}
                 onChange={(e) => setCtaLink(e.target.value)}
-                placeholder="e.g. /shop/void-overcoat"
+                placeholder="e.g. /work/ or /contact"
                 className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-3 text-[#ece8e1] focus:border-[#ff3d17] outline-none"
               />
             </div>
@@ -383,7 +383,7 @@ export default function CardEditorModal({
                 />
               </div>
 
-              {(section === 'home-edit' || section === 'shop') && (
+              {(section === 'home-edit' || section === 'work') && (
                 <div className="space-y-1.5">
                   <label className="text-[#8c8880] tracking-wider uppercase block">
                     CATEGORY
@@ -402,7 +402,7 @@ export default function CardEditorModal({
                 </div>
               )}
 
-              {(section === 'home-edit' || section === 'shop') && (
+              {(section === 'home-edit' || section === 'work') && (
                 <div className="space-y-1.5">
                   <label className="text-[#8c8880] tracking-wider uppercase block">
                     COLORWAY

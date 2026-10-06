@@ -331,17 +331,6 @@ body {
   }
 }
 
-@keyframes framerTrailReveal {
-  0% {
-    opacity: 0;
-    transform: translate3d(-50%, -50%, 0) scale(0.92) rotate(var(--trail-rot, 0deg));
-  }
-  100% {
-    opacity: 1;
-    transform: translate3d(-50%, -50%, 0) scale(1) rotate(var(--trail-rot, 0deg));
-  }
-}
-
 @keyframes mobileAmbientFloat {
   0% {
     opacity: 0;

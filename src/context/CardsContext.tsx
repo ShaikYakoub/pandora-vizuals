@@ -20,7 +20,7 @@ interface CardsContextType {
 
 const CardsContext = createContext<CardsContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pandora_visuals_cards_v8';
+const STORAGE_KEY = 'pandora_visuals_cards_v9';
 const SYNC_EVENT_NAME = 'pandora_visuals_cards_updated';
 
 const optimizeImageUrl = (url?: string): string => {
@@ -34,6 +34,8 @@ const optimizeImageUrl = (url?: string): string => {
 const sanitizeCards = (rawCards: EditableCard[]): EditableCard[] => {
   return rawCards.map((c) => ({
     ...c,
+    section: c.section === 'shop' ? 'work' : c.section,
+    ctaLink: c.ctaLink === '/shop' || c.ctaLink === '/shop/' ? '/work/' : c.ctaLink,
     image: optimizeImageUrl(c.image),
   }));
 };
@@ -106,7 +108,10 @@ export function CardsProvider({ children }: { children: React.ReactNode }) {
   const getCardsBySection = useCallback(
     (section: string, activeOnly = true) => {
       return cards
-        .filter((c) => c.section === section && (!activeOnly || c.isActive))
+        .filter((c) => {
+          const matches = section === 'work' ? (c.section === 'work' || c.section === 'shop') : c.section === section;
+          return matches && (!activeOnly || c.isActive);
+        })
         .sort((a, b) => a.order - b.order);
     },
     [cards]

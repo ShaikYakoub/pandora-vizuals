@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import FramerHeading from '@/components/FramerHeading';
+import StudioHeading from '@/components/StudioHeading';
 import SocialBrandLogo, { SocialPlatform } from '@/components/SocialBrandLogo';
 
 export default function ContactPage() {
@@ -31,7 +31,7 @@ export default function ContactPage() {
       <div className="max-w-[1400px] mx-auto text-center space-y-12 sm:space-y-16">
         {/* Main Heading */}
         <div className="pb-8 sm:pb-12 border-b border-[#ece8e1]/10">
-          <FramerHeading
+          <StudioHeading
             text="Get in touch"
             as="h1"
             className="font-dune text-5xl sm:text-7xl lg:text-8xl xl:text-9xl leading-[0.92] tracking-tight uppercase text-[#ece8e1]"

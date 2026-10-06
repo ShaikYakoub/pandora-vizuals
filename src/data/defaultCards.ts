@@ -8,7 +8,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "VIRAL SOUND & RHYTHMIC CUTS",
     "image": "/images/IMG_20260814_192431_1.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 1,
     "isActive": true,
     "metadata": {
@@ -28,7 +28,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "1ST BIRTHDAY & CAKE SMASH",
     "image": "/images/IMG_20260929_180412.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 2,
     "isActive": true,
     "metadata": {
@@ -48,7 +48,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "MILESTONE 30TH SOIREE",
     "image": "/images/IMG_20260929_181412.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 3,
     "isActive": true,
     "metadata": {
@@ -68,7 +68,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "META & TIKTOK AD SUITE",
     "image": "/images/IMG_20260929_181426.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 4,
     "isActive": true,
     "metadata": {
@@ -88,7 +88,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "COMMERCIAL LOOKBOOK 4K",
     "image": "/images/IMG_20260929_181441.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 5,
     "isActive": true,
     "metadata": {
@@ -108,7 +108,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "CHILDHOOD WONDER PORTRAITS",
     "image": "/images/IMG_20261003_171238.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 6,
     "isActive": true,
     "metadata": {
@@ -128,7 +128,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "50TH JUBILEE & RECEPTION",
     "image": "/images/IMG_20261003_174658.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 7,
     "isActive": true,
     "metadata": {
@@ -148,7 +148,7 @@ export const DEFAULT_CARDS: EditableCard[] = [
     "description": "LUXURY BRAND RETROSPECTIVE",
     "image": "/images/portrait_2160x3840.webp",
     "ctaText": "VIEW PRODUCTION",
-    "ctaLink": "/shop",
+    "ctaLink": "/work/",
     "order": 8,
     "isActive": true,
     "metadata": {
@@ -431,8 +431,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-001",
-    "section": "shop",
+    "id": "work-001",
+    "section": "work",
     "title": "Viral Reels Suite",
     "description": "High-energy 4K short-form reels with custom sound design and dynamic motion grading engineered for maximum viral engagement.",
     "image": "/images/IMG_20260814_192431_1.webp",
@@ -449,8 +449,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-002",
-    "section": "shop",
+    "id": "work-002",
+    "section": "work",
     "title": "Kids 1st Birthday & Cake Smash",
     "description": "Candid, joyful documentation of milestone first birthdays, complete with studio lighting, cake smash setup, and family portraits.",
     "image": "/images/IMG_20260929_180412.webp",
@@ -467,8 +467,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-003",
-    "section": "shop",
+    "id": "work-003",
+    "section": "work",
     "title": "Milestone Adult Gala & Soirée",
     "description": "Cinematic coverage for 18th, 21st, 30th, 50th birthdays and luxury private anniversaries. Low-light mastery with candid documentary flair.",
     "image": "/images/IMG_20260929_181412.webp",
@@ -485,8 +485,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-004",
-    "section": "shop",
+    "id": "work-004",
+    "section": "work",
     "title": "Full-Funnel Digital Marketing",
     "description": "Strategic paid ad creative suites, monthly reel retainers, and performance social media content designed to convert followers into loyal clients.",
     "image": "/images/IMG_20260929_181426.webp",
@@ -503,8 +503,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-005",
-    "section": "shop",
+    "id": "work-005",
+    "section": "work",
     "title": "Commercial Brand Editorial",
     "description": "High-concept product and lookbook photography shot on cinema glass, tailored for commercial campaigns, billboards, and digital presence.",
     "image": "/images/IMG_20260929_181441.webp",
@@ -521,8 +521,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-006",
-    "section": "shop",
+    "id": "work-006",
+    "section": "work",
     "title": "Children Milestone Storybook",
     "description": "Artistic outdoor and lifestyle photography capturing candid childhood wonder, sibling interactions, and genuine family laughter.",
     "image": "/images/IMG_20261003_171238.webp",
@@ -539,8 +539,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-007",
-    "section": "shop",
+    "id": "work-007",
+    "section": "work",
     "title": "Monthly Social Video Retainer",
     "description": "Dedicated monthly visual production producing 8-12 bespoke vertical videos, trend capitalization, and brand identity synchronization.",
     "image": "/images/IMG_20261003_174658.webp",
@@ -557,8 +557,8 @@ export const DEFAULT_CARDS: EditableCard[] = [
     }
   },
   {
-    "id": "shop-008",
-    "section": "shop",
+    "id": "work-008",
+    "section": "work",
     "title": "Private Milestone Documentary",
     "description": "An intimate, long-form cinematic tribute film featuring heartfelt speeches, candid reactions, and a masterfully graded keepsake.",
     "image": "/images/portrait_2160x3840.webp",

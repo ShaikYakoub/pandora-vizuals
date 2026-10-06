@@ -3,14 +3,18 @@
 import React from 'react';
 import { useCards } from '@/context/CardsContext';
 import ProductCard from '@/components/ProductCard';
-import FramerHeading from '@/components/FramerHeading';
-import FramerReveal from '@/components/FramerReveal';
+import StudioHeading from '@/components/StudioHeading';
+import StudioReveal from '@/components/StudioReveal';
 import CameraCTAButton from '@/components/CameraCTAButton';
 
-export default function ShopPage() {
-  const { cards, sectionCards: shopCards } = useCards('shop');
+export default function WorkPage() {
+  const { cards, sectionCards: workCards } = useCards('work');
 
-  const availableCards = shopCards.length > 0 ? shopCards : cards.filter((c) => c.section === 'shop');
+  // Support both 'work' and existing 'shop' card sections for seamless continuity
+  const availableCards =
+    workCards.length > 0
+      ? workCards
+      : cards.filter((c) => c.section === 'work' || c.section === 'shop');
 
   return (
     <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen pt-32 pb-24 sm:pt-40 sm:pb-32 px-4 sm:px-8">
@@ -18,7 +22,7 @@ export default function ShopPage() {
 
         {/* Hero Title */}
         <div className="text-center pb-8 sm:pb-12 border-b border-[#ece8e1]/10">
-          <FramerHeading
+          <StudioHeading
             text="Our work"
             as="h1"
             className="font-anton text-5xl sm:text-7xl lg:text-8xl xl:text-9xl leading-[0.92] tracking-tight uppercase text-[#ece8e1]"
@@ -26,7 +30,7 @@ export default function ShopPage() {
         </div>
 
         {/* Productions Grid: 4 columns desktop (xl), 3 columns laptop & tablet (sm/lg), 2 columns phones (base) */}
-        <FramerReveal delay={0.12} yOffset={24}>
+        <StudioReveal delay={0.12} yOffset={24}>
           {availableCards.length === 0 ? (
             <div className="text-center py-24 space-y-4">
               <div className="font-anton text-3xl text-[#8c8880]">NO PRODUCTIONS FOUND</div>
@@ -63,9 +67,8 @@ export default function ShopPage() {
               </div>
             </div>
           )}
-        </FramerReveal>
+        </StudioReveal>
       </div>
     </div>
   );
 }
-

@@ -4,7 +4,7 @@ import React from 'react';
 import ImageTrail from '@/components/ImageTrail';
 import DropScroller from '@/components/DropScroller';
 import Moodboard from '@/components/Moodboard';
-import FramerHeading from '@/components/FramerHeading';
+import StudioHeading from '@/components/StudioHeading';
 import CameraCTAButton from '@/components/CameraCTAButton';
 
 export default function HomePage() {
@@ -21,7 +21,7 @@ export default function HomePage() {
 
         {/* Center Editorial Quote & Camera CTA Button */}
         <div className="relative z-30 flex-1 flex flex-col items-center justify-center text-center px-4 my-auto py-6 pointer-events-none gap-8 sm:gap-10">
-          <FramerHeading
+          <StudioHeading
             text="Visuals crafted for moments that refuse to fade."
             as="h1"
             variant="subtle"
@@ -30,7 +30,7 @@ export default function HomePage() {
 
           {/* Camera-Styled Sharp Box CTA Button */}
           <div className="relative z-30 pointer-events-auto pt-2">
-            <CameraCTAButton href="/shop/" ariaLabel="Explore The Work">
+            <CameraCTAButton href="/work/" ariaLabel="Explore The Work">
               EXPLORE WORK
             </CameraCTAButton>
           </div>

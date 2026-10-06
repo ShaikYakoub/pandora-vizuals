@@ -168,7 +168,7 @@ export default function StructuredData() {
         name: 'How do I book a shoot or inquire about pricing?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: 'You can book directly by calling +91 63098 97003, emailing pandoravisualsat@gmail.com, tapping our direct WhatsApp chat icon on the website, or exploring our services page at pandoravizuals.com/shop.',
+          text: 'You can book directly by calling +91 63098 97003, emailing pandoravisualsat@gmail.com, tapping our direct WhatsApp chat icon on the website, or exploring our services page at pandoravizuals.com/work.',
         },
       },
       {

@@ -2,7 +2,7 @@ export type CardSectionKey =
   | 'home-drop'
   | 'home-edit'
   | 'home-moodboard'
-  | 'shop'
+  | 'work'
   | 'lookbook';
 
 export interface EditableCard {
@@ -90,10 +90,10 @@ export const SECTIONS_CONFIG: Record<CardSectionKey, SectionDefinition> = {
       { key: 'rotation', label: 'Initial Rotation (deg, e.g. -6, 5)', type: 'number', placeholder: '-4' }
     ]
   },
-  'shop': {
-    key: 'shop',
-    name: 'Portfolio & Packages',
-    page: 'Work Page (/shop)',
+  'work': {
+    key: 'work',
+    name: 'Work Productions & Packages',
+    page: 'Work Page (/work)',
     description: 'Full portfolio of reels, event photography, birthday shoots & digital marketing.',
     hasPrice: true,
     hasBadge: true,

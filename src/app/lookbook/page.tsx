@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import FramerHeading from '@/components/FramerHeading';
-import FramerReveal from '@/components/FramerReveal';
+import StudioHeading from '@/components/StudioHeading';
+import StudioReveal from '@/components/StudioReveal';
 import CameraCTAButton from '@/components/CameraCTAButton';
 
 export default function LookbookPage() {
@@ -13,49 +13,49 @@ export default function LookbookPage() {
       location: 'STUDIO & SOCIAL REELS',
       title: 'VIRAL MOTION',
       number: '01',
-      image: 'https://framerusercontent.com/images/yK4XUXV4VZI7R1eOGyVAeBe8l0.jpg?width=2400&height=1600',
+      image: '/images/IMG_20260929_180412.webp',
       description: 'High-velocity cinematic reels shot on cinema glass. Engineered with sound design, rhythmic cuts, and high viewer retention for social amplification.',
-      link: '/shop',
+      link: '/work/',
     },
     {
       marker: 'CHAPTER 02 / 04',
       location: 'CHILDREN & MILESTONES',
       title: 'FIRST WONDERS',
       number: '02',
-      image: 'https://framerusercontent.com/images/EdLfpUlrdNH789CJi2j2HF2mD7Y.jpg?width=2400&height=1645',
+      image: '/images/IMG_20261003_171238.webp',
       description: 'Joyful, candid child birthday photography, 1st birthday cake smash sessions, and family documentary videography that preserves genuine childhood magic.',
-      link: '/shop',
+      link: '/work/',
     },
     {
       marker: 'CHAPTER 03 / 04',
       location: 'ADULT CELEBRATIONS',
       title: 'GOLDEN HOURS',
       number: '03',
-      image: 'https://framerusercontent.com/images/T3UZEpdSyxWwKNV8YQFWIOPDBs.jpg?width=2400&height=1600',
+      image: '/images/IMG_20261003_174658.webp',
       description: 'Luxury adult milestone birthdays, anniversaries, and private parties captured with red-carpet lighting, candid portraits, and cinematic recap films.',
-      link: '/shop',
+      link: '/work/',
     },
     {
       marker: 'CHAPTER 04 / 04',
       location: 'DIGITAL MARKETING',
       title: 'BRAND SIGNALS',
       number: '04',
-      image: 'https://framerusercontent.com/images/n6REkd6XQ16HSjFB10nTvpTIkMA.jpg?width=2400&height=1898',
+      image: '/images/IMG_20260814_192431_1.webp',
       description: 'Full-service digital marketing visual assets, ad creatives, commercial product shoots, and brand campaigns designed to scale conversion.',
-      link: '/shop',
+      link: '/work/',
     },
   ];
 
   const uneditedLooks = [
-    { id: 'look-01', number: 'FRAME 01', image: 'https://framerusercontent.com/images/ITfCMa6fwM1EtFnPePgDXLgovb4.jpg?width=1200&height=1756' },
-    { id: 'look-02', number: 'FRAME 02', image: 'https://framerusercontent.com/images/aOct8Kl0eiH2U7ojU4vbCY1bcI.jpg?width=1200&height=2135' },
-    { id: 'look-03', number: 'FRAME 03', image: 'https://framerusercontent.com/images/2Dw1MLUkbjRF06SMIb1vQYlA0.jpg?width=1200&height=1660' },
-    { id: 'look-04', number: 'FRAME 04', image: 'https://framerusercontent.com/images/IfjRLOCPu12FT7PTsmqggBvSB3I.jpg?width=1200&height=1800' },
-    { id: 'look-05', number: 'FRAME 05', image: 'https://framerusercontent.com/images/wCg2th1BsekyfxC3aXmZefpdLl0.jpg?width=1200&height=1800' },
-    { id: 'look-06', number: 'FRAME 06', image: 'https://framerusercontent.com/images/Butfly2iiy6mcU5mDCTzOzBL4.jpg?width=1200&height=2004' },
-    { id: 'look-07', number: 'FRAME 07', image: 'https://framerusercontent.com/images/LvZkIM2Ak56HncTjNbV8IDgqQ.jpg?width=1200&height=1800' },
-    { id: 'look-08', number: 'FRAME 08', image: 'https://framerusercontent.com/images/WwbW1NfYszESZHlrDZen7rnF2Os.jpg?width=1200&height=1500' },
-    { id: 'look-09', number: 'FRAME 09', image: 'https://framerusercontent.com/images/CzLrfmrzOW96YAq08D8PBYAjkY.jpg?width=1200&height=1800' },
+    { id: 'look-01', number: 'FRAME 01', image: '/images/001.webp' },
+    { id: 'look-02', number: 'FRAME 02', image: '/images/002.webp' },
+    { id: 'look-03', number: 'FRAME 03', image: '/images/003.webp' },
+    { id: 'look-04', number: 'FRAME 04', image: '/images/IMG_20260929_181412.webp' },
+    { id: 'look-05', number: 'FRAME 05', image: '/images/IMG_20260929_181426.webp' },
+    { id: 'look-06', number: 'FRAME 06', image: '/images/IMG_20260929_181441.webp' },
+    { id: 'look-07', number: 'FRAME 07', image: '/images/portrait_2160x3840.webp' },
+    { id: 'look-08', number: 'FRAME 08', image: '/images/IMG_20261003_171238.webp' },
+    { id: 'look-09', number: 'FRAME 09', image: '/images/IMG_20261003_174658.webp' },
   ];
 
   return (
@@ -65,20 +65,20 @@ export default function LookbookPage() {
 
         {/* Hero Title */}
         <div className="space-y-6 pb-12 border-b border-[#ece8e1]/10">
-          <FramerHeading
+          <StudioHeading
             text="CAPTURED IN 4K"
             as="h1"
             className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
           />
-          <FramerReveal delay={0.15}>
+          <StudioReveal delay={0.15}>
             <p className="font-sans text-base sm:text-xl text-[#8c8880] max-w-2xl leading-relaxed">
               From viral reels and childhood milestone birthdays to adult celebrations and digital marketing campaigns — explore our signature visual productions.
             </p>
-          </FramerReveal>
+          </StudioReveal>
         </div>
 
         {/* 4 Chapters Stack */}
-        <FramerReveal delay={0.22} yOffset={32}>
+        <StudioReveal delay={0.22} yOffset={32}>
           <div className="space-y-36 sm:space-y-48">
           {chapters.map((ch, idx) => (
             <div key={idx} className="space-y-6 border-b border-[#ece8e1]/10 pb-20">
@@ -118,7 +118,7 @@ export default function LookbookPage() {
                 </div>
 
                 <div className="lg:col-span-4 flex lg:justify-end">
-                  <CameraCTAButton href="/shop/">
+                  <CameraCTAButton href="/work/">
                     VIEW WORK ARCHIVE
                   </CameraCTAButton>
                 </div>
@@ -126,15 +126,15 @@ export default function LookbookPage() {
             </div>
           ))}
           </div>
-        </FramerReveal>
+        </StudioReveal>
 
         {/* Section: EVERY FRAME, RAW & GRADED */}
-        <FramerReveal delay={0.18} yOffset={32} className="space-y-12 sm:space-y-16 pt-8">
+        <StudioReveal delay={0.18} yOffset={32} className="space-y-12 sm:space-y-16 pt-8">
           <div className="space-y-4">
             <div className="text-xs font-sans tracking-widest text-[#ff3d17] uppercase">
               (Archive) — Production Stills & Contact Sheets
             </div>
-            <FramerHeading
+            <StudioHeading
               text="EVERY FRAME, RAW & GRADED"
               as="h2"
               className="font-anton text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]"
@@ -160,7 +160,7 @@ export default function LookbookPage() {
               </div>
             ))}
           </div>
-        </FramerReveal>
+        </StudioReveal>
 
       </div>
     </div>

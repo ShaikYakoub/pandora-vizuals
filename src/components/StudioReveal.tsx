@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 
-interface FramerRevealProps {
+interface StudioRevealProps {
   children: React.ReactNode;
   delay?: number;
   yOffset?: number;
@@ -11,13 +11,13 @@ interface FramerRevealProps {
   className?: string;
 }
 
-export default function FramerReveal({
+export default function StudioReveal({
   children,
   delay = 0.15,
   yOffset = 24,
   duration = 0.65,
   className = '',
-}: FramerRevealProps) {
+}: StudioRevealProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: yOffset }}
