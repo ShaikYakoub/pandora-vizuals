@@ -9,28 +9,29 @@ if (!fs.existsSync(backupDir)) {
   fs.mkdirSync(backupDir, { recursive: true });
 }
 
-const targetFiles = [
-  'portrait_2160x3840.png',
-  'IMG_20260929_180412.jpg',
-  'IMG_20261003_171238.jpg',
-  'IMG_20261003_174658.jpg',
-  'IMG_20260814_192431_1.jpg',
-  'IMG_20260929_181426.jpg',
-  'IMG_20260929_181412.jpg',
-  'IMG_20260929_181441.jpg',
-  'agero-footer-bg.png',
-];
-
 async function optimizeImages() {
-  console.log('🚀 Starting upright, responsive, lightning-fast image optimization...\n');
+  console.log('🚀 Starting comprehensive upright, responsive image optimization...\n');
+
+  const allFiles = fs.readdirSync(imagesDir);
+  const targetFiles = allFiles.filter((file) => {
+    const ext = path.extname(file).toLowerCase();
+    const isImage = ext === '.jpg' || ext === '.jpeg' || ext === '.png';
+    const isLogo = file.includes('logo') || file.includes('techmecs');
+    return isImage && !isLogo;
+  });
+
+  console.log(`Found ${targetFiles.length} images to optimize.\n`);
+
   let originalTotal = 0;
   let webpTotal = 0;
   let fallbackTotal = 0;
+  let processedCount = 0;
 
   for (const file of targetFiles) {
     const backupPath = path.join(backupDir, file);
     const srcPath = path.join(imagesDir, file);
 
+    // 1. Ensure raw original is preserved in backup_raw
     if (!fs.existsSync(backupPath)) {
       if (fs.existsSync(srcPath)) {
         fs.copyFileSync(srcPath, backupPath);
@@ -45,10 +46,10 @@ async function optimizeImages() {
     originalTotal += origSize;
 
     const parsed = path.parse(file);
-    const isBg = file.includes('agero-footer-bg');
-    const maxDim = isBg ? 1600 : 1440;
+    const isBg = file.includes('footer-bg') || file.includes('hero');
+    const maxDim = isBg ? 1920 : 1600;
 
-    // 1. Generate crisp, auto-rotated, properly proportioned WebP
+    // 2. Generate crisp, auto-rotated, properly proportioned WebP
     const webpFilename = `${parsed.name}.webp`;
     const webpPath = path.join(imagesDir, webpFilename);
 
@@ -61,7 +62,7 @@ async function optimizeImages() {
         withoutEnlargement: true,
       })
       .webp({
-        quality: isBg ? 80 : 84,
+        quality: 82,
         effort: 6,
         smartSubsample: true,
       })
@@ -70,7 +71,7 @@ async function optimizeImages() {
     fs.writeFileSync(webpPath, webpBuffer);
     webpTotal += webpBuffer.length;
 
-    // 2. Also generate matching upright, resized fallback (.jpg or .png)
+    // 3. Generate matching upright, resized lightweight fallback (.jpg or .png)
     let fallbackBuffer;
     if (parsed.ext.toLowerCase() === '.png') {
       fallbackBuffer = await sharp(backupPath)
@@ -84,7 +85,7 @@ async function optimizeImages() {
         .png({
           quality: 85,
           compressionLevel: 9,
-          palette: true, // Color palette quantization for lightweight PNG
+          palette: true,
         })
         .toBuffer();
     } else {
@@ -97,7 +98,7 @@ async function optimizeImages() {
           withoutEnlargement: true,
         })
         .jpeg({
-          quality: 84,
+          quality: 82,
           mozjpeg: true,
           chromaSubsampling: '4:4:4',
         })
@@ -106,21 +107,28 @@ async function optimizeImages() {
 
     fs.writeFileSync(srcPath, fallbackBuffer);
     fallbackTotal += fallbackBuffer.length;
+    processedCount++;
 
     const finalMeta = await sharp(webpBuffer).metadata();
     const webpSavings = ((1 - webpBuffer.length / origSize) * 100).toFixed(1);
 
-    console.log(`📸 ${file} ➔ ${finalMeta.width}x${finalMeta.height} (upright)`);
+    console.log(
+      `[${processedCount}/${targetFiles.length}] 📸 ${file} ➔ ${webpFilename} (${finalMeta.width}x${finalMeta.height})`
+    );
     console.log(`   - Original:  ${(origSize / 1024).toFixed(0)} KB`);
     console.log(`   - WebP:      ${(webpBuffer.length / 1024).toFixed(0)} KB (${webpSavings}% saved)`);
     console.log(`   - Fallback:  ${(fallbackBuffer.length / 1024).toFixed(0)} KB\n`);
   }
 
-  console.log('==============================================');
+  const overallWebpSavings = ((1 - webpTotal / originalTotal) * 100).toFixed(1);
+  const overallFallbackSavings = ((1 - fallbackTotal / originalTotal) * 100).toFixed(1);
+
+  console.log('====================================================');
   console.log(`📦 Original Total:          ${(originalTotal / 1024 / 1024).toFixed(2)} MB`);
-  console.log(`✨ Optimized WebP Total:    ${(webpTotal / 1024).toFixed(0)} KB (${((1 - webpTotal / originalTotal) * 100).toFixed(1)}% total saved)`);
-  console.log(`⚡ Optimized Fallback Total: ${(fallbackTotal / 1024).toFixed(0)} KB (${((1 - fallbackTotal / originalTotal) * 100).toFixed(1)}% total saved)`);
-  console.log('==============================================');
+  console.log(`✨ Optimized WebP Total:    ${(webpTotal / 1024 / 1024).toFixed(2)} MB (${overallWebpSavings}% saved)`);
+  console.log(`⚡ Optimized Fallback Total: ${(fallbackTotal / 1024 / 1024).toFixed(2)} MB (${overallFallbackSavings}% saved)`);
+  console.log(`🎉 Successfully optimized ${processedCount} images!`);
+  console.log('====================================================');
 }
 
 optimizeImages().catch((err) => {

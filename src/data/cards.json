@@ -431,144 +431,504 @@
   {
     "id": "work-001",
     "section": "work",
-    "title": "Viral Reels Suite",
-    "description": "High-energy 4K short-form reels with custom sound design and dynamic motion grading engineered for maximum viral engagement.",
-    "image": "/images/IMG_20260814_192431_1.webp",
-    "price": "FROM $1,200",
+    "title": "Golden Childhood Wonder",
+    "description": "Outdoor lifestyle portraiture freezing childhood curiosity, natural smiles, and warm golden hour light.",
+    "image": "/images/IMG_20261003_170037.webp",
+    "price": "FROM $750",
     "badge": "POPULAR",
-    "ctaText": "BOOK PRODUCTION",
+    "ctaText": "BOOK SESSION",
     "ctaLink": "/contact",
     "order": 1,
     "isActive": true,
     "metadata": {
       "itemNumber": "001",
-      "category": "Reels",
-      "colorway": "4K CINEMA / 9:16"
+      "category": "Kids Birthdays",
+      "colorway": "GOLDEN HOUR / RAW"
     }
   },
   {
     "id": "work-002",
     "section": "work",
-    "title": "Kids 1st Birthday & Cake Smash",
-    "description": "Candid, joyful documentation of milestone first birthdays, complete with studio lighting, cake smash setup, and family portraits.",
-    "image": "/images/IMG_20260929_180412.webp",
-    "price": "FROM $850",
-    "badge": "FEATURED",
-    "ctaText": "BOOK SESSION",
+    "title": "Milestone Portrait Retouch",
+    "description": "High-concept magazine grade portrait with cinematic edge lighting and subtle color tonality.",
+    "image": "/images/edited_photo_3072x4096.webp",
+    "price": "FROM $1,400",
+    "badge": "EDITORIAL",
+    "ctaText": "BOOK EDITORIAL",
     "ctaLink": "/contact",
     "order": 2,
     "isActive": true,
     "metadata": {
       "itemNumber": "002",
-      "category": "Kids Birthdays",
-      "colorway": "STUDIO & OUTDOOR"
+      "category": "Commercial",
+      "colorway": "STUDIO GRADE / 4K"
     }
   },
   {
     "id": "work-003",
     "section": "work",
-    "title": "Milestone Adult Gala & Soirée",
-    "description": "Cinematic coverage for 18th, 21st, 30th, 50th birthdays and luxury private anniversaries. Low-light mastery with candid documentary flair.",
-    "image": "/images/IMG_20260929_181412.webp",
-    "price": "FROM $2,400",
-    "badge": "BOOKED OFTEN",
-    "ctaText": "BOOK EVENT",
+    "title": "4K Vertical Reel Sprint",
+    "description": "High-energy vertical cuts engineered with rhythmic sound design and beat matching for algorithmic reach.",
+    "image": "/images/IMG_20260814_192430.webp",
+    "price": "FROM $1,200",
+    "badge": "VIRAL",
+    "ctaText": "BOOK PRODUCTION",
     "ctaLink": "/contact",
     "order": 3,
     "isActive": true,
     "metadata": {
       "itemNumber": "003",
-      "category": "Adult Events",
-      "colorway": "LOW-LIGHT 4K"
+      "category": "Reels",
+      "colorway": "4K CINEMA / 9:16"
     }
   },
   {
     "id": "work-004",
     "section": "work",
-    "title": "Full-Funnel Digital Marketing",
-    "description": "Strategic paid ad creative suites, monthly reel retainers, and performance social media content designed to convert followers into loyal clients.",
-    "image": "/images/IMG_20260929_181426.webp",
-    "price": "FROM $3,500/MO",
-    "badge": "GROWTH",
-    "ctaText": "START CAMPAIGN",
+    "title": "First Birthday Celebration",
+    "description": "Unposed laughter, cake smash joy, and family embrace documented with gentle, patient direction.",
+    "image": "/images/IMG_20261003_170539.webp",
+    "price": "FROM $850",
+    "badge": "FEATURED",
+    "ctaText": "BOOK SESSION",
     "ctaLink": "/contact",
     "order": 4,
     "isActive": true,
     "metadata": {
       "itemNumber": "004",
-      "category": "Digital Marketing",
-      "colorway": "GROWTH SUITE"
+      "category": "Kids Birthdays",
+      "colorway": "STUDIO & OUTDOOR"
     }
   },
   {
     "id": "work-005",
     "section": "work",
-    "title": "Commercial Brand Editorial",
-    "description": "High-concept product and lookbook photography shot on cinema glass, tailored for commercial campaigns, billboards, and digital presence.",
-    "image": "/images/IMG_20260929_181441.webp",
-    "price": "FROM $1,800",
-    "badge": "NEW",
-    "ctaText": "BOOK EDITORIAL",
+    "title": "Evening Jubilee Gala",
+    "description": "Ambient low-light cinematography capturing milestone anniversary toasts, champagne cheers, and evening glamour.",
+    "image": "/images/IMG_20260929_180452.webp",
+    "price": "FROM $2,400",
+    "badge": "NIGHT CINEMA",
+    "ctaText": "BOOK EVENT",
     "ctaLink": "/contact",
     "order": 5,
     "isActive": true,
     "metadata": {
       "itemNumber": "005",
-      "category": "Commercial",
-      "colorway": "STUDIO GRADE"
+      "category": "Adult Events",
+      "colorway": "LOW-LIGHT 4K"
     }
   },
   {
     "id": "work-006",
     "section": "work",
-    "title": "Children Milestone Storybook",
-    "description": "Artistic outdoor and lifestyle photography capturing candid childhood wonder, sibling interactions, and genuine family laughter.",
-    "image": "/images/IMG_20261003_171238.webp",
-    "price": "FROM $750",
-    "badge": "",
-    "ctaText": "BOOK SESSION",
+    "title": "Brand Identity Editorial",
+    "description": "Commercial campaign visuals shot on prime cinema glass for modern lifestyle brands and visual campaigns.",
+    "image": "/images/edited_165637_2160x3840.webp",
+    "price": "FROM $2,800",
+    "badge": "BRAND CAMPAIGN",
+    "ctaText": "START PROJECT",
     "ctaLink": "/contact",
     "order": 6,
     "isActive": true,
     "metadata": {
       "itemNumber": "006",
-      "category": "Kids Birthdays",
-      "colorway": "GOLDEN HOUR"
+      "category": "Commercial",
+      "colorway": "COMMERCIAL GRADE"
     }
   },
   {
     "id": "work-007",
     "section": "work",
-    "title": "Monthly Social Video Retainer",
-    "description": "Dedicated monthly visual production producing 8-12 bespoke vertical videos, trend capitalization, and brand identity synchronization.",
-    "image": "/images/IMG_20261003_174658.webp",
-    "price": "FROM $2,800/MO",
-    "badge": "",
-    "ctaText": "INQUIRE RETAINER",
+    "title": "Garden Bridge Smiles",
+    "description": "Whimsical garden setting with natural timber bridge, capturing authentic childhood adventure.",
+    "image": "/images/IMG_20261003_171211.webp",
+    "price": "FROM $750",
+    "badge": "OUTDOOR",
+    "ctaText": "BOOK SESSION",
     "ctaLink": "/contact",
     "order": 7,
     "isActive": true,
     "metadata": {
       "itemNumber": "007",
-      "category": "Reels",
-      "colorway": "MONTHLY SPRINT"
+      "category": "Kids Birthdays",
+      "colorway": "NATURAL LIGHT"
     }
   },
   {
     "id": "work-008",
     "section": "work",
-    "title": "Private Milestone Documentary",
-    "description": "An intimate, long-form cinematic tribute film featuring heartfelt speeches, candid reactions, and a masterfully graded keepsake.",
-    "image": "/images/portrait_2160x3840.webp",
-    "price": "FROM $4,200",
-    "badge": "EXCLUSIVE",
-    "ctaText": "BOOK FILM",
+    "title": "Family Heritage Portrait",
+    "description": "Multi-generational bond and heartfelt smiles frozen in time with rich, archival tonal grading.",
+    "image": "/images/IMG_20261003_171902.webp",
+    "price": "FROM $950",
+    "badge": "HEIRLOOM",
+    "ctaText": "BOOK PORTRAIT",
     "ctaLink": "/contact",
     "order": 8,
     "isActive": true,
     "metadata": {
       "itemNumber": "008",
+      "category": "Kids Birthdays",
+      "colorway": "ARCHIVAL GRADE"
+    }
+  },
+  {
+    "id": "work-009",
+    "section": "work",
+    "title": "Twilight Reception Gala",
+    "description": "Documentary style reception coverage with soft ambient lighting, candid glances, and dancefloor energy.",
+    "image": "/images/IMG_20260929_175313.webp",
+    "price": "FROM $2,200",
+    "badge": "DOCUMENTARY",
+    "ctaText": "BOOK GALA",
+    "ctaLink": "/contact",
+    "order": 9,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "009",
       "category": "Adult Events",
+      "colorway": "TWILIGHT REEL"
+    }
+  },
+  {
+    "id": "work-010",
+    "section": "work",
+    "title": "Candid Joy & Laughter",
+    "description": "Spontaneous childhood expressions documented naturally without forced poses or stiff studio setups.",
+    "image": "/images/IMG_20261003_172154.webp",
+    "price": "FROM $800",
+    "badge": "CANDID",
+    "ctaText": "BOOK SESSION",
+    "ctaLink": "/contact",
+    "order": 10,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "010",
+      "category": "Kids Birthdays",
+      "colorway": "WARM TONES"
+    }
+  },
+  {
+    "id": "work-011",
+    "section": "work",
+    "title": "Viral Rhythm Motion Cut",
+    "description": "Paced speed ramps and synchronized audio transitions built for Instagram reels & TikTok virality.",
+    "image": "/images/IMG_20260814_192433.webp",
+    "price": "FROM $1,500",
+    "badge": "HIGH ENERGY",
+    "ctaText": "BOOK REEL",
+    "ctaLink": "/contact",
+    "order": 11,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "011",
+      "category": "Reels",
+      "colorway": "9:16 VERTICAL"
+    }
+  },
+  {
+    "id": "work-012",
+    "section": "work",
+    "title": "Sunset Milestone Soirée",
+    "description": "Golden evening horizon celebrating a 30th milestone with heartfelt speeches and cinematic mood.",
+    "image": "/images/IMG_20261003_174621.webp",
+    "price": "FROM $2,600",
+    "badge": "SIGNATURE",
+    "ctaText": "BOOK SOIREE",
+    "ctaLink": "/contact",
+    "order": 12,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "012",
+      "category": "Adult Events",
+      "colorway": "GOLDEN HOUR"
+    }
+  },
+  {
+    "id": "work-013",
+    "section": "work",
+    "title": "Studio Glass Lookbook",
+    "description": "Editorial fashion and brand stills shot with diffused lighting and ultra-sharp prime cinema glass.",
+    "image": "/images/edited_photo_2160x3840.webp",
+    "price": "FROM $3,200",
+    "badge": "EXCLUSIVE",
+    "ctaText": "BOOK CAMPAIGN",
+    "ctaLink": "/contact",
+    "order": 13,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "013",
+      "category": "Commercial",
+      "colorway": "HIGH RESOLUTION"
+    }
+  },
+  {
+    "id": "work-014",
+    "section": "work",
+    "title": "Pure Wonder Cake Smash",
+    "description": "Messy hands and frosting smiles! Full studio setup with balloons, custom backdrops, and cake joy.",
+    "image": "/images/IMG_20261003_170104.webp",
+    "price": "FROM $900",
+    "badge": "FAVORITE",
+    "ctaText": "BOOK SMASH",
+    "ctaLink": "/contact",
+    "order": 14,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "014",
+      "category": "Kids Birthdays",
+      "colorway": "STUDIO SET"
+    }
+  },
+  {
+    "id": "work-015",
+    "section": "work",
+    "title": "Afternoon Sunshine Glow",
+    "description": "Warm natural daylight illuminating joyful outdoor play and family celebration moments.",
+    "image": "/images/IMG_20261003_172628.webp",
+    "price": "FROM $750",
+    "badge": "SUNLIT",
+    "ctaText": "BOOK SESSION",
+    "ctaLink": "/contact",
+    "order": 15,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "015",
+      "category": "Kids Birthdays",
+      "colorway": "NATURAL GLOW"
+    }
+  },
+  {
+    "id": "work-016",
+    "section": "work",
+    "title": "Milestone 30th Toasts",
+    "description": "Candid glass clinks, emotional speeches, and spontaneous laughs preserved with cinema-grade audio and stills.",
+    "image": "/images/IMG_20260929_180206.webp",
+    "price": "FROM $2,100",
+    "badge": "CELEBRATION",
+    "ctaText": "BOOK EVENT",
+    "ctaLink": "/contact",
+    "order": 16,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "016",
+      "category": "Adult Events",
+      "colorway": "CANDID TOASTS"
+    }
+  },
+  {
+    "id": "work-017",
+    "section": "work",
+    "title": "Unscripted Family Moments",
+    "description": "Authentic interactions between parents and children captured in an easygoing, relaxed atmosphere.",
+    "image": "/images/IMG_20261003_171907_1.webp",
+    "price": "FROM $850",
+    "badge": "WARMTH",
+    "ctaText": "BOOK FAMILY",
+    "ctaLink": "/contact",
+    "order": 17,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "017",
+      "category": "Kids Birthdays",
+      "colorway": "UNSCRIPTED"
+    }
+  },
+  {
+    "id": "work-018",
+    "section": "work",
+    "title": "Festive Gathering 4K",
+    "description": "Dynamic event cinematography and multi-angle recap films crafted for luxury private celebrations.",
+    "image": "/images/IMG_20261003_174731.webp",
+    "price": "FROM $2,800",
+    "badge": "4K CINEMA",
+    "ctaText": "INQUIRE EVENT",
+    "ctaLink": "/contact",
+    "order": 18,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "018",
+      "category": "Adult Events",
+      "colorway": "4K MASTER"
+    }
+  },
+  {
+    "id": "work-019",
+    "section": "work",
+    "title": "Baby Steps Milestone",
+    "description": "Celebrating first-year developmental leaps, baby giggles, and precious tiny details.",
+    "image": "/images/IMG_20261003_170852.webp",
+    "price": "FROM $700",
+    "badge": "MILESTONE",
+    "ctaText": "BOOK SESSION",
+    "ctaLink": "/contact",
+    "order": 19,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "019",
+      "category": "Kids Birthdays",
+      "colorway": "SOFT PASTELS"
+    }
+  },
+  {
+    "id": "work-020",
+    "section": "work",
+    "title": "Digital Campaign Hook",
+    "description": "Scroll-stopping paid ad creative engineered with psychological hooks and high visual retention.",
+    "image": "/images/edited_photo_1536x2048.webp",
+    "price": "FROM $3,500/MO",
+    "badge": "PERFORMANCE",
+    "ctaText": "START CAMPAIGN",
+    "ctaLink": "/contact",
+    "order": 20,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "020",
+      "category": "Commercial",
+      "colorway": "ADS SUITE"
+    }
+  },
+  {
+    "id": "work-021",
+    "section": "work",
+    "title": "Outdoor Playground Memories",
+    "description": "Energetic running, sliding, and pure childhood happiness documented in natural park light.",
+    "image": "/images/IMG_20261003_175307.webp",
+    "price": "FROM $750",
+    "badge": "PLAYFUL",
+    "ctaText": "BOOK SESSION",
+    "ctaLink": "/contact",
+    "order": 21,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "021",
+      "category": "Kids Birthdays",
+      "colorway": "PARK MEMORIES"
+    }
+  },
+  {
+    "id": "work-022",
+    "section": "work",
+    "title": "Nightfall Ambience Film",
+    "description": "Dark, moody atmospheric cinematography with warm string lights and rich night shadows.",
+    "image": "/images/IMG_20260929_181219.webp",
+    "price": "FROM $2,500",
+    "badge": "ATMOSPHERIC",
+    "ctaText": "BOOK FILM",
+    "ctaLink": "/contact",
+    "order": 22,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "022",
+      "category": "Adult Events",
+      "colorway": "SHADOW & LIGHT"
+    }
+  },
+  {
+    "id": "work-023",
+    "section": "work",
+    "title": "Little Explorer Stories",
+    "description": "Curious eyes taking in the world. Unposed lifestyle narrative photography for active toddlers.",
+    "image": "/images/IMG_20261003_171253.webp",
+    "price": "FROM $800",
+    "badge": "STORYTELLING",
+    "ctaText": "BOOK SESSION",
+    "ctaLink": "/contact",
+    "order": 23,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "023",
+      "category": "Kids Birthdays",
+      "colorway": "STORYBOOK"
+    }
+  },
+  {
+    "id": "work-024",
+    "section": "work",
+    "title": "Dynamic Beat Synced Reel",
+    "description": "Fast-paced edits timed to trending audio stems with color grading that pops off the feed.",
+    "image": "/images/IMG_20260814_192431.webp",
+    "price": "FROM $1,400",
+    "badge": "TRENDING",
+    "ctaText": "BOOK REEL",
+    "ctaLink": "/contact",
+    "order": 24,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "024",
+      "category": "Reels",
+      "colorway": "BEAT SYNC"
+    }
+  },
+  {
+    "id": "work-025",
+    "section": "work",
+    "title": "Evening Toast Documentary",
+    "description": "Unrehearsed emotional reactions and spontaneous laughter during milestone celebratory toasts.",
+    "image": "/images/IMG_20261003_174842.webp",
+    "price": "FROM $2,300",
+    "badge": "DOCUMENTARY",
+    "ctaText": "BOOK EVENT",
+    "ctaLink": "/contact",
+    "order": 25,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "025",
+      "category": "Adult Events",
+      "colorway": "EMOTIONAL CUT"
+    }
+  },
+  {
+    "id": "work-026",
+    "section": "work",
+    "title": "Siblings Hug & Sunshine",
+    "description": "Tender sibling affection and warm family bonds captured in natural outdoor golden hour.",
+    "image": "/images/IMG_20261003_172311.webp",
+    "price": "FROM $850",
+    "badge": "HEARTFELT",
+    "ctaText": "BOOK FAMILY",
+    "ctaLink": "/contact",
+    "order": 26,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "026",
+      "category": "Kids Birthdays",
+      "colorway": "SIBLING BOND"
+    }
+  },
+  {
+    "id": "work-027",
+    "section": "work",
+    "title": "Birthday Party Grand Finale",
+    "description": "Confetti, clapping, cake cutting, and cheerful celebrations captured in a complete documentary reel.",
+    "image": "/images/IMG_20261003_175329.webp",
+    "price": "FROM $1,100",
+    "badge": "GRAND FINALE",
+    "ctaText": "BOOK PARTY",
+    "ctaLink": "/contact",
+    "order": 27,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "027",
+      "category": "Kids Birthdays",
+      "colorway": "FULL DOCUMENTARY"
+    }
+  },
+  {
+    "id": "work-028",
+    "section": "work",
+    "title": "Luxury Visuals Retrospective",
+    "description": "An intimate, cinematic showcase tribute featuring masterfully graded footage and high-res stills.",
+    "image": "/images/portrait_2160x3840.webp",
+    "price": "FROM $4,200",
+    "badge": "EXCLUSIVE",
+    "ctaText": "BOOK CINEMA",
+    "ctaLink": "/contact",
+    "order": 28,
+    "isActive": true,
+    "metadata": {
+      "itemNumber": "028",
+      "category": "Commercial",
       "colorway": "CINEMA KEEPSAKE"
     }
   }
