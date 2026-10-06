@@ -183,43 +183,64 @@ body {
   background-size: 24px 24px;
 }
 
-/* Buttons with Bureau27 Magnetic Look */
+/* Camera-Styled Sharp Box Buttons (Matching Hero CTA) */
 .bureau-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  font-family: var(--font-mono), monospace;
-  font-size: 13px;
+  gap: 12px;
+  font-family: var(--font-dune), 'Dune Rise', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 12px 24px;
-  transition: all 0.2s ease;
+  letter-spacing: 0.16em;
+  padding: 12px 28px;
+  background-color: rgba(12, 12, 11, 0.85);
+  color: #ece8e1;
+  border: 1px solid rgba(236, 232, 225, 0.3);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
-  border: 1px solid transparent;
+  border-radius: 0;
+  user-select: none;
+}
+
+.bureau-btn:hover {
+  background-color: var(--accent-red);
+  color: #0c0c0b;
+  border-color: var(--accent-red);
+  box-shadow: 0 0 24px rgba(255, 61, 23, 0.6);
+}
+
+.bureau-btn:active {
+  transform: translateY(2px) scale(0.98);
 }
 
 .bureau-btn-primary {
-  background-color: var(--accent-red);
-  color: #0c0c0b;
-  font-weight: 700;
+  background-color: rgba(12, 12, 11, 0.85);
+  color: #ece8e1;
+  border: 1px solid rgba(236, 232, 225, 0.3);
 }
 
 .bureau-btn-primary:hover {
-  background-color: #e0320f;
-  transform: translateY(-2px);
+  background-color: var(--accent-red);
+  color: #0c0c0b;
+  border-color: var(--accent-red);
 }
 
 .bureau-btn-outline {
-  border-color: var(--border-strong);
-  color: var(--text-primary);
+  border-color: rgba(236, 232, 225, 0.25);
+  color: #ece8e1;
   background: transparent;
 }
 
 .bureau-btn-outline:hover {
-  border-color: var(--text-primary);
-  background: rgba(236, 232, 225, 0.05);
-  transform: translateY(-2px);
+  border-color: var(--accent-red);
+  background-color: var(--accent-red);
+  color: #0c0c0b;
 }
 
 /* Word highlight transition */

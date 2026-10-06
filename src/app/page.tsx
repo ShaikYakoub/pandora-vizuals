@@ -1,12 +1,11 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
 import ImageTrail from '@/components/ImageTrail';
 import DropScroller from '@/components/DropScroller';
 import Moodboard from '@/components/Moodboard';
 import FramerHeading from '@/components/FramerHeading';
-import { ArrowUpRight } from 'lucide-react';
+import CameraCTAButton from '@/components/CameraCTAButton';
 
 export default function HomePage() {
   return (
@@ -31,28 +30,9 @@ export default function HomePage() {
 
           {/* Camera-Styled Sharp Box CTA Button */}
           <div className="relative z-30 pointer-events-auto pt-2">
-            <Link
-              href="/shop"
-              className="group relative z-30 inline-flex items-center gap-3.5 bg-[#0c0c0b]/85 hover:bg-[#ff3d17] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/30 hover:border-[#ff3d17] px-6 sm:px-8 py-3 sm:py-3.5 transition-all duration-300 shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(255,61,23,0.6)] active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md"
-              aria-label="Explore The Work"
-            >
-              {/* Camera Shutter Indicator Dot */}
-              <span className="w-2 h-2 rounded-full bg-[#ff3d17] group-hover:bg-[#0c0c0b] shadow-[0_0_8px_#ff3d17] group-hover:shadow-none transition-colors shrink-0" />
-
-              {/* Shutter Label in Dune Font */}
-              <span className="font-dune text-xs sm:text-sm tracking-[0.18em] uppercase font-bold">
-                EXPLORE WORK
-              </span>
-
-              {/* Directional Shutter Arrow */}
-              <ArrowUpRight className="w-4 h-4 text-[#ece8e1] group-hover:text-[#0c0c0b] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
-
-              {/* Sharp Camera Corner Viewfinder Brackets */}
-              <span className="absolute -top-1 -left-1 w-2 h-2 border-t-2 border-l-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 border-t-2 border-r-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
-              <span className="absolute -bottom-1 -left-1 w-2 h-2 border-b-2 border-l-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
-              <span className="absolute -bottom-1 -right-1 w-2 h-2 border-b-2 border-r-2 border-[#ece8e1]/40 group-hover:border-[#0c0c0b] transition-colors" />
-            </Link>
+            <CameraCTAButton href="/shop" ariaLabel="Explore The Work">
+              EXPLORE WORK
+            </CameraCTAButton>
           </div>
         </div>
       </section>

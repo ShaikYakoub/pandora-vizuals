@@ -41,8 +41,8 @@ export default function ContactPage() {
         {/* Email & Phone with Dune Font Headings */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 pt-2">
           {/* Email Block */}
-          <div className="space-y-2.5">
-            <span className="font-dune text-xs sm:text-sm tracking-[0.16em] text-[#ff3d17] block">
+          <div className="space-y-3 flex flex-col items-center">
+            <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
               EMAIL
             </span>
             <a
@@ -56,8 +56,8 @@ export default function ContactPage() {
           <div className="hidden sm:block w-px h-16 bg-[#ece8e1]/10" />
 
           {/* Phone Block */}
-          <div className="space-y-2.5">
-            <span className="font-dune text-xs sm:text-sm tracking-[0.16em] text-[#ff3d17] block">
+          <div className="space-y-3 flex flex-col items-center">
+            <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
               PHONE
             </span>
             <a
@@ -70,9 +70,9 @@ export default function ContactPage() {
         </div>
 
         {/* Horizontal List of Socials under Dune Font Heading */}
-        <div className="pt-6 sm:pt-8 flex flex-col items-center justify-center space-y-5">
-          <span className="font-dune text-xs sm:text-sm tracking-[0.16em] text-[#ff3d17] block">
-            SOCIALS
+        <div className="pt-6 sm:pt-8 flex flex-col items-center justify-center space-y-6">
+          <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
+            SOCIAL
           </span>
 
           <div className="flex flex-wrap items-center justify-center gap-7 sm:gap-10 md:gap-12 pt-3">

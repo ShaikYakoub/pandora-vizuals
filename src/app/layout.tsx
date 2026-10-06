@@ -33,7 +33,6 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const jetbrainsMono = JetBrains_Mono({
-  weight: ['400', '500', '700'],
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
@@ -41,7 +40,6 @@ const jetbrainsMono = JetBrains_Mono({
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
   variable: '--font-sans',
   display: 'swap',
 });

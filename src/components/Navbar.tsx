@@ -180,7 +180,7 @@ export default function Navbar() {
           >
             <PandoraLogo 
               theme={isTopOverLight ? 'dark' : 'white'}
-              className={`h-16 sm:h-16 md:h-18 lg:h-20 max-w-[86vw] sm:max-w-none w-auto block select-none ${
+              className={`h-11 sm:h-11 md:h-13 lg:h-15 max-w-[86vw] sm:max-w-none w-auto block select-none ${
                 isTopOverLight 
                   ? 'drop-shadow-[0_2px_8px_rgba(0,0,0,0.15)]' 
                   : 'drop-shadow-[0_2px_12px_rgba(0,0,0,0.85)]'

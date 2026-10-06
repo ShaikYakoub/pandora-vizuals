@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import CameraCTAButton from '@/components/CameraCTAButton';
 
 export const metadata: Metadata = {
   title: 'Terms & Policy — Production & Privacy Guidelines',
@@ -114,12 +114,9 @@ export default function TermsAndPolicyPage() {
             <span className="text-sm text-[#ece8e1]/50 font-sans">Need custom production terms?</span>
             <p className="text-base font-semibold text-[#ece8e1]">Let&apos;s draft an agreement for your project.</p>
           </div>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#ece8e1] text-[#0c0c0b] text-sm font-semibold tracking-wide hover:bg-[#ff3d17] hover:text-[#ece8e1] transition-colors duration-200"
-          >
-            Get In Touch
-          </Link>
+          <CameraCTAButton href="/contact">
+            GET IN TOUCH
+          </CameraCTAButton>
         </footer>
 
       </div>

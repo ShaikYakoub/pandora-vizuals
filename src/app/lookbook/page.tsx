@@ -2,10 +2,9 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { ArrowUpRight } from 'lucide-react';
 import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
+import CameraCTAButton from '@/components/CameraCTAButton';
 
 export default function LookbookPage() {
   const chapters = [
@@ -119,13 +118,9 @@ export default function LookbookPage() {
                 </div>
 
                 <div className="lg:col-span-4 flex lg:justify-end">
-                  <Link
-                    href="/shop"
-                    className="inline-flex items-center gap-2 font-sans text-xs uppercase tracking-widest bg-[#ece8e1] text-[#0c0c0b] font-bold px-6 py-4 hover:bg-[#ff3d17] transition-colors"
-                  >
-                    <span>VIEW WORK ARCHIVE</span>
-                    <ArrowUpRight className="w-4 h-4" />
-                  </Link>
+                  <CameraCTAButton href="/shop">
+                    VIEW WORK ARCHIVE
+                  </CameraCTAButton>
                 </div>
               </div>
             </div>

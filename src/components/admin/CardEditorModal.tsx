@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { EditableCard, CardSectionKey, SECTIONS_CONFIG } from '@/types/card';
 import { X, Upload, Link as LinkIcon, Image as ImageIcon, Check } from 'lucide-react';
+import CameraCTAButton from '@/components/CameraCTAButton';
 
 interface CardEditorModalProps {
   isOpen: boolean;
@@ -464,21 +465,25 @@ export default function CardEditorModal({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center justify-end space-x-3 pt-6 border-t border-[#ece8e1]/10">
-            <button
+          <div className="flex items-center justify-end space-x-4 pt-6 border-t border-[#ece8e1]/10">
+            <CameraCTAButton
               type="button"
+              variant="secondary"
               onClick={onClose}
-              className="px-5 py-3 border border-[#ece8e1]/20 text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ece8e1] transition-colors uppercase tracking-widest font-bold"
+              showIcon={false}
+              showDot={false}
+              size="sm"
             >
               CANCEL
-            </button>
-            <button
+            </CameraCTAButton>
+            <CameraCTAButton
               type="submit"
               disabled={saving}
-              className="bureau-btn bureau-btn-primary px-8 py-3 font-bold"
+              showIcon={false}
+              size="sm"
             >
               {saving ? 'SAVING...' : initialCard ? 'UPDATE CARD' : 'CREATE CARD'}
-            </button>
+            </CameraCTAButton>
           </div>
         </form>
       </div>

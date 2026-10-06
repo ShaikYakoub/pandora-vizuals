@@ -5,6 +5,7 @@ import { useCards } from '@/context/CardsContext';
 import ProductCard from '@/components/ProductCard';
 import FramerHeading from '@/components/FramerHeading';
 import FramerReveal from '@/components/FramerReveal';
+import CameraCTAButton from '@/components/CameraCTAButton';
 
 export default function ShopPage() {
   const { cards, sectionCards: shopCards } = useCards('shop');
@@ -27,17 +28,39 @@ export default function ShopPage() {
         {/* Productions Grid: 4 columns desktop (xl), 3 columns laptop & tablet (sm/lg), 2 columns phones (base) */}
         <FramerReveal delay={0.12} yOffset={24}>
           {availableCards.length === 0 ? (
-            <div className="text-center py-24 space-y-3">
+            <div className="text-center py-24 space-y-4">
               <div className="font-anton text-3xl text-[#8c8880]">NO PRODUCTIONS FOUND</div>
               <p className="font-sans text-xs text-[#6b675f]">
                 Productions will appear here shortly.
               </p>
+              <div className="pt-2">
+                <CameraCTAButton href="/contact">
+                  BOOK CUSTOM SHOOT
+                </CameraCTAButton>
+              </div>
             </div>
           ) : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-              {availableCards.map((card, idx) => (
-                <ProductCard key={card.id} card={card} index={idx} columns={4} />
-              ))}
+            <div className="space-y-16">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+                {availableCards.map((card, idx) => (
+                  <ProductCard key={card.id} card={card} index={idx} columns={4} />
+                ))}
+              </div>
+
+              {/* Bottom Inquire CTA */}
+              <div className="text-center pt-12 pb-6 border-t border-[#ece8e1]/10 flex flex-col items-center justify-center space-y-4">
+                <h2 className="font-anton text-3xl sm:text-5xl uppercase text-[#ece8e1] tracking-tight">
+                  READY TO CAPTURE YOUR MOMENTS?
+                </h2>
+                <p className="font-sans text-sm sm:text-base text-[#8c8880] max-w-lg leading-relaxed">
+                  From viral reels and milestone celebrations to commercial campaigns, let&apos;s produce something unforgettable.
+                </p>
+                <div className="pt-3">
+                  <CameraCTAButton href="/contact">
+                    START A PROJECT
+                  </CameraCTAButton>
+                </div>
+              </div>
             </div>
           )}
         </FramerReveal>

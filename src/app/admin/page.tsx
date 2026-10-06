@@ -7,6 +7,7 @@ import { useCards } from '@/context/CardsContext';
 import { EditableCard, CardSectionKey, SECTIONS_CONFIG } from '@/types/card';
 import CardEditorModal from '@/components/admin/CardEditorModal';
 import Toast, { ToastMessage } from '@/components/admin/Toast';
+import CameraCTAButton from '@/components/CameraCTAButton';
 import {
   Plus,
   Edit2,
@@ -176,31 +177,33 @@ export default function AdminPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <button
+            <CameraCTAButton
+              variant="secondary"
+              size="sm"
               onClick={handleReset}
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ece8e1]/20 font-sans text-xs uppercase tracking-wider text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ece8e1] transition-colors bg-[#0c0c0b]"
-              title="Reset all sections to original factory seed cards"
+              icon={<RotateCcw className="w-3.5 h-3.5" />}
+              ariaLabel="Reset all sections to original factory seed cards"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>FACTORY RESET</span>
-            </button>
+              FACTORY RESET
+            </CameraCTAButton>
 
-            <Link
+            <CameraCTAButton
               href="/"
               target="_blank"
-              className="inline-flex items-center gap-2 px-4 py-2.5 border border-[#ff3d17]/40 font-sans text-xs uppercase tracking-wider text-[#ff3d17] hover:bg-[#ff3d17]/10 transition-colors bg-[#0c0c0b]"
+              size="sm"
+              icon={<ExternalLink className="w-3.5 h-3.5" />}
+              showDot={false}
             >
-              <span>VIEW LIVE SITE</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Link>
+              VIEW LIVE SITE
+            </CameraCTAButton>
 
-            <button
+            <CameraCTAButton
+              size="sm"
               onClick={handleOpenCreate}
-              className="bureau-btn bureau-btn-primary px-5 py-2.5 font-bold shadow-lg"
+              icon={<Plus className="w-4 h-4" />}
             >
-              <Plus className="w-4 h-4" />
-              <span>ADD CARD</span>
-            </button>
+              ADD CARD
+            </CameraCTAButton>
           </div>
         </div>
 
@@ -296,13 +299,14 @@ export default function AdminPage() {
               <p className="text-xs text-[#8c8880] max-w-sm mx-auto">
                 No cards match your filter criteria in this section. Add a new card or clear filters.
               </p>
-              <button
-                onClick={handleOpenCreate}
-                className="bureau-btn bureau-btn-primary mt-2"
-              >
-                <Plus className="w-4 h-4 mr-1" />
-                CREATE FIRST CARD
-              </button>
+              <div className="pt-2">
+                <CameraCTAButton
+                  onClick={handleOpenCreate}
+                  icon={<Plus className="w-4 h-4" />}
+                >
+                  CREATE FIRST CARD
+                </CameraCTAButton>
+              </div>
             </div>
           ) : (
             <div className="overflow-x-auto">
