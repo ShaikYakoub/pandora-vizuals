@@ -44,8 +44,8 @@ export default function ContactPage() {
         {/* Email & Phone with Sans Font Headings */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 pt-2">
           {/* Email Block */}
-          <div className="space-y-3 flex flex-col items-center">
-            <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
+          <div className="space-y-3.5 flex flex-col items-center">
+            <span className="font-sans font-bold text-base sm:text-lg md:text-xl tracking-[0.16em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1.5 uppercase">
               EMAIL
             </span>
             <a
@@ -59,8 +59,8 @@ export default function ContactPage() {
           <div className="hidden sm:block w-px h-16 bg-[#ece8e1]/10" />
 
           {/* Phone Block */}
-          <div className="space-y-3 flex flex-col items-center">
-            <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
+          <div className="space-y-3.5 flex flex-col items-center">
+            <span className="font-sans font-bold text-base sm:text-lg md:text-xl tracking-[0.16em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1.5 uppercase">
               PHONE
             </span>
             <a
@@ -74,7 +74,7 @@ export default function ContactPage() {
 
         {/* Horizontal List of Socials under Sans Font Heading */}
         <div className="pt-6 sm:pt-8 flex flex-col items-center justify-center space-y-6">
-          <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
+          <span className="font-sans font-bold text-base sm:text-lg md:text-xl tracking-[0.16em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1.5 uppercase">
             SOCIAL
           </span>
 
