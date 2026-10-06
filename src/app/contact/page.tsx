@@ -41,11 +41,11 @@ export default function ContactPage() {
           />
         </div>
 
-        {/* Email & Phone with Dune Font Headings */}
+        {/* Email & Phone with Sans Font Headings */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 pt-2">
           {/* Email Block */}
           <div className="space-y-3 flex flex-col items-center">
-            <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
+            <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
               EMAIL
             </span>
             <a
@@ -60,7 +60,7 @@ export default function ContactPage() {
 
           {/* Phone Block */}
           <div className="space-y-3 flex flex-col items-center">
-            <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
+            <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
               PHONE
             </span>
             <a
@@ -72,9 +72,9 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Horizontal List of Socials under Dune Font Heading */}
+        {/* Horizontal List of Socials under Sans Font Heading */}
         <div className="pt-6 sm:pt-8 flex flex-col items-center justify-center space-y-6">
-          <span className="font-dune font-bold text-base sm:text-lg tracking-[0.18em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase [-webkit-text-stroke:0.6px_currentColor]">
+          <span className="font-sans font-bold text-xs sm:text-sm md:text-base tracking-[0.2em] text-[#ece8e1] inline-block border-b-2 border-[#ff3d17] pb-1 uppercase">
             SOCIAL
           </span>
 
