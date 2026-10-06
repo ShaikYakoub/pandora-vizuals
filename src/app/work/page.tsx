@@ -12,13 +12,94 @@ type MediaTypeFilter = 'photos' | 'videos';
 export default function WorkPage() {
   const { cards, sectionCards: workCards } = useCards('work');
   const [mediaType, setMediaType] = useState<MediaTypeFilter>('photos');
+  const [mediaOverrides, setMediaOverrides] = useState<Record<string, { image?: string; videoUrl?: string }>>({});
+  const [addedMedia, setAddedMedia] = useState<Array<{
+    id: string;
+    mediaType: 'photo' | 'video';
+    title: string;
+    description?: string;
+    image: string;
+    videoUrl?: string;
+    aspectRatio: '9:16' | '16:9' | 'photo';
+    category?: string;
+    createdAt: string;
+  }>>([]);
 
-  // Support both 'work' and existing 'shop' card sections for seamless continuity
+  // Seamlessly fetch R2 live media overrides and newly added media on client mount
+  React.useEffect(() => {
+    let isMounted = true;
+    const fetchOverrides = async () => {
+      try {
+        const res = await fetch('/api/work-media');
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) {
+            if (data?.overrides) setMediaOverrides(data.overrides);
+            if (Array.isArray(data?.added)) setAddedMedia(data.added);
+          }
+        }
+      } catch {
+        // Fallback silently to static defaults
+      }
+    };
+    fetchOverrides();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Convert newly added media into cards (prepended so latest is ALWAYS on top)
+  const addedCards: EditableCard[] = useMemo(() => {
+    return addedMedia.map((item, idx) => ({
+      id: item.id,
+      section: 'work',
+      title: item.title,
+      description: item.description || '',
+      image: item.image,
+      videoUrl: item.videoUrl,
+      aspectRatio: item.aspectRatio,
+      order: -(addedMedia.length - idx),
+      isActive: true,
+      metadata: {
+        mediaType: item.mediaType,
+        aspectRatio: item.aspectRatio,
+        videoUrl: item.videoUrl,
+        category: item.category || (item.mediaType === 'video' ? 'Reels' : 'Photography'),
+      },
+    }));
+  }, [addedMedia]);
+
+  // Support both 'work' and existing 'shop' card sections for seamless continuity, with R2 overrides applied
+  const baseCards = useMemo(() => {
+    const raw =
+      workCards.length > 0
+        ? workCards
+        : cards.filter((c) => c.section === 'work' || c.section === 'shop');
+
+    if (!mediaOverrides || Object.keys(mediaOverrides).length === 0) {
+      return raw;
+    }
+
+    return raw.map((card) => {
+      const override = mediaOverrides[card.id];
+      if (!override) return card;
+
+      return {
+        ...card,
+        image: override.image || card.image,
+        videoUrl: override.videoUrl || card.videoUrl,
+        metadata: {
+          ...card.metadata,
+          ...(override.videoUrl ? { videoUrl: override.videoUrl } : {}),
+        },
+      };
+    });
+  }, [workCards, cards, mediaOverrides]);
+
+  // Combined cards with newly added items prepended on top
   const availableCards = useMemo(() => {
-    return workCards.length > 0
-      ? workCards
-      : cards.filter((c) => c.section === 'work' || c.section === 'shop');
-  }, [workCards, cards]);
+    return [...addedCards, ...baseCards];
+  }, [addedCards, baseCards]);
 
   // Strictly distinguish videos from photos
   const isVideoCard = useCallback((card: EditableCard): boolean => {
@@ -30,16 +111,20 @@ export default function WorkPage() {
     );
   }, []);
 
-  // Filtered card lists
+  // Filtered card lists: latest added items are ALWAYS on top
   const photosCards = useMemo(() => {
-    return availableCards.filter((card) => !isVideoCard(card));
-  }, [availableCards, isVideoCard]);
+    const addedPhotos = addedCards.filter((card) => !isVideoCard(card));
+    const defaultPhotos = baseCards.filter((card) => !isVideoCard(card));
+    return [...addedPhotos, ...defaultPhotos];
+  }, [addedCards, baseCards, isVideoCard]);
 
   const videosCards = useMemo(() => {
-    return availableCards.filter((card) => isVideoCard(card));
-  }, [availableCards, isVideoCard]);
+    const addedVideos = addedCards.filter((card) => isVideoCard(card));
+    const defaultVideos = baseCards.filter((card) => isVideoCard(card));
+    return [...addedVideos, ...defaultVideos];
+  }, [addedCards, baseCards, isVideoCard]);
 
-  // Symmetrical sub-groupings for video layout
+  // Symmetrical sub-groupings for video layout: newly added videos on top
   const widescreenVideos = useMemo(() => {
     return videosCards.filter((c) => c.aspectRatio === '16:9' || c.metadata?.aspectRatio === '16:9');
   }, [videosCards]);
