@@ -184,7 +184,7 @@ body {
 }
 
 /* Camera-Styled Sharp Box Buttons (Matching Hero CTA) */
-.bureau-btn {
+.pandora-btn {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -208,36 +208,36 @@ body {
   user-select: none;
 }
 
-.bureau-btn:hover {
+.pandora-btn:hover {
   background-color: var(--accent-red);
   color: #0c0c0b;
   border-color: var(--accent-red);
   box-shadow: 0 0 24px rgba(255, 61, 23, 0.6);
 }
 
-.bureau-btn:active {
+.pandora-btn:active {
   transform: translateY(2px) scale(0.98);
 }
 
-.bureau-btn-primary {
+.pandora-btn-primary {
   background-color: rgba(12, 12, 11, 0.85);
   color: #ece8e1;
   border: 1px solid rgba(236, 232, 225, 0.3);
 }
 
-.bureau-btn-primary:hover {
+.pandora-btn-primary:hover {
   background-color: var(--accent-red);
   color: #0c0c0b;
   border-color: var(--accent-red);
 }
 
-.bureau-btn-outline {
+.pandora-btn-outline {
   border-color: rgba(236, 232, 225, 0.25);
   color: #ece8e1;
   background: transparent;
 }
 
-.bureau-btn-outline:hover {
+.pandora-btn-outline:hover {
   border-color: var(--accent-red);
   background-color: var(--accent-red);
   color: #0c0c0b;

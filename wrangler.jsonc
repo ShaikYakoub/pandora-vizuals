@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "bureau27-pandora",
+  "name": "pandora-vizuals",
   "compatibility_date": "2024-09-23",
   "compatibility_flags": [
     "nodejs_compat"
@@ -9,7 +9,7 @@
   "r2_buckets": [
     {
       "binding": "IMAGES",
-      "bucket_name": "bureau27-pandora-images"
+      "bucket_name": "pandora-vizuals-storage"
     }
   ]
 }
