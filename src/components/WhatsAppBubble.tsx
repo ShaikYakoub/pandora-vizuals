@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
 
 interface WhatsAppBubbleProps {
   phoneNumber?: string;
@@ -11,6 +12,11 @@ export default function WhatsAppBubble({
   phoneNumber = '916309897003',
   defaultMessage = 'Hi Pandora Visuals, I would like to inquire about a project.',
 }: WhatsAppBubbleProps) {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(defaultMessage)}`;
 
   return (

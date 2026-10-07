@@ -74,6 +74,10 @@ export default function Navbar() {
     setActiveIndex(idx);
   };
 
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <>
       {/* Full-width Progressive Gradient Blur Top Navbar */}

@@ -3,11 +3,17 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import PandoraLogo from './PandoraLogo';
 
 import SocialBrandLogo from './SocialBrandLogo';
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) {
+    return null;
+  }
+
   return (
     <footer className="relative w-full overflow-hidden select-none bg-[#0c0c0b] text-[#ece8e1] border-t border-[#ece8e1]/10 flex flex-col justify-between">
       {/* Subtle Noise Texture Overlay matching the rest of the website */}
