@@ -504,7 +504,7 @@ export default function AdminPage() {
         </div>
 
         {/* Media Tiles Grid (Clean preview and action buttons only) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 items-start">
           {/* Newly added items (always on top) */}
           {filteredAdded.map((item) => (
             <AddedMediaCard
@@ -706,15 +706,21 @@ function AddedMediaCard({
   const videoInputRef = useRef<HTMLInputElement>(null);
 
   const isVideo = item.mediaType === 'video';
+  const aspectStyle =
+    item.aspectRatio === '16:9'
+      ? { aspectRatio: '16 / 9' }
+      : item.aspectRatio === '9:16'
+      ? { aspectRatio: '9 / 16' }
+      : { aspectRatio: '4 / 5' };
   const aspectClass =
     item.aspectRatio === '16:9'
-      ? 'aspect-video'
+      ? 'aspect-[16/9]'
       : item.aspectRatio === '9:16'
       ? 'aspect-[9/16]'
-      : 'aspect-[3/4]';
+      : 'aspect-[4/5]';
 
   return (
-    <div className="bg-[#141413] border border-[#ff3d17]/60 p-2.5 flex flex-col justify-between space-y-2.5 shadow-xl relative group">
+    <div className="bg-[#141413] border border-[#ff3d17]/60 p-2.5 flex flex-col space-y-2.5 shadow-xl relative group">
       {isUploading && (
         <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex items-center justify-center">
           <RefreshCw className="w-5 h-5 text-[#ff3d17] animate-spin" />
@@ -740,7 +746,10 @@ function AddedMediaCard({
       )}
 
       {/* Pure Media Preview Only */}
-      <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}>
+      <div 
+        className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}
+        style={aspectStyle}
+      >
         {isVideo && item.videoUrl ? (
           <video
             src={item.videoUrl}
@@ -748,7 +757,7 @@ function AddedMediaCard({
             controls
             playsInline
             muted
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
           <Image
@@ -827,15 +836,21 @@ function SlotEditorCard({
   const videoInputRef = useRef<HTMLInputElement>(null);
 
   const isVideo = slot.mediaType === 'video';
+  const aspectStyle =
+    slot.aspectRatio === '16:9'
+      ? { aspectRatio: '16 / 9' }
+      : slot.aspectRatio === '9:16'
+      ? { aspectRatio: '9 / 16' }
+      : { aspectRatio: '4 / 5' };
   const aspectClass =
     slot.aspectRatio === '16:9'
-      ? 'aspect-video'
+      ? 'aspect-[16/9]'
       : slot.aspectRatio === '9:16'
       ? 'aspect-[9/16]'
-      : 'aspect-[3/4]';
+      : 'aspect-[4/5]';
 
   return (
-    <div className="bg-[#141413] border border-[#ece8e1]/15 p-2.5 flex flex-col justify-between space-y-2.5 shadow-xl relative group">
+    <div className="bg-[#141413] border border-[#ece8e1]/15 p-2.5 flex flex-col space-y-2.5 shadow-xl relative group">
       {isUploading && (
         <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex items-center justify-center">
           <RefreshCw className="w-5 h-5 text-[#ff3d17] animate-spin" />
@@ -861,7 +876,10 @@ function SlotEditorCard({
       )}
 
       {/* Pure Media Preview Only */}
-      <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}>
+      <div 
+        className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}
+        style={aspectStyle}
+      >
         {isVideo && activeVideoUrl ? (
           <video
             src={activeVideoUrl}
@@ -869,7 +887,7 @@ function SlotEditorCard({
             controls
             playsInline
             muted
-            className="w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
           <Image
