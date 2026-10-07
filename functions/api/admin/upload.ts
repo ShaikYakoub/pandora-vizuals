@@ -87,26 +87,25 @@ export const onRequestPost: PagesFunction = async (context) => {
     // 6. Update manifest in R2
     let overrides: Record<string, any> = {};
     let added: any[] = [];
+    let deleted: string[] = [];
     const existingManifestObj = await env.IMAGES.get('manifest/work-media.json');
     if (existingManifestObj) {
       try {
         const raw = await existingManifestObj.json();
         if (raw && typeof raw === 'object') {
-          if (Array.isArray(raw.added)) {
-            added = raw.added;
-            overrides = raw.overrides || {};
-          } else if (raw.overrides) {
-            overrides = raw.overrides;
-            added = Array.isArray(raw.added) ? raw.added : [];
-          } else {
-            overrides = raw;
-          }
+          overrides = raw.overrides || {};
+          added = Array.isArray(raw.added) ? raw.added : [];
+          deleted = Array.isArray(raw.deleted) ? raw.deleted : [];
         }
       } catch {
         overrides = {};
         added = [];
+        deleted = [];
       }
     }
+
+    // If uploading to a previously deleted slot, un-delete it
+    deleted = deleted.filter((d: any) => d !== slotId);
 
     if (slotId.startsWith('work-new-')) {
       const idx = added.findIndex((item: any) => item.id === slotId);
@@ -125,7 +124,7 @@ export const onRequestPost: PagesFunction = async (context) => {
       };
     }
 
-    const updatedManifest = { overrides, added };
+    const updatedManifest = { overrides, added, deleted };
 
     await env.IMAGES.put('manifest/work-media.json', JSON.stringify(updatedManifest, null, 2), {
       httpMetadata: {

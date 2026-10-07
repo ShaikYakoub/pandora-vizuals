@@ -118,7 +118,7 @@ export default function AdminPage() {
   const fetchManifest = async () => {
     setIsRefreshing(true);
     try {
-      const res = await fetch('/api/work-media');
+      const res = await fetch(`/api/work-media?t=${Date.now()}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setOverrides(data.overrides || {});

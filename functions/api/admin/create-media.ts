@@ -102,24 +102,20 @@ export const onRequestPost: PagesFunction = async (context) => {
     // 5. Read existing manifest
     let overrides: Record<string, any> = {};
     let added: any[] = [];
+    let deleted: string[] = [];
     const existingManifestObj = await env.IMAGES.get('manifest/work-media.json');
     if (existingManifestObj) {
       try {
         const raw = await existingManifestObj.json();
         if (raw && typeof raw === 'object') {
-          if (Array.isArray(raw.added)) {
-            added = raw.added;
-            overrides = raw.overrides || {};
-          } else if (raw.overrides) {
-            overrides = raw.overrides;
-            added = Array.isArray(raw.added) ? raw.added : [];
-          } else {
-            overrides = raw;
-          }
+          overrides = raw.overrides || {};
+          added = Array.isArray(raw.added) ? raw.added : [];
+          deleted = Array.isArray(raw.deleted) ? raw.deleted : [];
         }
       } catch {
         overrides = {};
         added = [];
+        deleted = [];
       }
     }
 
@@ -138,7 +134,7 @@ export const onRequestPost: PagesFunction = async (context) => {
     // Prepend so latest is strictly on top
     added = [newItem, ...added];
 
-    const updatedManifest = { overrides, added };
+    const updatedManifest = { overrides, added, deleted };
 
     // 7. Save back to R2
     await env.IMAGES.put('manifest/work-media.json', JSON.stringify(updatedManifest, null, 2), {

@@ -33,26 +33,25 @@ export const onRequestPost: PagesFunction = async (context) => {
 
     let overrides: Record<string, any> = {};
     let added: any[] = [];
+    let deleted: string[] = [];
     const existing = await env.IMAGES.get('manifest/work-media.json');
     if (existing) {
       try {
         const raw = await existing.json();
         if (raw && typeof raw === 'object') {
-          if (Array.isArray(raw.added)) {
-            added = raw.added;
-            overrides = raw.overrides || {};
-          } else if (raw.overrides) {
-            overrides = raw.overrides;
-            added = Array.isArray(raw.added) ? raw.added : [];
-          } else {
-            overrides = raw;
-          }
+          overrides = raw.overrides || {};
+          added = Array.isArray(raw.added) ? raw.added : [];
+          deleted = Array.isArray(raw.deleted) ? raw.deleted : [];
         }
       } catch {
         overrides = {};
         added = [];
+        deleted = [];
       }
     }
+
+    // Reset un-deletes the slot if it was deleted
+    deleted = deleted.filter((d: any) => d !== slotId);
 
     if (slotId.startsWith('work-new-')) {
       added = added.filter((item: any) => item.id !== slotId);
@@ -70,7 +69,7 @@ export const onRequestPost: PagesFunction = async (context) => {
       }
     }
 
-    const updatedManifest = { overrides, added };
+    const updatedManifest = { overrides, added, deleted };
 
     await env.IMAGES.put('manifest/work-media.json', JSON.stringify(updatedManifest, null, 2), {
       httpMetadata: {

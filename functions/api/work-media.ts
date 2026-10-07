@@ -39,7 +39,7 @@ export const onRequestGet: PagesFunction = async (context) => {
       { overrides, added, deleted },
       200,
       {
-        'Cache-Control': 'public, max-age=10, s-maxage=10, stale-while-revalidate=60',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
       }
     );
   } catch (error: any) {

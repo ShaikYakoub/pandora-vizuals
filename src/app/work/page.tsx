@@ -32,7 +32,7 @@ export default function WorkPage() {
     let isMounted = true;
     const fetchOverrides = async () => {
       try {
-        const res = await fetch('/api/work-media');
+        const res = await fetch(`/api/work-media?t=${Date.now()}`, { cache: 'no-store' });
         if (res.ok) {
           const data = await res.json();
           if (isMounted) {
@@ -117,18 +117,14 @@ export default function WorkPage() {
     );
   }, []);
 
-  // Filtered card lists: latest added items are ALWAYS on top
+  // Filtered card lists: latest added items are ALWAYS on top (minus deleted items)
   const photosCards = useMemo(() => {
-    const addedPhotos = addedCards.filter((card) => !isVideoCard(card));
-    const defaultPhotos = baseCards.filter((card) => !isVideoCard(card));
-    return [...addedPhotos, ...defaultPhotos];
-  }, [addedCards, baseCards, isVideoCard]);
+    return availableCards.filter((card) => !isVideoCard(card));
+  }, [availableCards, isVideoCard]);
 
   const videosCards = useMemo(() => {
-    const addedVideos = addedCards.filter((card) => isVideoCard(card));
-    const defaultVideos = baseCards.filter((card) => isVideoCard(card));
-    return [...addedVideos, ...defaultVideos];
-  }, [addedCards, baseCards, isVideoCard]);
+    return availableCards.filter((card) => isVideoCard(card));
+  }, [availableCards, isVideoCard]);
 
   // Symmetrical sub-groupings for video layout: newly added videos on top
   const widescreenVideos = useMemo(() => {
