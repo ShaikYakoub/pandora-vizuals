@@ -12,10 +12,8 @@ import {
 } from '@/data/workSlots';
 import {
   Lock,
-  LogOut,
   Upload,
   RotateCcw,
-  ExternalLink,
   RefreshCw,
   Film,
   Image as ImageIcon,
@@ -517,27 +515,10 @@ export default function AdminPage() {
             <button
               onClick={fetchManifest}
               disabled={isRefreshing}
-              className="cursor-pointer p-2 border border-[#ece8e1]/20 bg-[#1c1c1a] hover:border-[#ece8e1] text-[#ece8e1] transition-colors"
-              title="Sync R2"
+              className="cursor-pointer px-3.5 py-2 border border-[#ece8e1]/20 bg-[#1c1c1a] hover:border-[#ece8e1] text-[#ece8e1] text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            </button>
-
-            <Link
-              href="/work/"
-              target="_blank"
-              className="cursor-pointer px-3.5 py-2 bg-[#ece8e1] text-[#0c0c0b] hover:bg-white text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>VIEW SITE</span>
-            </Link>
-
-            <button
-              onClick={handleLogout}
-              className="cursor-pointer p-2 border border-red-900/50 bg-red-950/20 hover:bg-red-950/50 text-red-300 transition-colors"
-              title="Sign Out"
-            >
-              <LogOut className="w-3.5 h-3.5" />
+              <span>REFRESH</span>
             </button>
           </div>
         </div>
