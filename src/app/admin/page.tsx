@@ -25,6 +25,7 @@ import {
   Plus,
   Trash2,
   X,
+  Smartphone,
 } from 'lucide-react';
 
 interface SlotOverride {
@@ -52,7 +53,7 @@ export default function AdminPage() {
   // Media data & filters
   const [overrides, setOverrides] = useState<ManifestOverrides>({});
   const [addedMedia, setAddedMedia] = useState<AddedWorkMediaItem[]>([]);
-  const [filterType, setFilterType] = useState<'all' | 'photos' | 'videos'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'photos' | 'videos' | '16:9' | '9:16'>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [uploadingSlots, setUploadingSlots] = useState<Record<string, string>>({});
   const [toasts, setToasts] = useState<ToastItem[]>([]);
@@ -332,22 +333,37 @@ export default function AdminPage() {
     }
   };
 
-  // Filtered lists
-  const filteredAdded = useMemo(() => {
-    return addedMedia.filter((item) => {
-      if (filterType === 'photos' && item.mediaType !== 'photo') return false;
-      if (filterType === 'videos' && item.mediaType !== 'video') return false;
-      return true;
-    });
-  }, [addedMedia, filterType]);
+  // Categorized lists by aspect ratio format
+  const widescreenAdded = useMemo(
+    () => addedMedia.filter((item) => item.aspectRatio === '16:9'),
+    [addedMedia]
+  );
+  const reelsAdded = useMemo(
+    () => addedMedia.filter((item) => item.aspectRatio === '9:16'),
+    [addedMedia]
+  );
+  const photosAdded = useMemo(
+    () => addedMedia.filter((item) => item.aspectRatio !== '16:9' && item.aspectRatio !== '9:16'),
+    [addedMedia]
+  );
 
-  const filteredBaseline = useMemo(() => {
-    return ALL_WORK_SLOTS.filter((slot) => {
-      if (filterType === 'photos' && slot.mediaType !== 'photo') return false;
-      if (filterType === 'videos' && slot.mediaType !== 'video') return false;
-      return true;
-    });
-  }, [filterType]);
+  const widescreenBaseline = useMemo(
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '16:9'),
+    []
+  );
+  const reelsBaseline = useMemo(
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '9:16'),
+    []
+  );
+  const photosBaseline = useMemo(
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio !== '16:9' && slot.aspectRatio !== '9:16'),
+    []
+  );
+
+  // Section visibility based on active filter
+  const showWidescreen = filterType === 'all' || filterType === 'videos' || filterType === '16:9';
+  const showReels = filterType === 'all' || filterType === 'videos' || filterType === '9:16';
+  const showPhotos = filterType === 'all' || filterType === 'photos';
 
   // Loading screen
   if (isAuthenticated === null) {
@@ -428,10 +444,10 @@ export default function AdminPage() {
         {/* Action Header Bar (No text clutter, just clean controls) */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ece8e1]/15 pb-4">
           {/* Segmented Filter Pills */}
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setFilterType('all')}
-              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider transition-colors ${
+              className={`cursor-pointer px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider transition-colors ${
                 filterType === 'all'
                   ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
@@ -441,27 +457,50 @@ export default function AdminPage() {
             </button>
 
             <button
-              onClick={() => setFilterType('photos')}
-              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
-                filterType === 'photos'
-                  ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                  : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
-              }`}
-            >
-              <ImageIcon className="w-3.5 h-3.5" />
-              <span>PHOTOS</span>
-            </button>
-
-            <button
               onClick={() => setFilterType('videos')}
-              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
+              className={`cursor-pointer px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
                 filterType === 'videos'
                   ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
               }`}
             >
               <Film className="w-3.5 h-3.5" />
-              <span>VIDEOS</span>
+              <span>VIDEOS ({widescreenAdded.length + widescreenBaseline.length + reelsAdded.length + reelsBaseline.length})</span>
+            </button>
+
+            <button
+              onClick={() => setFilterType('16:9')}
+              className={`cursor-pointer px-3 py-1.5 border text-xs font-bold uppercase tracking-wider transition-colors ${
+                filterType === '16:9'
+                  ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                  : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+              }`}
+            >
+              16:9 CINEMA ({widescreenAdded.length + widescreenBaseline.length})
+            </button>
+
+            <button
+              onClick={() => setFilterType('9:16')}
+              className={`cursor-pointer px-3 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
+                filterType === '9:16'
+                  ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                  : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+              }`}
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>9:16 REELS ({reelsAdded.length + reelsBaseline.length})</span>
+            </button>
+
+            <button
+              onClick={() => setFilterType('photos')}
+              className={`cursor-pointer px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
+                filterType === 'photos'
+                  ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                  : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+              }`}
+            >
+              <ImageIcon className="w-3.5 h-3.5" />
+              <span>PHOTOS ({photosAdded.length + photosBaseline.length})</span>
             </button>
           </div>
 
@@ -503,39 +542,148 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Media Tiles Grid (Clean preview and action buttons only) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 items-start">
-          {/* Newly added items (always on top) */}
-          {filteredAdded.map((item) => (
-            <AddedMediaCard
-              key={item.id}
-              item={item}
-              isUploading={Boolean(uploadingSlots[item.id])}
-              onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
-              onDelete={() => handleDeleteAddedMedia(item.id)}
-            />
-          ))}
+        {/* Format-Optimized Media Sections */}
+        <div className="space-y-8">
+          {/* Section 1: 16:9 Widescreen Cinema (Wide, cinematic, spacious) */}
+          {showWidescreen && (widescreenAdded.length > 0 || widescreenBaseline.length > 0) && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-2">
+                <div className="flex items-center space-x-2 text-xs font-mono font-bold tracking-wider text-[#ece8e1] uppercase">
+                  <Film className="w-3.5 h-3.5 text-[#ff3d17]" />
+                  <span>16:9 WIDESCREEN CINEMA</span>
+                  <span className="text-[10px] text-[#8c8880]">
+                    ({widescreenAdded.length + widescreenBaseline.length})
+                  </span>
+                </div>
+              </div>
 
-          {/* Baseline portfolio items */}
-          {filteredBaseline.map((slot) => {
-            const override = overrides[slot.id];
-            const isOverridden = Boolean(override && (override.image || override.videoUrl));
-            const activeImage = override?.image || slot.defaultImage;
-            const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 items-start">
+                {widescreenAdded.map((item) => (
+                  <AddedMediaCard
+                    key={item.id}
+                    item={item}
+                    isUploading={Boolean(uploadingSlots[item.id])}
+                    onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                  />
+                ))}
 
-            return (
-              <SlotEditorCard
-                key={slot.id}
-                slot={slot}
-                isOverridden={isOverridden}
-                activeImage={activeImage}
-                activeVideoUrl={activeVideoUrl}
-                isUploading={Boolean(uploadingSlots[slot.id])}
-                onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
-                onReset={(field) => handleReset(slot.id, field)}
-              />
-            );
-          })}
+                {widescreenBaseline.map((slot) => {
+                  const override = overrides[slot.id];
+                  const isOverridden = Boolean(override && (override.image || override.videoUrl));
+                  const activeImage = override?.image || slot.defaultImage;
+                  const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
+
+                  return (
+                    <SlotEditorCard
+                      key={slot.id}
+                      slot={slot}
+                      isOverridden={isOverridden}
+                      activeImage={activeImage}
+                      activeVideoUrl={activeVideoUrl}
+                      isUploading={Boolean(uploadingSlots[slot.id])}
+                      onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
+                      onReset={(field) => handleReset(slot.id, field)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Section 2: 9:16 Vertical Reels (Uniform 4-across quad reels) */}
+          {showReels && (reelsAdded.length > 0 || reelsBaseline.length > 0) && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-2">
+                <div className="flex items-center space-x-2 text-xs font-mono font-bold tracking-wider text-[#ece8e1] uppercase">
+                  <Smartphone className="w-3.5 h-3.5 text-[#ff3d17]" />
+                  <span>9:16 VERTICAL REELS</span>
+                  <span className="text-[10px] text-[#8c8880]">
+                    ({reelsAdded.length + reelsBaseline.length})
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-4 items-start">
+                {reelsAdded.map((item) => (
+                  <AddedMediaCard
+                    key={item.id}
+                    item={item}
+                    isUploading={Boolean(uploadingSlots[item.id])}
+                    onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                  />
+                ))}
+
+                {reelsBaseline.map((slot) => {
+                  const override = overrides[slot.id];
+                  const isOverridden = Boolean(override && (override.image || override.videoUrl));
+                  const activeImage = override?.image || slot.defaultImage;
+                  const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
+
+                  return (
+                    <SlotEditorCard
+                      key={slot.id}
+                      slot={slot}
+                      isOverridden={isOverridden}
+                      activeImage={activeImage}
+                      activeVideoUrl={activeVideoUrl}
+                      isUploading={Boolean(uploadingSlots[slot.id])}
+                      onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
+                      onReset={(field) => handleReset(slot.id, field)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Section 3: 4:5 Portfolio Photos (Uniform dense gallery grid) */}
+          {showPhotos && (photosAdded.length > 0 || photosBaseline.length > 0) && (
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-2">
+                <div className="flex items-center space-x-2 text-xs font-mono font-bold tracking-wider text-[#ece8e1] uppercase">
+                  <ImageIcon className="w-3.5 h-3.5 text-[#ff3d17]" />
+                  <span>4:5 PORTFOLIO PHOTOS</span>
+                  <span className="text-[10px] text-[#8c8880]">
+                    ({photosAdded.length + photosBaseline.length})
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 items-start">
+                {photosAdded.map((item) => (
+                  <AddedMediaCard
+                    key={item.id}
+                    item={item}
+                    isUploading={Boolean(uploadingSlots[item.id])}
+                    onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                  />
+                ))}
+
+                {photosBaseline.map((slot) => {
+                  const override = overrides[slot.id];
+                  const isOverridden = Boolean(override && (override.image || override.videoUrl));
+                  const activeImage = override?.image || slot.defaultImage;
+                  const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
+
+                  return (
+                    <SlotEditorCard
+                      key={slot.id}
+                      slot={slot}
+                      isOverridden={isOverridden}
+                      activeImage={activeImage}
+                      activeVideoUrl={activeVideoUrl}
+                      isUploading={Boolean(uploadingSlots[slot.id])}
+                      onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
+                      onReset={(field) => handleReset(slot.id, field)}
+                    />
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
