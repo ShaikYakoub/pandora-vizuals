@@ -24,7 +24,9 @@ import {
   Trash2,
   X,
   Smartphone,
+  Play,
 } from 'lucide-react';
+import { extractYouTubeId, getYouTubeThumbnail } from '@/utils/youtube';
 
 interface SlotOverride {
   image?: string;
@@ -63,7 +65,13 @@ export default function AdminPage() {
   const [newAspectRatio, setNewAspectRatio] = useState<'photo' | '9:16' | '16:9'>('photo');
   const [newPrimaryFile, setNewPrimaryFile] = useState<File | null>(null);
   const [newPosterFile, setNewPosterFile] = useState<File | null>(null);
+  const [newYouTubeUrl, setNewYouTubeUrl] = useState('');
   const [isSubmittingNew, setIsSubmittingNew] = useState(false);
+
+  // Link Edit Modal state (for updating YouTube link on existing cards)
+  const [editingLinkSlotId, setEditingLinkSlotId] = useState<string | null>(null);
+  const [editingLinkValue, setEditingLinkValue] = useState('');
+  const [isSavingLink, setIsSavingLink] = useState(false);
 
   const newPrimaryFileRef = useRef<HTMLInputElement>(null);
   const newPosterFileRef = useRef<HTMLInputElement>(null);
@@ -198,8 +206,12 @@ export default function AdminPage() {
   // Handle Create New Media (Prepended on top)
   const handleCreateMedia = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newPrimaryFile) {
-      addToast('error', 'Please choose a file to upload');
+    if (newMediaType === 'photo' && !newPrimaryFile) {
+      addToast('error', 'Please choose a photo file to upload');
+      return;
+    }
+    if (newMediaType === 'video' && !newYouTubeUrl.trim() && !newPrimaryFile) {
+      addToast('error', 'Please provide a YouTube URL or video file');
       return;
     }
 
@@ -211,7 +223,8 @@ export default function AdminPage() {
       formData.append('mediaType', newMediaType);
       formData.append('title', newMediaType === 'video' ? 'Video' : 'Photo');
       formData.append('aspectRatio', newAspectRatio);
-      formData.append('file', newPrimaryFile);
+      if (newPrimaryFile) formData.append('file', newPrimaryFile);
+      if (newYouTubeUrl.trim()) formData.append('youtubeUrl', newYouTubeUrl.trim());
       if (newPosterFile) formData.append('posterFile', newPosterFile);
 
       const res = await fetch('/api/admin/create-media', {
@@ -233,6 +246,7 @@ export default function AdminPage() {
         setIsAddModalOpen(false);
         setNewPrimaryFile(null);
         setNewPosterFile(null);
+        setNewYouTubeUrl('');
       } else {
         addToast('error', data.error || 'Upload failed');
       }
@@ -240,6 +254,63 @@ export default function AdminPage() {
       addToast('error', err.message || 'Error creating media');
     } finally {
       setIsSubmittingNew(false);
+    }
+  };
+
+  // Handle Save YouTube Link on an existing card slot
+  const handleSaveYouTubeLink = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingLinkSlotId) return;
+
+    if (!editingLinkValue.trim()) {
+      addToast('error', 'Please enter a valid YouTube URL');
+      return;
+    }
+
+    const token = getToken();
+    setIsSavingLink(true);
+
+    try {
+      const res = await fetch('/api/admin/update-link', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          slotId: editingLinkSlotId,
+          videoUrl: editingLinkValue.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success && data.manifest) {
+        setOverrides(data.manifest.overrides || {});
+        setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
+        setDeletedIds(Array.isArray(data.manifest.deleted) ? data.manifest.deleted : []);
+
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('pandora_work_manifest', JSON.stringify({
+              overrides: data.manifest.overrides || {},
+              added: Array.isArray(data.manifest.added) ? data.manifest.added : [],
+              deleted: Array.isArray(data.manifest.deleted) ? data.manifest.deleted : [],
+            }));
+            window.dispatchEvent(new CustomEvent('pandora_manifest_updated'));
+          } catch {}
+        }
+
+        addToast('success', 'YouTube link updated live');
+        setEditingLinkSlotId(null);
+        setEditingLinkValue('');
+      } else {
+        addToast('error', data?.error || 'Failed to update link');
+      }
+    } catch (err: any) {
+      addToast('error', err?.message || 'Error updating link');
+    } finally {
+      setIsSavingLink(false);
     }
   };
 
@@ -629,6 +700,10 @@ export default function AdminPage() {
                     item={item}
                     isUploading={Boolean(uploadingSlots[item.id])}
                     onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+                    onEditLink={() => {
+                      setEditingLinkSlotId(item.id);
+                      setEditingLinkValue(item.videoUrl || '');
+                    }}
                     onDelete={() => handleDeleteCard(item.id)}
                   />
                 ))}
@@ -649,6 +724,10 @@ export default function AdminPage() {
                       isUploading={Boolean(uploadingSlots[slot.id])}
                       onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
                       onReset={(field) => handleReset(slot.id, field)}
+                      onEditLink={() => {
+                        setEditingLinkSlotId(slot.id);
+                        setEditingLinkValue(activeVideoUrl || '');
+                      }}
                       onDelete={() => handleDeleteCard(slot.id)}
                     />
                   );
@@ -677,6 +756,10 @@ export default function AdminPage() {
                     item={item}
                     isUploading={Boolean(uploadingSlots[item.id])}
                     onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+                    onEditLink={() => {
+                      setEditingLinkSlotId(item.id);
+                      setEditingLinkValue(item.videoUrl || '');
+                    }}
                     onDelete={() => handleDeleteCard(item.id)}
                   />
                 ))}
@@ -697,6 +780,10 @@ export default function AdminPage() {
                       isUploading={Boolean(uploadingSlots[slot.id])}
                       onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
                       onReset={(field) => handleReset(slot.id, field)}
+                      onEditLink={() => {
+                        setEditingLinkSlotId(slot.id);
+                        setEditingLinkValue(activeVideoUrl || '');
+                      }}
                       onDelete={() => handleDeleteCard(slot.id)}
                     />
                   );
@@ -833,30 +920,52 @@ export default function AdminPage() {
                 </div>
               )}
 
-              <div className="space-y-1">
-                <label className="text-[10px] font-mono uppercase text-[#8c8880]">
-                  {newMediaType === 'video' ? 'Video File (.mp4, .webm, .mov)' : 'Photo File (.webp, .jpg, .png)'}
-                </label>
-                <input
-                  ref={newPrimaryFileRef}
-                  type="file"
-                  required
-                  accept={newMediaType === 'video' ? 'video/*,.mp4,.webm,.mov' : 'image/*,.webp,.jpg,.jpeg,.png,.avif'}
-                  onChange={(e) => setNewPrimaryFile(e.target.files ? e.target.files[0] : null)}
-                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
-                />
-              </div>
+              {newMediaType === 'video' ? (
+                <>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                      YouTube Video Link or ID
+                    </label>
+                    <input
+                      type="text"
+                      value={newYouTubeUrl}
+                      onChange={(e) => setNewYouTubeUrl(e.target.value)}
+                      placeholder="https://youtube.com/watch?v=... or https://youtu.be/... or Shorts"
+                      className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
+                    />
+                  </div>
 
-              {newMediaType === 'video' && (
+                  {extractYouTubeId(newYouTubeUrl) && (
+                    <div className="p-2 border border-emerald-900/40 bg-emerald-950/20 text-emerald-300 text-[10px] font-mono flex items-center space-x-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>YouTube ID: {extractYouTubeId(newYouTubeUrl)} (Auto-poster ready)</span>
+                    </div>
+                  )}
+
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                      Custom Poster Frame (Optional)
+                    </label>
+                    <input
+                      ref={newPosterFileRef}
+                      type="file"
+                      accept="image/*,.webp,.jpg,.jpeg,.png"
+                      onChange={(e) => setNewPosterFile(e.target.files ? e.target.files[0] : null)}
+                      className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
+                    />
+                  </div>
+                </>
+              ) : (
                 <div className="space-y-1">
                   <label className="text-[10px] font-mono uppercase text-[#8c8880]">
-                    Poster Frame (Optional)
+                    Photo File (.webp, .jpg, .png)
                   </label>
                   <input
-                    ref={newPosterFileRef}
+                    ref={newPrimaryFileRef}
                     type="file"
-                    accept="image/*,.webp,.jpg,.jpeg,.png"
-                    onChange={(e) => setNewPosterFile(e.target.files ? e.target.files[0] : null)}
+                    required
+                    accept="image/*,.webp,.jpg,.jpeg,.png,.avif"
+                    onChange={(e) => setNewPrimaryFile(e.target.files ? e.target.files[0] : null)}
                     className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
                   />
                 </div>
@@ -872,6 +981,79 @@ export default function AdminPage() {
                     <RefreshCw className="w-4 h-4 animate-spin" />
                   ) : (
                     <span>PUBLISH TO TOP</span>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit YouTube Link Modal */}
+      {editingLinkSlotId && (
+        <div className="fixed inset-0 bg-[#0c0c0b]/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-md bg-[#141413] border border-[#ece8e1]/20 p-6 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[#ece8e1]/15 pb-3">
+              <div className="flex items-center space-x-2">
+                <Film className="w-4 h-4 text-[#ff3d17]" />
+                <h3 className="font-anton text-lg tracking-wide uppercase text-[#ece8e1]">
+                  SET YOUTUBE VIDEO
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setEditingLinkSlotId(null);
+                  setEditingLinkValue('');
+                }}
+                className="text-[#8c8880] hover:text-[#ece8e1] p-1"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveYouTubeLink} className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                  YouTube Video Link or ID
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={editingLinkValue}
+                  onChange={(e) => setEditingLinkValue(e.target.value)}
+                  placeholder="https://youtube.com/watch?v=... or https://youtu.be/... or Shorts"
+                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2.5 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
+                />
+              </div>
+
+              {extractYouTubeId(editingLinkValue) && (
+                <div className="p-2 border border-emerald-900/40 bg-emerald-950/20 text-emerald-300 text-[10px] font-mono flex items-center space-x-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Verified YouTube ID: {extractYouTubeId(editingLinkValue)}</span>
+                </div>
+              )}
+
+              <div className="pt-2 flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setEditingLinkSlotId(null);
+                    setEditingLinkValue('');
+                  }}
+                  className="flex-1 py-2 border border-[#ece8e1]/20 text-[#8c8880] hover:text-[#ece8e1] text-xs font-bold uppercase tracking-wider"
+                >
+                  CANCEL
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSavingLink}
+                  className="flex-1 py-2 bg-[#ff3d17] hover:bg-[#ff5533] text-white disabled:opacity-50 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2"
+                >
+                  {isSavingLink ? (
+                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <span>SAVE LINK</span>
                   )}
                 </button>
               </div>
@@ -909,6 +1091,7 @@ interface AddedCardProps {
   item: AddedWorkMediaItem;
   isUploading: boolean;
   onFileUpload: (field: 'image' | 'videoUrl', file: File) => void;
+  onEditLink?: () => void;
   onDelete: () => void;
 }
 
@@ -916,6 +1099,7 @@ function AddedMediaCard({
   item,
   isUploading,
   onFileUpload,
+  onEditLink,
   onDelete,
 }: AddedCardProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -934,6 +1118,8 @@ function AddedMediaCard({
       : item.aspectRatio === '9:16'
       ? 'aspect-[9/16]'
       : 'aspect-[4/5]';
+
+  const youtubeId = extractYouTubeId(item.videoUrl);
 
   return (
     <div className="bg-[#141413] border border-[#ff3d17]/60 p-2.5 flex flex-col space-y-2.5 shadow-xl relative group">
@@ -966,7 +1152,7 @@ function AddedMediaCard({
         className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}
         style={aspectStyle}
       >
-        {isVideo && item.videoUrl ? (
+        {isVideo && item.videoUrl && !youtubeId ? (
           <video
             src={item.videoUrl}
             poster={item.image}
@@ -976,13 +1162,21 @@ function AddedMediaCard({
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <Image
-            src={item.image}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="280px"
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={item.image || (youtubeId ? getYouTubeThumbnail(youtubeId) : '/images/IMG_20261003_170037.webp')}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="280px"
+            />
+            {youtubeId && (
+              <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-red-600/90 text-white font-mono text-[9px] font-bold tracking-wider uppercase flex items-center space-x-1 shadow">
+                <Play className="w-2 h-2 fill-current" />
+                <span>YOUTUBE</span>
+              </div>
+            )}
+          </div>
         )}
       </div>
 
@@ -992,10 +1186,11 @@ function AddedMediaCard({
           <>
             <button
               type="button"
-              onClick={() => videoInputRef.current?.click()}
-              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+              onClick={onEditLink}
+              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center flex items-center justify-center space-x-1"
             >
-              VIDEO
+              <Play className="w-2.5 h-2.5 text-red-600 fill-current" />
+              <span>LINK</span>
             </button>
             <button
               type="button"
@@ -1037,6 +1232,7 @@ interface SlotCardProps {
   isUploading: boolean;
   onFileUpload: (field: 'image' | 'videoUrl', file: File) => void;
   onReset: (field: 'image' | 'videoUrl' | 'all') => void;
+  onEditLink?: () => void;
   onDelete: () => void;
 }
 
@@ -1048,6 +1244,7 @@ function SlotEditorCard({
   isUploading,
   onFileUpload,
   onReset,
+  onEditLink,
   onDelete,
 }: SlotCardProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -1066,6 +1263,8 @@ function SlotEditorCard({
       : slot.aspectRatio === '9:16'
       ? 'aspect-[9/16]'
       : 'aspect-[4/5]';
+
+  const youtubeId = extractYouTubeId(activeVideoUrl);
 
   return (
     <div className="bg-[#141413] border border-[#ece8e1]/15 p-2.5 flex flex-col space-y-2.5 shadow-xl relative group">
@@ -1098,7 +1297,7 @@ function SlotEditorCard({
         className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}
         style={aspectStyle}
       >
-        {isVideo && activeVideoUrl ? (
+        {isVideo && activeVideoUrl && !youtubeId ? (
           <video
             src={activeVideoUrl}
             poster={activeImage}
@@ -1108,13 +1307,21 @@ function SlotEditorCard({
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <Image
-            src={activeImage}
-            alt=""
-            fill
-            className="object-cover"
-            sizes="280px"
-          />
+          <div className="relative w-full h-full">
+            <Image
+              src={activeImage || (youtubeId ? getYouTubeThumbnail(youtubeId) : slot.defaultImage)}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="280px"
+            />
+            {youtubeId && (
+              <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-red-600/90 text-white font-mono text-[9px] font-bold tracking-wider uppercase flex items-center space-x-1 shadow">
+                <Play className="w-2 h-2 fill-current" />
+                <span>YOUTUBE</span>
+              </div>
+            )}
+          </div>
         )}
       </div>
 
@@ -1124,10 +1331,11 @@ function SlotEditorCard({
           <div className="flex items-center space-x-1.5">
             <button
               type="button"
-              onClick={() => videoInputRef.current?.click()}
-              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+              onClick={onEditLink}
+              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center flex items-center justify-center space-x-1"
             >
-              VIDEO
+              <Play className="w-2.5 h-2.5 text-red-600 fill-current" />
+              <span>LINK</span>
             </button>
 
             <button

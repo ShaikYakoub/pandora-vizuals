@@ -21,6 +21,16 @@ function getExtension(filename: string, mimeType: string): string {
   return 'bin';
 }
 
+function extractYouTubeId(urlOrId?: string | null): string | null {
+  if (!urlOrId || typeof urlOrId !== 'string') return null;
+  const clean = urlOrId.trim();
+  if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
+  const match = clean.match(
+    /(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([a-zA-Z0-9_-]{11})/i
+  );
+  return match ? match[1] : null;
+}
+
 export const onRequestPost: PagesFunction = async (context) => {
   const { request, env } = context;
 
@@ -41,43 +51,56 @@ export const onRequestPost: PagesFunction = async (context) => {
     const title = (formData.get('title') as string) || '';
     const aspectRatio = (formData.get('aspectRatio') as 'photo' | '16:9' | '9:16') || (mediaType === 'video' ? '9:16' : 'photo');
     const category = (formData.get('category') as string) || (mediaType === 'video' ? 'Reels' : 'Photography');
+    const youtubeUrl = (formData.get('youtubeUrl') as string) || '';
 
     const primaryFile = formData.get('file') as File | null;
     const posterFile = formData.get('posterFile') as File | null;
 
-    if (!primaryFile || !(primaryFile instanceof File)) {
-      return jsonResponse({ error: 'Primary media file is required' }, 400);
-    }
-
-    if (primaryFile.size > MAX_FILE_SIZE) {
-      return jsonResponse({ error: 'Primary file size exceeds maximum limit (100MB)' }, 400);
-    }
-
     const slotId = `work-new-${Date.now()}`;
     const timestamp = Date.now();
-
-    // 3. Upload primary file to R2
-    const primaryExt = getExtension(primaryFile.name || '', primaryFile.type || '');
-    const primaryFileName = `${slotId}-${timestamp}.${primaryExt}`;
-    const primaryR2Key = `media/${primaryFileName}`;
-
-    await env.IMAGES.put(primaryR2Key, primaryFile.stream(), {
-      httpMetadata: {
-        contentType: primaryFile.type || (mediaType === 'video' ? 'video/mp4' : 'image/webp'),
-        cacheControl: 'public, max-age=31536000, immutable',
-      },
-      customMetadata: {
-        originalName: primaryFile.name,
-        slotId,
-        mediaType,
-        uploadedAt: new Date().toISOString(),
-      },
-    });
-
-    const primaryMediaUrl = `/api/media/${primaryFileName}`;
+    let primaryMediaUrl = '';
     let posterMediaUrl = '';
 
-    // 4. Upload optional poster file for video
+    // If video with YouTube URL provided:
+    if (mediaType === 'video' && youtubeUrl && youtubeUrl.trim().length > 0) {
+      const cleanYt = youtubeUrl.trim();
+      const ytId = extractYouTubeId(cleanYt);
+      primaryMediaUrl = cleanYt;
+      if (ytId) {
+        posterMediaUrl = `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg`;
+      }
+    } else {
+      // Otherwise require primary media file upload
+      if (!primaryFile || !(primaryFile instanceof File)) {
+        return jsonResponse({ error: 'Primary media file or YouTube URL is required' }, 400);
+      }
+
+      if (primaryFile.size > MAX_FILE_SIZE) {
+        return jsonResponse({ error: 'Primary file size exceeds maximum limit (100MB)' }, 400);
+      }
+
+      // Upload primary file to R2
+      const primaryExt = getExtension(primaryFile.name || '', primaryFile.type || '');
+      const primaryFileName = `${slotId}-${timestamp}.${primaryExt}`;
+      const primaryR2Key = `media/${primaryFileName}`;
+
+      await env.IMAGES.put(primaryR2Key, primaryFile.stream(), {
+        httpMetadata: {
+          contentType: primaryFile.type || (mediaType === 'video' ? 'video/mp4' : 'image/webp'),
+          cacheControl: 'public, max-age=31536000, immutable',
+        },
+        customMetadata: {
+          originalName: primaryFile.name,
+          slotId,
+          mediaType,
+          uploadedAt: new Date().toISOString(),
+        },
+      });
+
+      primaryMediaUrl = `/api/media/${primaryFileName}`;
+    }
+
+    // Upload optional custom poster file if provided
     if (posterFile && posterFile instanceof File && posterFile.size > 0) {
       const posterExt = getExtension(posterFile.name || '', posterFile.type || '');
       const posterFileName = `${slotId}-poster-${timestamp}.${posterExt}`;

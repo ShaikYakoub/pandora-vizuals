@@ -4,6 +4,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useCards } from '@/context/CardsContext';
 import { EditableCard } from '@/types/card';
 import ProductCard from '@/components/ProductCard';
+import CinemaModal from '@/components/CinemaModal';
 import StudioHeading from '@/components/StudioHeading';
 import StudioReveal from '@/components/StudioReveal';
 
@@ -12,6 +13,7 @@ type MediaTypeFilter = 'photos' | 'videos';
 export default function WorkPage() {
   const { cards, sectionCards: workCards } = useCards('work');
   const [mediaType, setMediaType] = useState<MediaTypeFilter>('photos');
+  const [activePlayingCard, setActivePlayingCard] = useState<EditableCard | null>(null);
   const [mediaOverrides, setMediaOverrides] = useState<Record<string, { image?: string; videoUrl?: string }>>({});
   const [addedMedia, setAddedMedia] = useState<Array<{
     id: string;
@@ -295,7 +297,13 @@ export default function WorkPage() {
               {widescreenVideos.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5 lg:gap-6">
                   {widescreenVideos.slice(0, 2).map((card, idx) => (
-                    <ProductCard key={card.id} card={card} index={idx} columns={2} />
+                    <ProductCard
+                      key={card.id}
+                      card={card}
+                      index={idx}
+                      columns={2}
+                      onPlay={setActivePlayingCard}
+                    />
                   ))}
                 </div>
               )}
@@ -304,7 +312,13 @@ export default function WorkPage() {
               {verticalVideos.length > 0 && (
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-5 lg:gap-6">
                   {verticalVideos.slice(0, 4).map((card, idx) => (
-                    <ProductCard key={card.id} card={card} index={idx} columns={4} />
+                    <ProductCard
+                      key={card.id}
+                      card={card}
+                      index={idx}
+                      columns={4}
+                      onPlay={setActivePlayingCard}
+                    />
                   ))}
                 </div>
               )}
@@ -313,7 +327,13 @@ export default function WorkPage() {
               {widescreenVideos.length > 2 && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5 lg:gap-6">
                   {widescreenVideos.slice(2, 4).map((card, idx) => (
-                    <ProductCard key={card.id} card={card} index={idx} columns={2} />
+                    <ProductCard
+                      key={card.id}
+                      card={card}
+                      index={idx}
+                      columns={2}
+                      onPlay={setActivePlayingCard}
+                    />
                   ))}
                 </div>
               )}
@@ -333,6 +353,12 @@ export default function WorkPage() {
           )}
         </div>
       </div>
+
+      {/* Cinema Overlay Lightbox Modal */}
+      <CinemaModal
+        card={activePlayingCard}
+        onClose={() => setActivePlayingCard(null)}
+      />
     </div>
   );
 }
