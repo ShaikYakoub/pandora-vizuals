@@ -14,9 +14,16 @@ export const onRequestPost: PagesFunction = async (context) => {
   }
 
   try {
-    const { id } = await request.json().catch(() => ({}));
-    if (!id || typeof id !== 'string') {
-      return jsonResponse({ error: 'Missing media item id' }, 400);
+    const body = await request.json().catch(() => ({}));
+    const rawIds: string[] = Array.isArray(body?.ids)
+      ? body.ids
+      : typeof body?.id === 'string'
+      ? [body.id]
+      : [];
+
+    const targetIds = rawIds.filter((x): x is string => typeof x === 'string' && x.trim().length > 0);
+    if (targetIds.length === 0) {
+      return jsonResponse({ error: 'Missing media item id or ids' }, 400);
     }
 
     let overrides: Record<string, any> = {};
@@ -38,17 +45,19 @@ export const onRequestPost: PagesFunction = async (context) => {
       }
     }
 
-    // Filter out the deleted item from added
-    added = added.filter((item: any) => item.id !== id);
+    const targetSet = new Set(targetIds);
 
-    // Track in deleted array
-    if (!deleted.includes(id)) {
-      deleted.push(id);
-    }
+    // Filter out deleted items from added array
+    added = added.filter((item: any) => !targetSet.has(item.id));
 
-    // Clean up from overrides
-    if (overrides[id]) {
-      delete overrides[id];
+    // Track all target IDs in deleted array
+    for (const id of targetIds) {
+      if (!deleted.includes(id)) {
+        deleted.push(id);
+      }
+      if (overrides[id]) {
+        delete overrides[id];
+      }
     }
 
     const updatedManifest = { overrides, added, deleted };
@@ -62,9 +71,9 @@ export const onRequestPost: PagesFunction = async (context) => {
 
     return jsonResponse({
       success: true,
-      id,
+      ids: targetIds,
       manifest: updatedManifest,
-      message: `Deleted media item ${id}`,
+      message: `Deleted ${targetIds.length} media item(s)`,
     });
   } catch (error: any) {
     console.error('Delete error in Pages Function:', error);

@@ -26,10 +26,41 @@ export default function WorkPage() {
   }>>([]);
 
   const [deletedMediaIds, setDeletedMediaIds] = useState<string[]>([]);
+  const [isManifestReady, setIsManifestReady] = useState(false);
 
   // Seamlessly fetch R2 live media overrides and newly added media on client mount
   React.useEffect(() => {
     let isMounted = true;
+
+    // 1. Immediately read cached manifest from localStorage (0ms latency, eliminates refresh flash)
+    try {
+      const cached = localStorage.getItem('pandora_work_manifest');
+      if (cached) {
+        const data = JSON.parse(cached);
+        if (data?.overrides) setMediaOverrides(data.overrides);
+        if (Array.isArray(data?.added)) setAddedMedia(data.added);
+        if (Array.isArray(data?.deleted)) setDeletedMediaIds(data.deleted);
+        setIsManifestReady(true);
+      }
+    } catch {}
+
+    // 2. Real-time sync listener if admin changes anything in another tab
+    const handleSync = () => {
+      try {
+        const cached = localStorage.getItem('pandora_work_manifest');
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data?.overrides) setMediaOverrides(data.overrides);
+          if (Array.isArray(data?.added)) setAddedMedia(data.added);
+          if (Array.isArray(data?.deleted)) setDeletedMediaIds(data.deleted);
+          setIsManifestReady(true);
+        }
+      } catch {}
+    };
+    window.addEventListener('pandora_manifest_updated', handleSync);
+    window.addEventListener('storage', handleSync);
+
+    // 3. Fresh fetch from server
     const fetchOverrides = async () => {
       try {
         const res = await fetch(`/api/work-media?t=${Date.now()}`, { cache: 'no-store' });
@@ -39,15 +70,34 @@ export default function WorkPage() {
             if (data?.overrides) setMediaOverrides(data.overrides);
             if (Array.isArray(data?.added)) setAddedMedia(data.added);
             if (Array.isArray(data?.deleted)) setDeletedMediaIds(data.deleted);
+            setIsManifestReady(true);
+            try {
+              localStorage.setItem('pandora_work_manifest', JSON.stringify({
+                overrides: data?.overrides || {},
+                added: Array.isArray(data?.added) ? data.added : [],
+                deleted: Array.isArray(data?.deleted) ? data.deleted : [],
+              }));
+            } catch {}
           }
+        } else {
+          if (isMounted) setIsManifestReady(true);
         }
       } catch {
-        // Fallback silently to static defaults
+        if (isMounted) setIsManifestReady(true);
       }
     };
     fetchOverrides();
+
+    // Safety fallback so UI is always visible even on slow connections
+    const timer = setTimeout(() => {
+      if (isMounted) setIsManifestReady(true);
+    }, 800);
+
     return () => {
       isMounted = false;
+      clearTimeout(timer);
+      window.removeEventListener('pandora_manifest_updated', handleSync);
+      window.removeEventListener('storage', handleSync);
     };
   }, []);
 
@@ -181,7 +231,9 @@ export default function WorkPage() {
               </svg>
               <span>PHOTOS</span>
               <span
-                className={`text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+                className={`text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-mono transition-all duration-300 ${
+                  isManifestReady ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                } ${
                   mediaType === 'photos' ? 'bg-[#0c0c0b]/15 text-[#0c0c0b]' : 'bg-white/5 text-[#8c8880]'
                 }`}
               >
@@ -204,7 +256,9 @@ export default function WorkPage() {
               </svg>
               <span>VIDEOS</span>
               <span
-                className={`text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+                className={`text-[10px] sm:text-xs px-2 py-0.5 rounded-full font-mono transition-all duration-300 ${
+                  isManifestReady ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                } ${
                   mediaType === 'videos' ? 'bg-[#0c0c0b]/15 text-[#0c0c0b]' : 'bg-white/5 text-[#8c8880]'
                 }`}
               >
@@ -214,8 +268,8 @@ export default function WorkPage() {
           </div>
         </div>
 
-        {/* Productions Grid with Smooth Crossfade */}
-        <div key={mediaType} className="animate-fade-in">
+        {/* Productions Grid with Smooth Manifest-Ready Fade */}
+        <div key={mediaType} className={`transition-opacity duration-300 ${isManifestReady ? 'opacity-100' : 'opacity-0'}`}>
           {filteredCards.length === 0 ? (
             <div className="text-center py-24 space-y-4">
               <div className="font-anton text-3xl text-[#8c8880]">

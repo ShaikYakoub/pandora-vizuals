@@ -68,6 +68,11 @@ export default function AdminPage() {
   const newPrimaryFileRef = useRef<HTMLInputElement>(null);
   const newPosterFileRef = useRef<HTMLInputElement>(null);
 
+  // Concurrency & batch deletion queue refs
+  const pendingDeleteQueueRef = useRef<string[]>([]);
+  const isDeletingRef = useRef<boolean>(false);
+  const locallyDeletedIdsRef = useRef<Set<string>>(new Set());
+
   // Token helper
   const getToken = () => {
     if (typeof window === 'undefined') return '';
@@ -121,9 +126,25 @@ export default function AdminPage() {
       const res = await fetch(`/api/work-media?t=${Date.now()}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
+        const serverDeleted: string[] = Array.isArray(data.deleted) ? data.deleted : [];
+        const mergedDeleted = Array.from(new Set([...serverDeleted, ...locallyDeletedIdsRef.current]));
+        const delSet = new Set(mergedDeleted);
+        const serverAdded = Array.isArray(data.added) ? data.added : [];
+
         setOverrides(data.overrides || {});
-        setAddedMedia(Array.isArray(data.added) ? data.added : []);
-        setDeletedIds(Array.isArray(data.deleted) ? data.deleted : []);
+        setDeletedIds(mergedDeleted);
+        setAddedMedia(serverAdded.filter((item: AddedWorkMediaItem) => !delSet.has(item.id)));
+
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('pandora_work_manifest', JSON.stringify({
+              overrides: data.overrides || {},
+              added: serverAdded.filter((item: AddedWorkMediaItem) => !delSet.has(item.id)),
+              deleted: mergedDeleted,
+            }));
+            window.dispatchEvent(new CustomEvent('pandora_manifest_updated'));
+          } catch {}
+        }
       }
     } catch {
       addToast('error', 'Failed to fetch R2 manifest');
@@ -222,11 +243,14 @@ export default function AdminPage() {
     }
   };
 
-  // Handle Delete ANY card (no confirmation, no pop-up)
-  const handleDeleteCard = async (id: string) => {
-    // Instant UI removal
-    setAddedMedia((prev) => prev.filter((item) => item.id !== id));
-    setDeletedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+  // Process queued deletions sequentially in atomic batches (prevents concurrent R2 overwrite races)
+  const flushDeleteQueue = async () => {
+    if (isDeletingRef.current) return;
+    if (pendingDeleteQueueRef.current.length === 0) return;
+
+    isDeletingRef.current = true;
+    const batch = [...pendingDeleteQueueRef.current];
+    pendingDeleteQueueRef.current = [];
 
     const token = getToken();
     try {
@@ -236,24 +260,78 @@ export default function AdminPage() {
           'Content-Type': 'application/json',
           ...(token ? { Authorization: `Bearer ${token}` } : {}),
         },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ ids: batch }),
       });
 
       const data = await res.json();
 
-      if (res.ok && data.success) {
-        if (data.manifest) {
-          setOverrides(data.manifest.overrides || {});
-          setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
-          setDeletedIds(Array.isArray(data.manifest.deleted) ? data.manifest.deleted : []);
+      if (res.ok && data.success && data.manifest) {
+        const serverDeleted: string[] = Array.isArray(data.manifest.deleted) ? data.manifest.deleted : [];
+        const mergedDeleted = Array.from(new Set([...serverDeleted, ...locallyDeletedIdsRef.current]));
+        const delSet = new Set(mergedDeleted);
+
+        setDeletedIds(mergedDeleted);
+        setAddedMedia((prev) => {
+          const serverAdded = Array.isArray(data.manifest.added) ? data.manifest.added : prev;
+          return serverAdded.filter((item: AddedWorkMediaItem) => !delSet.has(item.id));
+        });
+        setOverrides(data.manifest.overrides || {});
+
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('pandora_work_manifest', JSON.stringify({
+              overrides: data.manifest.overrides || {},
+              added: (Array.isArray(data.manifest.added) ? data.manifest.added : []).filter((item: AddedWorkMediaItem) => !delSet.has(item.id)),
+              deleted: mergedDeleted,
+            }));
+            window.dispatchEvent(new CustomEvent('pandora_manifest_updated'));
+          } catch {}
         }
-        addToast('info', 'Deleted');
+
+        addToast('info', `Deleted ${batch.length > 1 ? `${batch.length} items` : 'item'}`);
       } else {
-        addToast('error', data.error || 'Failed to delete');
+        addToast('error', data?.error || 'Failed to sync deletion to R2');
       }
     } catch (err: any) {
-      addToast('error', err.message || 'Error deleting');
+      addToast('error', err?.message || 'Error deleting item(s)');
+    } finally {
+      isDeletingRef.current = false;
+      // If user clicked more delete buttons while request was in-flight, immediately process next batch!
+      if (pendingDeleteQueueRef.current.length > 0) {
+        flushDeleteQueue();
+      }
     }
+  };
+
+  // Handle Delete ANY card (0ms instant UI removal, queued batch sync, zero race conditions)
+  const handleDeleteCard = (id: string) => {
+    locallyDeletedIdsRef.current.add(id);
+
+    // Instant UI removal
+    setDeletedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+    setAddedMedia((prev) => prev.filter((item) => item.id !== id));
+
+    // Update localStorage immediately so /work updates in real-time
+    if (typeof window !== 'undefined') {
+      try {
+        const raw = localStorage.getItem('pandora_work_manifest');
+        const parsed = raw ? JSON.parse(raw) : { overrides: {}, added: [], deleted: [] };
+        const updatedDeleted = Array.from(new Set([...(parsed.deleted || []), id]));
+        const updatedAdded = (parsed.added || []).filter((item: any) => item.id !== id);
+        localStorage.setItem('pandora_work_manifest', JSON.stringify({
+          ...parsed,
+          added: updatedAdded,
+          deleted: updatedDeleted,
+        }));
+        window.dispatchEvent(new CustomEvent('pandora_manifest_updated'));
+      } catch {}
+    }
+
+    // Queue for network batch execution
+    if (!pendingDeleteQueueRef.current.includes(id)) {
+      pendingDeleteQueueRef.current.push(id);
+    }
+    flushDeleteQueue();
   };
 
   // Handle file upload/replace
@@ -361,6 +439,9 @@ export default function AdminPage() {
     [deletedIds]
   );
 
+  const totalBaselineVisible = widescreenBaseline.length + reelsBaseline.length + photosBaseline.length;
+  const totalAllCount = addedMedia.length + totalBaselineVisible;
+
   // Section visibility based on active filter
   const showWidescreen = filterType === 'all' || filterType === 'videos' || filterType === '16:9';
   const showReels = filterType === 'all' || filterType === 'videos' || filterType === '9:16';
@@ -454,7 +535,7 @@ export default function AdminPage() {
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
               }`}
             >
-              ALL ({addedMedia.length + ALL_WORK_SLOTS.length})
+              ALL ({totalAllCount})
             </button>
 
             <button
