@@ -42,6 +42,50 @@ interface ToastItem {
   text: string;
 }
 
+interface StagedPhotoItem {
+  id: string;
+  file: File;
+  previewUrl: string;
+  name: string;
+  sizeFormatted: string;
+}
+
+interface StagedVideoItem {
+  id: string;
+  url: string;
+  ytId: string;
+  aspectRatio: '9:16' | '16:9';
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024 * 1024) {
+    return `${(bytes / 1024).toFixed(0)} KB`;
+  }
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function parseYouTubeInput(text: string): StagedVideoItem[] {
+  if (!text) return [];
+  const tokens = text.split(/[\r\n,;]+/).map((t) => t.trim()).filter(Boolean);
+  const results: StagedVideoItem[] = [];
+  const seenIds = new Set<string>();
+
+  for (const token of tokens) {
+    const ytId = extractYouTubeId(token);
+    if (ytId && !seenIds.has(ytId)) {
+      seenIds.add(ytId);
+      const isShorts = token.toLowerCase().includes('/shorts/');
+      results.push({
+        id: `yt-${ytId}`,
+        url: token,
+        ytId,
+        aspectRatio: isShorts ? '9:16' : '16:9',
+      });
+    }
+  }
+  return results;
+}
+
 export default function AdminPage() {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
@@ -59,22 +103,28 @@ export default function AdminPage() {
   const [uploadingSlots, setUploadingSlots] = useState<Record<string, string>>({});
   const [toasts, setToasts] = useState<ToastItem[]>([]);
 
-  // "Add New Media" Modal state
+  // "Add New Media" Modal state (Multi-Photo & Multi-Video Batch Ready)
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [newMediaType, setNewMediaType] = useState<'photo' | 'video'>('photo');
-  const [newAspectRatio, setNewAspectRatio] = useState<'photo' | '9:16' | '16:9'>('photo');
-  const [newPrimaryFile, setNewPrimaryFile] = useState<File | null>(null);
-  const [newPosterFile, setNewPosterFile] = useState<File | null>(null);
-  const [newYouTubeUrl, setNewYouTubeUrl] = useState('');
-  const [isSubmittingNew, setIsSubmittingNew] = useState(false);
+  const [activeAddTab, setActiveAddTab] = useState<'photos' | 'videos'>('photos');
+
+  // Staged Photos state
+  const [stagedPhotos, setStagedPhotos] = useState<StagedPhotoItem[]>([]);
+  const [photoAspectRatio, setPhotoAspectRatio] = useState<'photo' | '16:9' | '9:16'>('photo');
+  const [isPhotoDragging, setIsPhotoDragging] = useState(false);
+  const photoFileInputRef = useRef<HTMLInputElement>(null);
+
+  // Staged YouTube Videos state
+  const [rawYouTubeInput, setRawYouTubeInput] = useState('');
+  const [stagedVideos, setStagedVideos] = useState<StagedVideoItem[]>([]);
+
+  // Batch submitting state
+  const [isSubmittingBatch, setIsSubmittingBatch] = useState(false);
+  const [batchStatus, setBatchStatus] = useState('');
 
   // Link Edit Modal state (for updating YouTube link on existing cards)
   const [editingLinkSlotId, setEditingLinkSlotId] = useState<string | null>(null);
   const [editingLinkValue, setEditingLinkValue] = useState('');
   const [isSavingLink, setIsSavingLink] = useState(false);
-
-  const newPrimaryFileRef = useRef<HTMLInputElement>(null);
-  const newPosterFileRef = useRef<HTMLInputElement>(null);
 
   // Concurrency & batch deletion queue refs
   const pendingDeleteQueueRef = useRef<string[]>([]);
@@ -203,57 +253,185 @@ export default function AdminPage() {
     addToast('info', 'Signed out');
   };
 
-  // Handle Create New Media (Prepended on top)
-  const handleCreateMedia = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newMediaType === 'photo' && !newPrimaryFile) {
-      addToast('error', 'Please choose a photo file to upload');
+  // Photos handling
+  const processSelectedPhotoFiles = (files: FileList | File[]) => {
+    const fileArray = Array.from(files).filter((f) => f.type.startsWith('image/'));
+    if (fileArray.length === 0) {
+      addToast('error', 'Please select valid image files (.webp, .jpg, .png)');
       return;
     }
-    if (newMediaType === 'video' && !newYouTubeUrl.trim() && !newPrimaryFile) {
-      addToast('error', 'Please provide a YouTube URL or video file');
+
+    const newItems: StagedPhotoItem[] = [];
+    for (let i = 0; i < fileArray.length; i++) {
+      const file = fileArray[i];
+      const previewUrl = URL.createObjectURL(file);
+      newItems.push({
+        id: `photo-${Date.now()}-${i}-${Math.random().toString(36).substr(2, 4)}`,
+        file,
+        previewUrl,
+        name: file.name,
+        sizeFormatted: formatFileSize(file.size),
+      });
+    }
+
+    setStagedPhotos((prev) => [...prev, ...newItems]);
+  };
+
+  const handlePhotoDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsPhotoDragging(false);
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      processSelectedPhotoFiles(e.dataTransfer.files);
+    }
+  };
+
+  const removeStagedPhoto = (id: string) => {
+    setStagedPhotos((prev) => {
+      const target = prev.find((p) => p.id === id);
+      if (target) URL.revokeObjectURL(target.previewUrl);
+      return prev.filter((p) => p.id !== id);
+    });
+  };
+
+  const clearAllStagedPhotos = () => {
+    stagedPhotos.forEach((p) => URL.revokeObjectURL(p.previewUrl));
+    setStagedPhotos([]);
+  };
+
+  // YouTube Videos handling
+  const handleYouTubeInputChange = (text: string) => {
+    setRawYouTubeInput(text);
+    const parsed = parseYouTubeInput(text);
+    setStagedVideos(parsed);
+  };
+
+  const updateStagedVideoRatio = (id: string, newRatio: '9:16' | '16:9') => {
+    setStagedVideos((prev) =>
+      prev.map((v) => (v.id === id ? { ...v, aspectRatio: newRatio } : v))
+    );
+  };
+
+  const removeStagedVideo = (id: string) => {
+    setStagedVideos((prev) => {
+      const updated = prev.filter((v) => v.id !== id);
+      setRawYouTubeInput(updated.map((v) => v.url).join('\n'));
+      return updated;
+    });
+  };
+
+  const clearAllStagedVideos = () => {
+    setStagedVideos([]);
+    setRawYouTubeInput('');
+  };
+
+  const cleanupAndCloseModal = () => {
+    clearAllStagedPhotos();
+    clearAllStagedVideos();
+    setIsAddModalOpen(false);
+  };
+
+  // Batch Publish Photos and/or YouTube Videos to top of /work
+  const handleBatchPublish = async () => {
+    const totalCount = stagedPhotos.length + stagedVideos.length;
+    if (totalCount === 0) {
+      addToast('error', 'Select photos or paste YouTube links first');
       return;
     }
 
     const token = getToken();
-    setIsSubmittingNew(true);
+    setIsSubmittingBatch(true);
+    setBatchStatus(`Publishing ${totalCount} items to R2...`);
 
     try {
-      const formData = new FormData();
-      formData.append('mediaType', newMediaType);
-      formData.append('title', newMediaType === 'video' ? 'Video' : 'Photo');
-      formData.append('aspectRatio', newAspectRatio);
-      if (newPrimaryFile) formData.append('file', newPrimaryFile);
-      if (newYouTubeUrl.trim()) formData.append('youtubeUrl', newYouTubeUrl.trim());
-      if (newPosterFile) formData.append('posterFile', newPosterFile);
+      let lastManifest: any = null;
 
-      const res = await fetch('/api/admin/create-media', {
-        method: 'POST',
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-        body: formData,
-      });
+      // 1. Publish YouTube videos if any
+      if (stagedVideos.length > 0) {
+        setBatchStatus(`Publishing ${stagedVideos.length} YouTube videos...`);
+        const ytRes = await fetch('/api/admin/batch-create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          },
+          body: JSON.stringify({
+            items: stagedVideos.map((v) => ({
+              type: 'video',
+              youtubeUrl: v.url,
+              aspectRatio: v.aspectRatio,
+            })),
+          }),
+        });
 
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        if (data.manifest) {
-          setOverrides(data.manifest.overrides || {});
-          setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
-        } else if (data.item) {
-          setAddedMedia((prev) => [data.item, ...prev]);
+        const ytData = await ytRes.json();
+        if (!ytRes.ok || !ytData.success) {
+          throw new Error(ytData?.error || 'Failed to publish YouTube videos');
         }
-        addToast('success', 'Published to top of /work');
-        setIsAddModalOpen(false);
-        setNewPrimaryFile(null);
-        setNewPosterFile(null);
-        setNewYouTubeUrl('');
-      } else {
-        addToast('error', data.error || 'Upload failed');
+        lastManifest = ytData.manifest;
       }
+
+      // 2. Publish Photos in chunks if any (safe for edge memory & payload)
+      if (stagedPhotos.length > 0) {
+        const CHUNK_SIZE = 6;
+        const chunks: StagedPhotoItem[][] = [];
+        for (let i = 0; i < stagedPhotos.length; i += CHUNK_SIZE) {
+          chunks.push(stagedPhotos.slice(i, i + CHUNK_SIZE));
+        }
+
+        for (let c = 0; c < chunks.length; c++) {
+          const chunk = chunks[c];
+          setBatchStatus(
+            chunks.length > 1
+              ? `Uploading photos batch ${c + 1}/${chunks.length} (${chunk.length} photos)...`
+              : `Uploading ${stagedPhotos.length} photos to R2...`
+          );
+
+          const formData = new FormData();
+          formData.append('aspectRatio', photoAspectRatio);
+          formData.append('mediaType', 'photo');
+
+          chunk.forEach((p) => {
+            formData.append('files', p.file);
+          });
+
+          const res = await fetch('/api/admin/batch-create', {
+            method: 'POST',
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            body: formData,
+          });
+
+          const data = await res.json();
+          if (!res.ok || !data.success) {
+            throw new Error(data?.error || `Upload failed for photos batch ${c + 1}`);
+          }
+          lastManifest = data.manifest;
+        }
+      }
+
+      if (lastManifest) {
+        setOverrides(lastManifest.overrides || {});
+        setAddedMedia(Array.isArray(lastManifest.added) ? lastManifest.added : []);
+        setDeletedIds(Array.isArray(lastManifest.deleted) ? lastManifest.deleted : []);
+
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('pandora_work_manifest', JSON.stringify({
+              overrides: lastManifest.overrides || {},
+              added: Array.isArray(lastManifest.added) ? lastManifest.added : [],
+              deleted: Array.isArray(lastManifest.deleted) ? lastManifest.deleted : [],
+            }));
+            window.dispatchEvent(new CustomEvent('pandora_manifest_updated'));
+          } catch {}
+        }
+      }
+
+      addToast('success', `Published ${totalCount} items live to /work`);
+      cleanupAndCloseModal();
     } catch (err: any) {
-      addToast('error', err.message || 'Error creating media');
+      addToast('error', err.message || 'Error publishing media');
     } finally {
-      setIsSubmittingNew(false);
+      setIsSubmittingBatch(false);
+      setBatchStatus('');
     }
   };
 
@@ -842,149 +1020,342 @@ export default function AdminPage() {
         </div>
       </div>
 
-      {/* Clean Add Modal */}
+      {/* Multi-Item Batch Add Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0c0c0b]/85 backdrop-blur-sm">
-          <div className="bg-[#141413] border border-[#ece8e1]/20 max-w-sm w-full p-6 space-y-5 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-3">
-              <h2 className="font-anton text-xl text-[#ece8e1] uppercase">
-                ADD NEW MEDIA
-              </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#0c0c0b]/85 backdrop-blur-md">
+          <div className="bg-[#141413] border border-[#ece8e1]/20 max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl relative max-h-[92vh] flex flex-col">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-3 flex-none">
+              <div className="flex items-center space-x-2">
+                <Plus className="w-4 h-4 text-[#ff3d17]" />
+                <h2 className="font-anton text-lg sm:text-xl text-[#ece8e1] uppercase tracking-wide">
+                  ADD MEDIA
+                </h2>
+                <span className="text-[10px] font-mono uppercase bg-[#1c1c1a] border border-[#ece8e1]/15 px-2 py-0.5 text-[#ff3d17]">
+                  BULK & SINGLE READY
+                </span>
+              </div>
               <button
                 type="button"
-                onClick={() => setIsAddModalOpen(false)}
-                className="p-1 text-[#8c8880] hover:text-[#ece8e1]"
+                onClick={cleanupAndCloseModal}
+                className="cursor-pointer p-1 text-[#8c8880] hover:text-[#ece8e1] transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateMedia} className="space-y-4">
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewMediaType('photo');
-                    setNewAspectRatio('photo');
-                  }}
-                  className={`py-2 text-xs font-bold uppercase tracking-wider border ${
-                    newMediaType === 'photo'
-                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15'
-                  }`}
-                >
-                  PHOTO
-                </button>
+            {/* Mode Switcher Tabs */}
+            <div className="grid grid-cols-2 gap-2 flex-none">
+              <button
+                type="button"
+                onClick={() => setActiveAddTab('photos')}
+                className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
+                  activeAddTab === 'photos'
+                    ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                    : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                }`}
+              >
+                <ImageIcon className="w-3.5 h-3.5" />
+                <span>PHOTOS ({stagedPhotos.length})</span>
+              </button>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewMediaType('video');
-                    setNewAspectRatio('9:16');
-                  }}
-                  className={`py-2 text-xs font-bold uppercase tracking-wider border ${
-                    newMediaType === 'video'
-                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15'
-                  }`}
-                >
-                  VIDEO
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() => setActiveAddTab('videos')}
+                className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
+                  activeAddTab === 'videos'
+                    ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                    : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                }`}
+              >
+                <Film className="w-3.5 h-3.5" />
+                <span>YOUTUBE VIDEOS ({stagedVideos.length})</span>
+              </button>
+            </div>
 
-              {newMediaType === 'video' && (
-                <div className="grid grid-cols-2 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setNewAspectRatio('9:16')}
-                    className={`py-1.5 text-[10px] font-bold uppercase tracking-wider border ${
-                      newAspectRatio === '9:16'
-                        ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                        : 'border-[#ece8e1]/15 text-[#8c8880]'
-                    }`}
-                  >
-                    9:16 Reel
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setNewAspectRatio('16:9')}
-                    className={`py-1.5 text-[10px] font-bold uppercase tracking-wider border ${
-                      newAspectRatio === '16:9'
-                        ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                        : 'border-[#ece8e1]/15 text-[#8c8880]'
-                    }`}
-                  >
-                    16:9 Widescreen
-                  </button>
-                </div>
-              )}
-
-              {newMediaType === 'video' ? (
+            {/* Scrollable Tab Content */}
+            <div className="space-y-4 overflow-y-auto flex-1 pr-1">
+              {activeAddTab === 'photos' ? (
                 <>
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-mono uppercase text-[#8c8880]">
-                      YouTube Video Link or ID
-                    </label>
+                  {/* Photo Dropzone */}
+                  <div
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      setIsPhotoDragging(true);
+                    }}
+                    onDragLeave={() => setIsPhotoDragging(false)}
+                    onDrop={handlePhotoDrop}
+                    onClick={() => photoFileInputRef.current?.click()}
+                    className={`border-2 border-dashed p-6 text-center cursor-pointer transition-colors ${
+                      isPhotoDragging
+                        ? 'border-[#ff3d17] bg-[#ff3d17]/10'
+                        : 'border-[#ece8e1]/20 hover:border-[#ff3d17]/70 bg-[#0c0c0b]/60'
+                    }`}
+                  >
                     <input
-                      type="text"
-                      value={newYouTubeUrl}
-                      onChange={(e) => setNewYouTubeUrl(e.target.value)}
-                      placeholder="https://youtube.com/watch?v=... or https://youtu.be/... or Shorts"
-                      className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
+                      ref={photoFileInputRef}
+                      type="file"
+                      multiple
+                      accept="image/*,.webp,.jpg,.jpeg,.png,.avif"
+                      onChange={(e) => {
+                        if (e.target.files) processSelectedPhotoFiles(e.target.files);
+                        e.target.value = '';
+                      }}
+                      className="hidden"
                     />
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <div className="w-10 h-10 rounded-full bg-[#1c1c1a] border border-[#ece8e1]/10 flex items-center justify-center text-[#ff3d17]">
+                        <Upload className="w-5 h-5" />
+                      </div>
+                      <div className="text-xs font-bold text-[#ece8e1] uppercase tracking-wider">
+                        DRAG & DROP PHOTOS HERE OR CLICK TO BROWSE
+                      </div>
+                      <div className="text-[10px] text-[#8c8880] font-mono">
+                        Select multiple files at once (.webp, .jpg, .png, .avif)
+                      </div>
+                    </div>
                   </div>
 
-                  {extractYouTubeId(newYouTubeUrl) && (
-                    <div className="p-2 border border-emerald-900/40 bg-emerald-950/20 text-emerald-300 text-[10px] font-mono flex items-center space-x-2">
-                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                      <span>YouTube ID: {extractYouTubeId(newYouTubeUrl)} (Auto-poster ready)</span>
+                  {/* Ratio Selector */}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono uppercase text-[#8c8880]">Format:</span>
+                    <div className="flex items-center space-x-1.5">
+                      <button
+                        type="button"
+                        onClick={() => setPhotoAspectRatio('photo')}
+                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
+                          photoAspectRatio === 'photo'
+                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
+                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
+                        }`}
+                      >
+                        4:5 Photo (Default)
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPhotoAspectRatio('16:9')}
+                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
+                          photoAspectRatio === '16:9'
+                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
+                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
+                        }`}
+                      >
+                        16:9 Cinema
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setPhotoAspectRatio('9:16')}
+                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
+                          photoAspectRatio === '9:16'
+                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
+                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
+                        }`}
+                      >
+                        9:16 Reel
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Selected Photos Shelf */}
+                  {stagedPhotos.length > 0 && (
+                    <div className="space-y-2 pt-2 border-t border-[#ece8e1]/10">
+                      <div className="flex items-center justify-between text-[11px] font-mono">
+                        <span className="text-[#ece8e1] uppercase font-bold">
+                          Selected Photos ({stagedPhotos.length})
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearAllStagedPhotos}
+                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-[10px] uppercase font-mono transition-colors"
+                        >
+                          Clear All
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 max-h-48 overflow-y-auto p-1 bg-[#0c0c0b]/50 border border-[#ece8e1]/10">
+                        {stagedPhotos.map((item) => (
+                          <div key={item.id} className="relative group bg-[#1c1c1a] border border-[#ece8e1]/15 overflow-hidden">
+                            <div className="aspect-[4/5] relative w-full overflow-hidden bg-black">
+                              <img
+                                src={item.previewUrl}
+                                alt={item.name}
+                                className="w-full h-full object-cover"
+                              />
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  removeStagedPhoto(item.id);
+                                }}
+                                className="cursor-pointer absolute top-1 right-1 w-5 h-5 bg-black/80 hover:bg-red-600 text-white flex items-center justify-center transition-colors shadow"
+                                title="Remove photo"
+                              >
+                                <X className="w-3 h-3" />
+                              </button>
+                            </div>
+                            <div className="p-1 text-[9px] font-mono text-[#8c8880] truncate bg-[#141413]">
+                              {item.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
-
-                  <div className="space-y-1">
-                    <label className="text-[10px] font-mono uppercase text-[#8c8880]">
-                      Custom Poster Frame (Optional)
-                    </label>
-                    <input
-                      ref={newPosterFileRef}
-                      type="file"
-                      accept="image/*,.webp,.jpg,.jpeg,.png"
-                      onChange={(e) => setNewPosterFile(e.target.files ? e.target.files[0] : null)}
-                      className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
-                    />
-                  </div>
                 </>
               ) : (
-                <div className="space-y-1">
-                  <label className="text-[10px] font-mono uppercase text-[#8c8880]">
-                    Photo File (.webp, .jpg, .png)
-                  </label>
-                  <input
-                    ref={newPrimaryFileRef}
-                    type="file"
-                    required
-                    accept="image/*,.webp,.jpg,.jpeg,.png,.avif"
-                    onChange={(e) => setNewPrimaryFile(e.target.files ? e.target.files[0] : null)}
-                    className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
-                  />
+                <>
+                  {/* YouTube Multi-link Textarea */}
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                        Paste YouTube Links (One per line or separated by commas)
+                      </label>
+                      {stagedVideos.length > 0 && (
+                        <span className="text-[10px] font-mono text-emerald-400">
+                          ✓ {stagedVideos.length} detected
+                        </span>
+                      )}
+                    </div>
+                    <textarea
+                      value={rawYouTubeInput}
+                      onChange={(e) => handleYouTubeInputChange(e.target.value)}
+                      placeholder={`https://youtube.com/shorts/3Z8l81Fj8aM\nhttps://youtu.be/dQw4w9WgXcQ\nhttps://youtube.com/watch?v=...`}
+                      rows={4}
+                      className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2.5 text-xs text-[#ece8e1] font-mono placeholder-[#555] focus:border-[#ff3d17] outline-none resize-none leading-relaxed"
+                    />
+                    <p className="text-[10px] text-[#8c8880] font-mono">
+                      Shorts are automatically detected as 9:16 Reels. Standard links default to 16:9 Cinema.
+                    </p>
+                  </div>
+
+                  {/* Staged Videos Shelf */}
+                  {stagedVideos.length > 0 && (
+                    <div className="space-y-2 pt-2 border-t border-[#ece8e1]/10">
+                      <div className="flex items-center justify-between text-[11px] font-mono">
+                        <span className="text-[#ece8e1] uppercase font-bold">
+                          Detected Videos ({stagedVideos.length})
+                        </span>
+                        <button
+                          type="button"
+                          onClick={clearAllStagedVideos}
+                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-[10px] uppercase font-mono transition-colors"
+                        >
+                          Clear All
+                        </button>
+                      </div>
+
+                      <div className="space-y-2 max-h-48 overflow-y-auto p-1 bg-[#0c0c0b]/50 border border-[#ece8e1]/10">
+                        {stagedVideos.map((video) => (
+                          <div
+                            key={video.id}
+                            className="flex items-center justify-between p-2 bg-[#1c1c1a] border border-[#ece8e1]/15 gap-2"
+                          >
+                            <div className="flex items-center space-x-2.5 min-w-0">
+                              <div className="w-16 h-10 bg-black flex-none overflow-hidden relative border border-[#ece8e1]/10">
+                                <img
+                                  src={`https://img.youtube.com/vi/${video.ytId}/hqdefault.jpg`}
+                                  alt={video.ytId}
+                                  className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                                  <Play className="w-3 h-3 text-white fill-white" />
+                                </div>
+                              </div>
+                              <div className="min-w-0">
+                                <div className="text-[11px] font-mono font-bold text-[#ece8e1] truncate">
+                                  ID: {video.ytId}
+                                </div>
+                                <div className="text-[9px] font-mono text-[#8c8880] truncate max-w-[180px] sm:max-w-xs">
+                                  {video.url}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center space-x-1.5 flex-none">
+                              <button
+                                type="button"
+                                onClick={() => updateStagedVideoRatio(video.id, '9:16')}
+                                className={`cursor-pointer px-2 py-1 text-[9px] font-mono font-bold uppercase border transition-colors ${
+                                  video.aspectRatio === '9:16'
+                                    ? 'border-[#ff3d17] bg-[#ff3d17]/20 text-[#ff3d17]'
+                                    : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
+                                }`}
+                              >
+                                9:16 Reel
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => updateStagedVideoRatio(video.id, '16:9')}
+                                className={`cursor-pointer px-2 py-1 text-[9px] font-mono font-bold uppercase border transition-colors ${
+                                  video.aspectRatio === '16:9'
+                                    ? 'border-[#ff3d17] bg-[#ff3d17]/20 text-[#ff3d17]'
+                                    : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
+                                }`}
+                              >
+                                16:9 Cinema
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => removeStagedVideo(video.id)}
+                                className="cursor-pointer p-1 text-[#8c8880] hover:text-red-400 transition-colors"
+                                title="Remove"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* Modal Action Footer */}
+            <div className="pt-3 border-t border-[#ece8e1]/15 space-y-2 flex-none">
+              {(stagedPhotos.length > 0 || stagedVideos.length > 0) && (
+                <div className="flex items-center justify-between text-[11px] font-mono text-[#8c8880] px-1">
+                  <span>QUEUE SUMMARY:</span>
+                  <span className="text-[#ece8e1] font-bold">
+                    {stagedPhotos.length > 0 && `${stagedPhotos.length} Photo${stagedPhotos.length > 1 ? 's' : ''}`}
+                    {stagedPhotos.length > 0 && stagedVideos.length > 0 && ' • '}
+                    {stagedVideos.length > 0 && `${stagedVideos.length} Video${stagedVideos.length > 1 ? 's' : ''}`}
+                  </span>
                 </div>
               )}
 
-              <div className="pt-2">
+              <div className="flex items-center space-x-2">
                 <button
-                  type="submit"
-                  disabled={isSubmittingNew}
-                  className="w-full cursor-pointer py-2.5 bg-[#ff3d17] hover:bg-[#ff5533] text-white disabled:opacity-50 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors"
+                  type="button"
+                  onClick={cleanupAndCloseModal}
+                  disabled={isSubmittingBatch}
+                  className="cursor-pointer py-2.5 px-4 border border-[#ece8e1]/20 text-[#8c8880] hover:text-[#ece8e1] text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-40"
                 >
-                  {isSubmittingNew ? (
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                  CANCEL
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleBatchPublish}
+                  disabled={isSubmittingBatch || (stagedPhotos.length === 0 && stagedVideos.length === 0)}
+                  className="cursor-pointer flex-1 py-2.5 bg-[#ff3d17] hover:bg-[#ff5533] text-white disabled:opacity-40 disabled:cursor-not-allowed text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors"
+                >
+                  {isSubmittingBatch ? (
+                    <>
+                      <RefreshCw className="w-4 h-4 animate-spin" />
+                      <span>{batchStatus || 'PUBLISHING...'}</span>
+                    </>
+                  ) : stagedPhotos.length + stagedVideos.length === 0 ? (
+                    <span>SELECT PHOTOS OR PASTE YOUTUBE LINKS</span>
                   ) : (
-                    <span>PUBLISH TO TOP</span>
+                    <span>
+                      PUBLISH {stagedPhotos.length + stagedVideos.length} ITEM{stagedPhotos.length + stagedVideos.length > 1 ? 'S' : ''} TO TOP OF /WORK
+                    </span>
                   )}
                 </button>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       )}
