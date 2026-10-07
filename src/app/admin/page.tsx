@@ -16,7 +16,6 @@ import {
   Upload,
   RotateCcw,
   ExternalLink,
-  Search,
   RefreshCw,
   Film,
   Image as ImageIcon,
@@ -26,7 +25,6 @@ import {
   Plus,
   Trash2,
   X,
-  Sparkles,
 } from 'lucide-react';
 
 interface SlotOverride {
@@ -46,7 +44,6 @@ interface ToastItem {
 export default function AdminPage() {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
-  const [adminEmail, setAdminEmail] = useState<string>('');
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [loginError, setLoginError] = useState('');
@@ -55,8 +52,7 @@ export default function AdminPage() {
   // Media data & filters
   const [overrides, setOverrides] = useState<ManifestOverrides>({});
   const [addedMedia, setAddedMedia] = useState<AddedWorkMediaItem[]>([]);
-  const [filterType, setFilterType] = useState<'all' | 'new' | 'photos' | 'videos' | 'modified'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [filterType, setFilterType] = useState<'all' | 'photos' | 'videos'>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [uploadingSlots, setUploadingSlots] = useState<Record<string, string>>({});
   const [toasts, setToasts] = useState<ToastItem[]>([]);
@@ -64,9 +60,7 @@ export default function AdminPage() {
   // "Add New Media" Modal state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newMediaType, setNewMediaType] = useState<'photo' | 'video'>('photo');
-  const [newTitle, setNewTitle] = useState('');
   const [newAspectRatio, setNewAspectRatio] = useState<'photo' | '9:16' | '16:9'>('photo');
-  const [newCategory, setNewCategory] = useState('');
   const [newPrimaryFile, setNewPrimaryFile] = useState<File | null>(null);
   const [newPosterFile, setNewPosterFile] = useState<File | null>(null);
   const [isSubmittingNew, setIsSubmittingNew] = useState(false);
@@ -97,7 +91,7 @@ export default function AdminPage() {
     setToasts((prev) => [...prev, { id, type, text }]);
     setTimeout(() => {
       setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 4500);
+    }, 4000);
   };
 
   const removeToast = (id: string) => {
@@ -112,9 +106,7 @@ export default function AdminPage() {
         headers: token ? { Authorization: `Bearer ${token}` } : {},
       });
       if (res.ok) {
-        const data = await res.json();
         setIsAuthenticated(true);
-        setAdminEmail(data.email || 'Admin');
       } else {
         setIsAuthenticated(false);
       }
@@ -162,14 +154,13 @@ export default function AdminPage() {
       if (res.ok && data.success) {
         setToken(data.token);
         setIsAuthenticated(true);
-        setAdminEmail(data.email);
-        addToast('success', 'Authenticated successfully with Cloudflare R2 console');
+        addToast('success', 'Authenticated');
         fetchManifest();
       } else {
         setLoginError(data.error || 'Invalid credentials');
       }
     } catch {
-      setLoginError('Network error while connecting to authentication service');
+      setLoginError('Authentication connection error');
     } finally {
       setIsLoggingIn(false);
     }
@@ -179,15 +170,14 @@ export default function AdminPage() {
   const handleLogout = () => {
     clearToken();
     setIsAuthenticated(false);
-    setAdminEmail('');
-    addToast('info', 'Signed out from admin console');
+    addToast('info', 'Signed out');
   };
 
   // Handle Create New Media (Prepended on top)
   const handleCreateMedia = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newPrimaryFile) {
-      addToast('error', 'Please choose a media file to upload');
+      addToast('error', 'Please choose a file to upload');
       return;
     }
 
@@ -197,9 +187,8 @@ export default function AdminPage() {
     try {
       const formData = new FormData();
       formData.append('mediaType', newMediaType);
-      formData.append('title', newTitle.trim() || (newMediaType === 'video' ? 'New Cinema Reel' : 'New Photo Shoot'));
+      formData.append('title', newMediaType === 'video' ? 'Video' : 'Photo');
       formData.append('aspectRatio', newAspectRatio);
-      if (newCategory.trim()) formData.append('category', newCategory.trim());
       formData.append('file', newPrimaryFile);
       if (newPosterFile) formData.append('posterFile', newPosterFile);
 
@@ -218,15 +207,12 @@ export default function AdminPage() {
         } else if (data.item) {
           setAddedMedia((prev) => [data.item, ...prev]);
         }
-        addToast('success', 'New media published to top of Work page!');
+        addToast('success', 'Published to top of /work');
         setIsAddModalOpen(false);
-        // Reset modal form
-        setNewTitle('');
-        setNewCategory('');
         setNewPrimaryFile(null);
         setNewPosterFile(null);
       } else {
-        addToast('error', data.error || 'Failed to create new media');
+        addToast('error', data.error || 'Upload failed');
       }
     } catch (err: any) {
       addToast('error', err.message || 'Error creating media');
@@ -236,10 +222,8 @@ export default function AdminPage() {
   };
 
   // Handle Delete Added Media
-  const handleDeleteAddedMedia = async (id: string, title: string) => {
-    if (!window.confirm(`Delete "${title}"? This item will be removed from the top of the Work page.`)) {
-      return;
-    }
+  const handleDeleteAddedMedia = async (id: string) => {
+    if (!window.confirm('Delete this item from the Work page?')) return;
 
     const token = getToken();
     try {
@@ -261,19 +245,19 @@ export default function AdminPage() {
         } else {
           setAddedMedia((prev) => prev.filter((item) => item.id !== id));
         }
-        addToast('info', `Removed "${title}" from Work page`);
+        addToast('info', 'Item deleted');
       } else {
-        addToast('error', data.error || 'Failed to delete media item');
+        addToast('error', data.error || 'Failed to delete');
       }
     } catch (err: any) {
-      addToast('error', err.message || 'Error deleting media');
+      addToast('error', err.message || 'Error deleting');
     }
   };
 
   // Handle file upload/replace
   const handleFileUpload = async (slotId: string, mediaField: 'image' | 'videoUrl', file: File) => {
     const token = getToken();
-    setUploadingSlots((prev) => ({ ...prev, [slotId]: `Uploading ${mediaField}...` }));
+    setUploadingSlots((prev) => ({ ...prev, [slotId]: 'Uploading...' }));
 
     try {
       const formData = new FormData();
@@ -294,9 +278,9 @@ export default function AdminPage() {
           setOverrides(data.manifest.overrides || {});
           setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
         }
-        addToast('success', `Updated ${slotId} in R2! Public site is updated.`);
+        addToast('success', 'Media updated live in R2');
       } else {
-        addToast('error', data.error || 'Failed to upload file to R2');
+        addToast('error', data.error || 'Upload failed');
       }
     } catch (err: any) {
       addToast('error', err.message || 'Error uploading file');
@@ -309,11 +293,9 @@ export default function AdminPage() {
     }
   };
 
-  // Handle baseline slot reset to factory static
+  // Handle baseline slot reset
   const handleReset = async (slotId: string, mediaField: 'image' | 'videoUrl' | 'all' = 'all') => {
-    if (!window.confirm(`Reset slot "${slotId}" to factory default media? This will clear its R2 override.`)) {
-      return;
-    }
+    if (!window.confirm('Reset this slot to original default?')) return;
 
     const token = getToken();
     setUploadingSlots((prev) => ({ ...prev, [slotId]: 'Resetting...' }));
@@ -335,9 +317,9 @@ export default function AdminPage() {
           setOverrides(data.manifest.overrides || {});
           setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
         }
-        addToast('success', `Reset ${slotId} to factory static default`);
+        addToast('success', 'Reset to default');
       } else {
-        addToast('error', data.error || 'Failed to reset slot');
+        addToast('error', data.error || 'Failed to reset');
       }
     } catch (err: any) {
       addToast('error', err.message || 'Error resetting slot');
@@ -350,55 +332,28 @@ export default function AdminPage() {
     }
   };
 
-  // Filter newly added items (ALWAYS ON TOP)
-  const filteredAddedMedia = useMemo(() => {
+  // Filtered lists
+  const filteredAdded = useMemo(() => {
     return addedMedia.filter((item) => {
       if (filterType === 'photos' && item.mediaType !== 'photo') return false;
       if (filterType === 'videos' && item.mediaType !== 'video') return false;
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        return item.title.toLowerCase().includes(q) || item.id.toLowerCase().includes(q);
-      }
       return true;
     });
-  }, [addedMedia, filterType, searchQuery]);
+  }, [addedMedia, filterType]);
 
-  // Filter baseline slots
-  const filteredBaselineSlots = useMemo(() => {
-    if (filterType === 'new') return [];
-
+  const filteredBaseline = useMemo(() => {
     return ALL_WORK_SLOTS.filter((slot) => {
       if (filterType === 'photos' && slot.mediaType !== 'photo') return false;
       if (filterType === 'videos' && slot.mediaType !== 'video') return false;
-      if (filterType === 'modified') {
-        const ov = overrides[slot.id];
-        if (!ov || (!ov.image && !ov.videoUrl)) return false;
-      }
-
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchId = slot.id.toLowerCase().includes(q);
-        const matchTitle = slot.title.toLowerCase().includes(q);
-        const matchCategory = slot.category?.toLowerCase().includes(q);
-        return matchId || matchTitle || matchCategory;
-      }
-
       return true;
     });
-  }, [filterType, searchQuery, overrides]);
-
-  const modifiedCount = useMemo(() => {
-    return Object.keys(overrides).filter((k) => overrides[k]?.image || overrides[k]?.videoUrl).length;
-  }, [overrides]);
+  }, [filterType]);
 
   // Loading screen
   if (isAuthenticated === null) {
     return (
       <div className="w-full min-h-screen bg-[#0c0c0b] text-[#ece8e1] flex items-center justify-center font-sans">
-        <div className="flex flex-col items-center space-y-4">
-          <RefreshCw className="w-8 h-8 text-[#ff3d17] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#8c8880]">Initializing Secure R2 Console...</p>
-        </div>
+        <RefreshCw className="w-6 h-6 text-[#ff3d17] animate-spin" />
       </div>
     );
   }
@@ -406,429 +361,265 @@ export default function AdminPage() {
   // 1. UNPROTECTED LOGIN VIEW
   if (!isAuthenticated) {
     return (
-      <div className="w-full min-h-screen bg-[#0c0c0b] text-[#ece8e1] flex items-center justify-center p-4 sm:p-6 font-sans selection:bg-[#ff3d17] selection:text-[#0c0c0b]">
-        <div className="w-full max-w-md bg-[#141413] border border-[#ece8e1]/15 p-8 sm:p-10 shadow-2xl relative space-y-8">
-          <div className="space-y-3 text-center">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-[#1c1c1a] border border-[#ece8e1]/10 text-[11px] text-[#ff3d17] uppercase tracking-widest font-mono">
-              <Lock className="w-3.5 h-3.5" />
-              <span>CLOUDFLARE R2 CONSOLE</span>
+      <div className="w-full min-h-screen bg-[#0c0c0b] text-[#ece8e1] flex items-center justify-center p-4 font-sans selection:bg-[#ff3d17] selection:text-[#0c0c0b]">
+        <div className="w-full max-w-sm bg-[#141413] border border-[#ece8e1]/15 p-8 shadow-2xl space-y-6">
+          <div className="text-center space-y-2">
+            <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-[#1c1c1a] border border-[#ece8e1]/10 text-[10px] text-[#ff3d17] uppercase tracking-widest font-mono">
+              <Lock className="w-3 h-3" />
+              <span>ADMIN</span>
             </div>
-            <h1 className="font-anton text-3xl sm:text-4xl text-[#ece8e1] uppercase tracking-wide">
-              ADMIN SIGN IN
+            <h1 className="font-anton text-2xl text-[#ece8e1] uppercase tracking-wide">
+              SIGN IN
             </h1>
-            <p className="text-xs text-[#8c8880] leading-relaxed">
-              Authenticate to manage and add new Work page media stored in Cloudflare R2 bucket (<code className="text-[#ece8e1]">IMAGES</code>).
-            </p>
           </div>
 
           {loginError && (
-            <div className="p-3.5 bg-red-950/40 border border-red-800/80 text-red-300 text-xs flex items-center space-x-2.5">
+            <div className="p-3 bg-red-950/40 border border-red-800/80 text-red-300 text-xs flex items-center space-x-2">
               <AlertCircle className="w-4 h-4 flex-none text-red-400" />
               <span>{loginError}</span>
             </div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div className="space-y-1.5">
-              <label className="text-[11px] uppercase tracking-wider text-[#8c8880] font-mono">
-                Email Address
-              </label>
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div className="space-y-1">
               <input
                 type="email"
                 required
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
-                placeholder="admin@pandoravizuals.com"
-                className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-4 py-3 text-sm text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none transition-colors"
+                placeholder="Email"
+                className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-3.5 py-2.5 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-[11px] uppercase tracking-wider text-[#8c8880] font-mono">
-                Password
-              </label>
+            <div className="space-y-1">
               <input
                 type="password"
                 required
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-4 py-3 text-sm text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none transition-colors"
+                placeholder="Password"
+                className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-3.5 py-2.5 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isLoggingIn}
-              className="w-full cursor-pointer py-3.5 bg-[#ece8e1] text-[#0c0c0b] hover:bg-[#ff3d17] hover:text-[#ece8e1] disabled:opacity-50 text-xs font-bold uppercase tracking-wider transition-colors duration-200 flex items-center justify-center space-x-2 shadow-lg"
+              className="w-full cursor-pointer py-3 bg-[#ece8e1] text-[#0c0c0b] hover:bg-[#ff3d17] hover:text-[#ece8e1] disabled:opacity-50 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-2"
             >
               {isLoggingIn ? (
-                <>
-                  <RefreshCw className="w-4 h-4 animate-spin" />
-                  <span>AUTHENTICATING...</span>
-                </>
+                <RefreshCw className="w-4 h-4 animate-spin" />
               ) : (
-                <>
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>ACCESS CONSOLE</span>
-                </>
+                <span>ACCESS</span>
               )}
             </button>
           </form>
-
-          <div className="text-center pt-2 border-t border-[#ece8e1]/10 text-[11px] text-[#6b675f]">
-            Protected by Cloudflare Pages Functions &amp; Web Crypto HMAC
-          </div>
         </div>
       </div>
     );
   }
 
-  // 2. AUTHENTICATED ADMIN DASHBOARD
+  // 2. CLEAN UNCLUTTERED ADMIN DASHBOARD
   return (
-    <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen py-8 sm:py-12 px-4 sm:px-8 font-sans selection:bg-[#ff3d17] selection:text-[#0c0c0b]">
-      <div className="max-w-[1680px] mx-auto space-y-8">
+    <div className="w-full bg-[#0c0c0b] text-[#ece8e1] min-h-screen py-6 sm:py-8 px-4 sm:px-8 font-sans selection:bg-[#ff3d17] selection:text-[#0c0c0b]">
+      <div className="max-w-[1720px] mx-auto space-y-6">
 
-        {/* Top Management Header Bar */}
-        <div className="border border-[#ece8e1]/15 bg-[#141413] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6 shadow-2xl">
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-3 text-[11px] font-mono tracking-widest text-[#8c8880] uppercase">
-              <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                R2 BINDING: IMAGES
-              </span>
-              <span>•</span>
-              <span className="text-[#ece8e1]">USER: {adminEmail}</span>
-              <span>•</span>
-              <span className="text-[#ff3d17]">LATEST ITEMS ALWAYS PUBLISH ON TOP</span>
-            </div>
-            <h1 className="font-anton text-4xl sm:text-5xl text-[#ece8e1] tracking-tight uppercase">
-              WORK MEDIA MANAGER
-            </h1>
-            <p className="text-xs text-[#8c8880] max-w-2xl leading-relaxed">
-              Upload new photos or cinema videos to display at the top of the <code className="text-[#ece8e1]">/work</code> page, or replace existing media slots. All files stream straight to Cloudflare R2 bucket without redeploying.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Primary Action: Add New Media */}
-            <button
-              onClick={() => setIsAddModalOpen(true)}
-              className="cursor-pointer px-5 py-2.5 bg-[#ff3d17] hover:bg-[#ff5533] text-white text-xs font-bold uppercase tracking-wider flex items-center space-x-2 shadow-lg transition-colors"
-            >
-              <Plus className="w-4 h-4" />
-              <span>ADD NEW MEDIA (ON TOP)</span>
-            </button>
-
-            <button
-              onClick={fetchManifest}
-              disabled={isRefreshing}
-              className="cursor-pointer px-4 py-2.5 border border-[#ece8e1]/20 bg-[#1c1c1a] hover:border-[#ece8e1] text-xs font-bold uppercase tracking-wider text-[#ece8e1] flex items-center space-x-2 transition-colors"
-            >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span>SYNC R2</span>
-            </button>
-
-            <Link
-              href="/work/"
-              target="_blank"
-              className="cursor-pointer px-4 py-2.5 bg-[#ece8e1] text-[#0c0c0b] hover:bg-white text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>VIEW LIVE /WORK</span>
-            </Link>
-
-            <button
-              onClick={handleLogout}
-              className="cursor-pointer px-4 py-2.5 border border-red-900/50 bg-red-950/20 hover:bg-red-950/50 text-red-300 text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>SIGN OUT</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Filter & Search Toolbar */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#ece8e1]/10 pb-4">
-          <div className="flex flex-wrap items-center gap-2">
+        {/* Action Header Bar (No text clutter, just clean controls) */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#ece8e1]/15 pb-4">
+          {/* Segmented Filter Pills */}
+          <div className="flex items-center space-x-2">
             <button
               onClick={() => setFilterType('all')}
-              className={`px-4 py-2 border text-xs font-bold uppercase tracking-wider transition-colors ${
+              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider transition-colors ${
                 filterType === 'all'
                   ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
               }`}
             >
-              ALL ITEMS ({ALL_WORK_SLOTS.length + addedMedia.length})
+              ALL ({addedMedia.length + ALL_WORK_SLOTS.length})
             </button>
-
-            {addedMedia.length > 0 && (
-              <button
-                onClick={() => setFilterType('new')}
-                className={`px-4 py-2 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
-                  filterType === 'new'
-                    ? 'bg-[#ff3d17] text-white border-[#ff3d17]'
-                    : 'bg-[#ff3d17]/10 text-[#ff3d17] border-[#ff3d17]/40 hover:bg-[#ff3d17]/20'
-                }`}
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>NEWLY ADDED ON TOP ({addedMedia.length})</span>
-              </button>
-            )}
 
             <button
               onClick={() => setFilterType('photos')}
-              className={`px-4 py-2 border text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors ${
+              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
                 filterType === 'photos'
                   ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
               }`}
             >
               <ImageIcon className="w-3.5 h-3.5" />
-              <span>PHOTOS ({WORK_PHOTO_SLOTS.length + addedMedia.filter(m => m.mediaType === 'photo').length})</span>
+              <span>PHOTOS</span>
             </button>
 
             <button
               onClick={() => setFilterType('videos')}
-              className={`px-4 py-2 border text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors ${
+              className={`px-3.5 py-1.5 border text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors ${
                 filterType === 'videos'
                   ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
                   : 'bg-[#141413] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
               }`}
             >
               <Film className="w-3.5 h-3.5" />
-              <span>VIDEOS ({WORK_VIDEO_SLOTS.length + addedMedia.filter(m => m.mediaType === 'video').length})</span>
+              <span>VIDEOS</span>
             </button>
-
-            {modifiedCount > 0 && (
-              <button
-                onClick={() => setFilterType('modified')}
-                className={`px-4 py-2 border text-xs font-bold uppercase tracking-wider flex items-center space-x-2 transition-colors ${
-                  filterType === 'modified'
-                    ? 'bg-emerald-500 text-[#0c0c0b] border-emerald-500'
-                    : 'bg-[#141413] text-emerald-400 border-emerald-800/40 hover:border-emerald-500'
-                }`}
-              >
-                <span>BASELINE REPLACEMENTS ({modifiedCount})</span>
-              </button>
-            )}
           </div>
 
-          <div className="relative w-full md:w-80">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8c8880]" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by ID or title..."
-              className="w-full bg-[#141413] border border-[#ece8e1]/15 pl-10 pr-4 py-2 text-xs text-[#ece8e1] placeholder-[#6b675f] focus:border-[#ff3d17] outline-none"
-            />
+          {/* Quick Actions */}
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => setIsAddModalOpen(true)}
+              className="cursor-pointer px-4 py-2 bg-[#ff3d17] hover:bg-[#ff5533] text-white text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              <span>ADD NEW</span>
+            </button>
+
+            <button
+              onClick={fetchManifest}
+              disabled={isRefreshing}
+              className="cursor-pointer p-2 border border-[#ece8e1]/20 bg-[#1c1c1a] hover:border-[#ece8e1] text-[#ece8e1] transition-colors"
+              title="Sync R2"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+            </button>
+
+            <Link
+              href="/work/"
+              target="_blank"
+              className="cursor-pointer px-3.5 py-2 bg-[#ece8e1] text-[#0c0c0b] hover:bg-white text-xs font-bold uppercase tracking-wider flex items-center space-x-1.5 transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>VIEW SITE</span>
+            </Link>
+
+            <button
+              onClick={handleLogout}
+              className="cursor-pointer p-2 border border-red-900/50 bg-red-950/20 hover:bg-red-950/50 text-red-300 transition-colors"
+              title="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+            </button>
           </div>
         </div>
 
-        {/* SECTION 1: NEWLY ADDED ITEMS (ALWAYS DISPLAYED ON TOP) */}
-        {filteredAddedMedia.length > 0 && (
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2 text-xs font-mono uppercase tracking-wider text-[#ff3d17]">
-              <Sparkles className="w-4 h-4" />
-              <span className="font-bold">NEW MEDIA PUBLISHED ON TOP ({filteredAddedMedia.length})</span>
-              <span className="text-[#8c8880]">· Appears before all baseline cards on live site</span>
-            </div>
+        {/* Media Tiles Grid (Clean preview and action buttons only) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+          {/* Newly added items (always on top) */}
+          {filteredAdded.map((item) => (
+            <AddedMediaCard
+              key={item.id}
+              item={item}
+              isUploading={Boolean(uploadingSlots[item.id])}
+              onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
+              onDelete={() => handleDeleteAddedMedia(item.id)}
+            />
+          ))}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredAddedMedia.map((item) => (
-                <AddedMediaCard
-                  key={item.id}
-                  item={item}
-                  isUploading={Boolean(uploadingSlots[item.id])}
-                  uploadStatus={uploadingSlots[item.id]}
-                  onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
-                  onDelete={() => handleDeleteAddedMedia(item.id, item.title)}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+          {/* Baseline portfolio items */}
+          {filteredBaseline.map((slot) => {
+            const override = overrides[slot.id];
+            const isOverridden = Boolean(override && (override.image || override.videoUrl));
+            const activeImage = override?.image || slot.defaultImage;
+            const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
 
-        {/* SECTION 2: BASELINE PORTFOLIO SLOTS */}
-        {filterType !== 'new' && filteredBaselineSlots.length > 0 && (
-          <div className="space-y-4 pt-4">
-            <div className="text-xs font-mono uppercase tracking-wider text-[#8c8880]">
-              BASELINE WORK PORTFOLIO SLOTS ({filteredBaselineSlots.length})
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredBaselineSlots.map((slot) => {
-                const override = overrides[slot.id];
-                const isOverridden = Boolean(override && (override.image || override.videoUrl));
-                const activeImage = override?.image || slot.defaultImage;
-                const activeVideoUrl = override?.videoUrl || slot.defaultVideoUrl;
-                const isUploading = Boolean(uploadingSlots[slot.id]);
-                const uploadStatus = uploadingSlots[slot.id];
-
-                return (
-                  <SlotEditorCard
-                    key={slot.id}
-                    slot={slot}
-                    override={override}
-                    isOverridden={isOverridden}
-                    activeImage={activeImage}
-                    activeVideoUrl={activeVideoUrl}
-                    isUploading={isUploading}
-                    uploadStatus={uploadStatus}
-                    onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
-                    onReset={(field) => handleReset(slot.id, field)}
-                  />
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {filteredAddedMedia.length === 0 && filteredBaselineSlots.length === 0 && (
-          <div className="p-16 border border-[#ece8e1]/15 bg-[#141413] text-center space-y-4">
-            <h3 className="font-anton text-2xl text-[#8c8880]">NO MEDIA FOUND</h3>
-            <p className="text-xs text-[#6b675f]">
-              Try clearing filters or add a new media piece.
-            </p>
-          </div>
-        )}
+            return (
+              <SlotEditorCard
+                key={slot.id}
+                slot={slot}
+                isOverridden={isOverridden}
+                activeImage={activeImage}
+                activeVideoUrl={activeVideoUrl}
+                isUploading={Boolean(uploadingSlots[slot.id])}
+                onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
+                onReset={(field) => handleReset(slot.id, field)}
+              />
+            );
+          })}
+        </div>
       </div>
 
-      {/* MODAL: ADD NEW MEDIA (PUBLISHED ON TOP) */}
+      {/* Clean Add Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0c0c0b]/85 backdrop-blur-md">
-          <div className="bg-[#141413] border border-[#ece8e1]/20 max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-4">
-              <div className="space-y-1">
-                <div className="flex items-center space-x-2 text-[11px] font-mono uppercase tracking-wider text-[#ff3d17]">
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>PUBLISH TO TOP</span>
-                </div>
-                <h2 className="font-anton text-2xl sm:text-3xl text-[#ece8e1] uppercase">
-                  ADD NEW MEDIA
-                </h2>
-              </div>
-
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0c0c0b]/85 backdrop-blur-sm">
+          <div className="bg-[#141413] border border-[#ece8e1]/20 max-w-sm w-full p-6 space-y-5 shadow-2xl relative">
+            <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-3">
+              <h2 className="font-anton text-xl text-[#ece8e1] uppercase">
+                ADD NEW MEDIA
+              </h2>
               <button
                 type="button"
                 onClick={() => setIsAddModalOpen(false)}
-                className="p-1.5 text-[#8c8880] hover:text-[#ece8e1] transition-colors"
+                className="p-1 text-[#8c8880] hover:text-[#ece8e1]"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4 h-4" />
               </button>
             </div>
 
-            {/* Modal Form */}
-            <form onSubmit={handleCreateMedia} className="space-y-5">
-              {/* Media Type Toggle */}
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                  Media Type
-                </label>
+            <form onSubmit={handleCreateMedia} className="space-y-4">
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewMediaType('photo');
+                    setNewAspectRatio('photo');
+                  }}
+                  className={`py-2 text-xs font-bold uppercase tracking-wider border ${
+                    newMediaType === 'photo'
+                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15'
+                  }`}
+                >
+                  PHOTO
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewMediaType('video');
+                    setNewAspectRatio('9:16');
+                  }}
+                  className={`py-2 text-xs font-bold uppercase tracking-wider border ${
+                    newMediaType === 'video'
+                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15'
+                  }`}
+                >
+                  VIDEO
+                </button>
+              </div>
+
+              {newMediaType === 'video' && (
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      setNewMediaType('photo');
-                      setNewAspectRatio('photo');
-                    }}
-                    className={`py-2.5 px-4 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
-                      newMediaType === 'photo'
-                        ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                        : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                    onClick={() => setNewAspectRatio('9:16')}
+                    className={`py-1.5 text-[10px] font-bold uppercase tracking-wider border ${
+                      newAspectRatio === '9:16'
+                        ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
+                        : 'border-[#ece8e1]/15 text-[#8c8880]'
                     }`}
                   >
-                    <ImageIcon className="w-4 h-4" />
-                    <span>PHOTO (STILL)</span>
+                    9:16 Reel
                   </button>
 
                   <button
                     type="button"
-                    onClick={() => {
-                      setNewMediaType('video');
-                      setNewAspectRatio('9:16');
-                    }}
-                    className={`py-2.5 px-4 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
-                      newMediaType === 'video'
-                        ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                        : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                    onClick={() => setNewAspectRatio('16:9')}
+                    className={`py-1.5 text-[10px] font-bold uppercase tracking-wider border ${
+                      newAspectRatio === '16:9'
+                        ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
+                        : 'border-[#ece8e1]/15 text-[#8c8880]'
                     }`}
                   >
-                    <Film className="w-4 h-4" />
-                    <span>CINEMA VIDEO</span>
+                    16:9 Widescreen
                   </button>
-                </div>
-              </div>
-
-              {/* Title Input */}
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                  Production Title
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={newTitle}
-                  onChange={(e) => setNewTitle(e.target.value)}
-                  placeholder={newMediaType === 'video' ? 'e.g., Midnight Commercial Reel' : 'e.g., Golden Hour Editorial'}
-                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-3.5 py-2.5 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
-                />
-              </div>
-
-              {/* If Video: Aspect Ratio Selection */}
-              {newMediaType === 'video' && (
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                    Video Aspect Ratio &amp; Layout
-                  </label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setNewAspectRatio('9:16')}
-                      className={`py-2 px-3 text-[11px] font-bold uppercase tracking-wider border transition-colors ${
-                        newAspectRatio === '9:16'
-                          ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                          : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
-                      }`}
-                    >
-                      9:16 Vertical Reel
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => setNewAspectRatio('16:9')}
-                      className={`py-2 px-3 text-[11px] font-bold uppercase tracking-wider border transition-colors ${
-                        newAspectRatio === '16:9'
-                          ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                          : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
-                      }`}
-                    >
-                      16:9 Widescreen Cinema
-                    </button>
-                  </div>
                 </div>
               )}
 
-              {/* Category (Optional) */}
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                  Category / Tag (Optional)
-                </label>
-                <input
-                  type="text"
-                  value={newCategory}
-                  onChange={(e) => setNewCategory(e.target.value)}
-                  placeholder="e.g. Commercial, Reels, Kids Birthdays, Adult Events"
-                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 px-3.5 py-2.5 text-xs text-[#ece8e1] placeholder-[#555] focus:border-[#ff3d17] outline-none"
-                />
-              </div>
-
-              {/* Primary File Upload */}
-              <div className="space-y-1.5">
-                <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                  {newMediaType === 'video' ? 'Video File (.mp4, .webm, .mov)' : 'Photo File (.webp, .jpg, .png, .avif)'}
+              <div className="space-y-1">
+                <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                  {newMediaType === 'video' ? 'Video File (.mp4, .webm, .mov)' : 'Photo File (.webp, .jpg, .png)'}
                 </label>
                 <input
                   ref={newPrimaryFileRef}
@@ -836,43 +627,35 @@ export default function AdminPage() {
                   required
                   accept={newMediaType === 'video' ? 'video/*,.mp4,.webm,.mov' : 'image/*,.webp,.jpg,.jpeg,.png,.avif'}
                   onChange={(e) => setNewPrimaryFile(e.target.files ? e.target.files[0] : null)}
-                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[11px] file:uppercase file:cursor-pointer"
+                  className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
                 />
               </div>
 
-              {/* Poster File Upload (Only if Video) */}
               {newMediaType === 'video' && (
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-mono uppercase tracking-wider text-[#8c8880]">
-                    Video Poster Thumbnail (Optional Still)
+                <div className="space-y-1">
+                  <label className="text-[10px] font-mono uppercase text-[#8c8880]">
+                    Poster Frame (Optional)
                   </label>
                   <input
                     ref={newPosterFileRef}
                     type="file"
                     accept="image/*,.webp,.jpg,.jpeg,.png"
                     onChange={(e) => setNewPosterFile(e.target.files ? e.target.files[0] : null)}
-                    className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-3 file:py-1.5 file:px-3 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[11px] file:uppercase file:cursor-pointer"
+                    className="w-full bg-[#0c0c0b] border border-[#ece8e1]/20 p-2 text-xs text-[#ece8e1] file:mr-2 file:py-1 file:px-2.5 file:border-0 file:bg-[#1c1c1a] file:text-[#ece8e1] file:text-[10px] file:uppercase file:cursor-pointer"
                   />
                 </div>
               )}
 
-              {/* Submit Button */}
               <div className="pt-2">
                 <button
                   type="submit"
                   disabled={isSubmittingNew}
-                  className="w-full cursor-pointer py-3 bg-[#ff3d17] hover:bg-[#ff5533] text-white disabled:opacity-50 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors shadow-lg"
+                  className="w-full cursor-pointer py-2.5 bg-[#ff3d17] hover:bg-[#ff5533] text-white disabled:opacity-50 text-xs font-bold uppercase tracking-wider flex items-center justify-center space-x-2 transition-colors"
                 >
                   {isSubmittingNew ? (
-                    <>
-                      <RefreshCw className="w-4 h-4 animate-spin" />
-                      <span>STREAMING TO R2 BUCKET...</span>
-                    </>
+                    <RefreshCw className="w-4 h-4 animate-spin" />
                   ) : (
-                    <>
-                      <Upload className="w-4 h-4" />
-                      <span>PUBLISH TO TOP OF /WORK</span>
-                    </>
+                    <span>PUBLISH TO TOP</span>
                   )}
                 </button>
               </div>
@@ -887,7 +670,7 @@ export default function AdminPage() {
           <div
             key={toast.id}
             onClick={() => removeToast(toast.id)}
-            className={`p-3.5 border shadow-2xl text-xs flex items-center space-x-2.5 pointer-events-auto cursor-pointer transition-all ${
+            className={`p-3 border shadow-2xl text-xs flex items-center space-x-2 pointer-events-auto cursor-pointer transition-all ${
               toast.type === 'success'
                 ? 'bg-[#141413] border-emerald-600 text-emerald-300'
                 : toast.type === 'error'
@@ -895,8 +678,8 @@ export default function AdminPage() {
                 : 'bg-[#141413] border-[#ece8e1]/30 text-[#ece8e1]'
             }`}
           >
-            {toast.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-none" />}
-            {toast.type === 'error' && <AlertCircle className="w-4 h-4 text-red-400 flex-none" />}
+            {toast.type === 'success' && <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 flex-none" />}
+            {toast.type === 'error' && <AlertCircle className="w-3.5 h-3.5 text-red-400 flex-none" />}
             <span className="flex-1">{toast.text}</span>
           </div>
         ))}
@@ -905,11 +688,10 @@ export default function AdminPage() {
   );
 }
 
-// Sub-component for newly added media cards (published on top)
+// Sub-component for newly added media cards
 interface AddedCardProps {
   item: AddedWorkMediaItem;
   isUploading: boolean;
-  uploadStatus?: string;
   onFileUpload: (field: 'image' | 'videoUrl', file: File) => void;
   onDelete: () => void;
 }
@@ -917,7 +699,6 @@ interface AddedCardProps {
 function AddedMediaCard({
   item,
   isUploading,
-  uploadStatus,
   onFileUpload,
   onDelete,
 }: AddedCardProps) {
@@ -933,14 +714,10 @@ function AddedMediaCard({
       : 'aspect-[3/4]';
 
   return (
-    <div className="bg-[#141413] border-2 border-[#ff3d17]/50 p-5 flex flex-col justify-between space-y-4 shadow-2xl relative group">
-      {/* Uploading Overlay */}
+    <div className="bg-[#141413] border border-[#ff3d17]/60 p-2.5 flex flex-col justify-between space-y-2.5 shadow-xl relative group">
       {isUploading && (
-        <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex flex-col items-center justify-center p-4 space-y-3 backdrop-blur-xs">
-          <RefreshCw className="w-6 h-6 text-[#ff3d17] animate-spin" />
-          <span className="text-xs font-mono tracking-wider text-[#ece8e1] uppercase">
-            {uploadStatus || 'Updating R2...'}
-          </span>
+        <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex items-center justify-center">
+          <RefreshCw className="w-5 h-5 text-[#ff3d17] animate-spin" />
         </div>
       )}
 
@@ -962,99 +739,65 @@ function AddedMediaCard({
         />
       )}
 
-      {/* Header */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-xs font-bold text-white bg-[#ff3d17] px-2 py-0.5">
-            NEW ON TOP
-          </span>
-
-          <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-950/60 text-emerald-400 border border-emerald-800/80 uppercase font-bold flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            LIVE IN R2
-          </span>
-        </div>
-
-        <h3 className="font-anton text-lg text-[#ece8e1] uppercase tracking-wide truncate" title={item.title}>
-          {item.title}
-        </h3>
-
-        <div className="text-[10px] font-mono text-[#8c8880] uppercase">
-          Format: {item.aspectRatio === '16:9' ? '16:9 Widescreen' : item.aspectRatio === '9:16' ? '9:16 Vertical Reel' : 'Photo'}
-          {item.category ? ` • ${item.category}` : ''}
-        </div>
+      {/* Pure Media Preview Only */}
+      <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}>
+        {isVideo && item.videoUrl ? (
+          <video
+            src={item.videoUrl}
+            poster={item.image}
+            controls
+            playsInline
+            muted
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={item.image}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="280px"
+          />
+        )}
       </div>
 
-      {/* Preview */}
-      <div className="space-y-2">
-        <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] border border-[#ece8e1]/10 overflow-hidden`}>
-          {isVideo && item.videoUrl ? (
-            <video
-              src={item.videoUrl}
-              poster={item.image}
-              controls
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Image
-              src={item.image}
-              alt={item.title}
-              fill
-              className="object-cover"
-              sizes="320px"
-            />
-          )}
-        </div>
-
-        <div className="text-[10px] font-mono text-[#6b675f] truncate" title={isVideo ? item.videoUrl : item.image}>
-          R2 URL: <span className="text-[#8c8880]">{isVideo ? (item.videoUrl || item.image) : item.image}</span>
-        </div>
-      </div>
-
-      {/* Actions */}
-      <div className="space-y-2 pt-2 border-t border-[#ece8e1]/10">
-        <div className="flex items-center space-x-2">
-          {isVideo ? (
-            <>
-              <button
-                type="button"
-                onClick={() => videoInputRef.current?.click()}
-                className="flex-1 cursor-pointer py-2 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
-              >
-                <Upload className="w-3 h-3" />
-                <span>VIDEO</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => imageInputRef.current?.click()}
-                className="flex-1 cursor-pointer py-2 border border-[#ece8e1]/20 bg-[#1c1c1a] text-[#ece8e1] hover:border-[#ece8e1] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
-              >
-                <ImageIcon className="w-3 h-3" />
-                <span>POSTER</span>
-              </button>
-            </>
-          ) : (
+      {/* Action Buttons */}
+      <div className="flex items-center space-x-1.5 pt-1">
+        {isVideo ? (
+          <>
+            <button
+              type="button"
+              onClick={() => videoInputRef.current?.click()}
+              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+            >
+              VIDEO
+            </button>
             <button
               type="button"
               onClick={() => imageInputRef.current?.click()}
-              className="flex-1 cursor-pointer py-2 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1.5"
+              className="flex-1 cursor-pointer py-1.5 border border-[#ece8e1]/20 bg-[#1c1c1a] text-[#ece8e1] hover:border-[#ece8e1] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
             >
-              <Upload className="w-3.5 h-3.5" />
-              <span>REPLACE PHOTO</span>
+              POSTER
             </button>
-          )}
-
+          </>
+        ) : (
           <button
             type="button"
-            onClick={onDelete}
-            className="cursor-pointer p-2 border border-red-900/60 bg-red-950/30 hover:bg-red-900 text-red-300 hover:text-white transition-colors"
-            title="Delete this media from Work page"
+            onClick={() => imageInputRef.current?.click()}
+            className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            REPLACE
           </button>
-        </div>
+        )}
+
+        <button
+          type="button"
+          onClick={onDelete}
+          className="cursor-pointer p-1.5 border border-red-900/60 bg-red-950/30 hover:bg-red-900 text-red-300 hover:text-white transition-colors"
+          title="Delete"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+        </button>
       </div>
     </div>
   );
@@ -1063,12 +806,10 @@ function AddedMediaCard({
 // Sub-component for baseline editable slot card
 interface SlotCardProps {
   slot: WorkMediaSlot;
-  override?: SlotOverride;
   isOverridden: boolean;
   activeImage: string;
   activeVideoUrl?: string;
   isUploading: boolean;
-  uploadStatus?: string;
   onFileUpload: (field: 'image' | 'videoUrl', file: File) => void;
   onReset: (field: 'image' | 'videoUrl' | 'all') => void;
 }
@@ -1079,7 +820,6 @@ function SlotEditorCard({
   activeImage,
   activeVideoUrl,
   isUploading,
-  uploadStatus,
   onFileUpload,
   onReset,
 }: SlotCardProps) {
@@ -1095,14 +835,10 @@ function SlotEditorCard({
       : 'aspect-[3/4]';
 
   return (
-    <div className="bg-[#141413] border border-[#ece8e1]/15 p-5 flex flex-col justify-between space-y-4 shadow-xl relative group">
-      {/* Uploading Overlay */}
+    <div className="bg-[#141413] border border-[#ece8e1]/15 p-2.5 flex flex-col justify-between space-y-2.5 shadow-xl relative group">
       {isUploading && (
-        <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex flex-col items-center justify-center p-4 space-y-3 backdrop-blur-xs">
-          <RefreshCw className="w-6 h-6 text-[#ff3d17] animate-spin" />
-          <span className="text-xs font-mono tracking-wider text-[#ece8e1] uppercase">
-            {uploadStatus || 'Processing R2 upload...'}
-          </span>
+        <div className="absolute inset-0 bg-[#0c0c0b]/85 z-20 flex items-center justify-center">
+          <RefreshCw className="w-5 h-5 text-[#ff3d17] animate-spin" />
         </div>
       )}
 
@@ -1124,93 +860,55 @@ function SlotEditorCard({
         />
       )}
 
-      {/* Card Header */}
-      <div className="space-y-1.5">
-        <div className="flex items-center justify-between gap-2">
-          <span className="font-mono text-xs font-bold text-[#ff3d17] bg-[#1c1c1a] px-2 py-0.5 border border-[#ece8e1]/10">
-            {slot.id}
-          </span>
-
-          {isOverridden ? (
-            <span className="text-[10px] font-mono px-2 py-0.5 bg-emerald-950/60 text-emerald-400 border border-emerald-800/80 uppercase font-bold flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              LIVE IN R2
-            </span>
-          ) : (
-            <span className="text-[10px] font-mono px-2 py-0.5 bg-[#1c1c1a] text-[#8c8880] border border-[#ece8e1]/10 uppercase">
-              DEFAULT STATIC
-            </span>
-          )}
-        </div>
-
-        <h3 className="font-anton text-lg text-[#ece8e1] uppercase tracking-wide truncate" title={slot.title}>
-          {slot.title}
-        </h3>
-
-        <div className="text-[10px] font-mono text-[#8c8880] uppercase">
-          Format: {slot.aspectRatio === '16:9' ? '16:9 Widescreen' : slot.aspectRatio === '9:16' ? '9:16 Vertical Reel' : 'Photo'}
-          {slot.category ? ` • ${slot.category}` : ''}
-        </div>
-      </div>
-
-      {/* Current Preview Container */}
-      <div className="space-y-2">
-        <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] border border-[#ece8e1]/10 overflow-hidden`}>
-          {isVideo && activeVideoUrl ? (
-            <video
-              src={activeVideoUrl}
-              poster={activeImage}
-              controls
-              playsInline
-              muted
-              className="w-full h-full object-cover"
-            />
-          ) : (
-            <Image
-              src={activeImage}
-              alt={slot.title}
-              fill
-              className="object-cover"
-              sizes="320px"
-            />
-          )}
-        </div>
-
-        <div className="text-[10px] font-mono text-[#6b675f] truncate" title={isVideo ? activeVideoUrl : activeImage}>
-          Source: <span className="text-[#8c8880]">{isVideo ? (activeVideoUrl || activeImage) : activeImage}</span>
-        </div>
+      {/* Pure Media Preview Only */}
+      <div className={`relative w-full ${aspectClass} bg-[#0c0c0b] overflow-hidden`}>
+        {isVideo && activeVideoUrl ? (
+          <video
+            src={activeVideoUrl}
+            poster={activeImage}
+            controls
+            playsInline
+            muted
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Image
+            src={activeImage}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="280px"
+          />
+        )}
       </div>
 
       {/* Action Buttons */}
-      <div className="space-y-2 pt-2 border-t border-[#ece8e1]/10">
+      <div className="space-y-1.5 pt-1">
         {isVideo ? (
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-1.5">
             <button
               type="button"
               onClick={() => videoInputRef.current?.click()}
-              className="cursor-pointer py-2 px-2.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1.5"
+              className="cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
             >
-              <Upload className="w-3 h-3" />
-              <span>REPLACE VIDEO</span>
+              VIDEO
             </button>
 
             <button
               type="button"
               onClick={() => imageInputRef.current?.click()}
-              className="cursor-pointer py-2 px-2.5 border border-[#ece8e1]/20 hover:border-[#ece8e1] bg-[#1c1c1a] text-[#ece8e1] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1.5"
+              className="cursor-pointer py-1.5 border border-[#ece8e1]/20 hover:border-[#ece8e1] bg-[#1c1c1a] text-[#ece8e1] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
             >
-              <ImageIcon className="w-3 h-3" />
-              <span>POSTER</span>
+              POSTER
             </button>
           </div>
         ) : (
           <button
             type="button"
             onClick={() => imageInputRef.current?.click()}
-            className="w-full cursor-pointer py-2.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center space-x-1.5"
+            className="w-full cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
           >
-            <Upload className="w-3.5 h-3.5" />
-            <span>UPLOAD / REPLACE PHOTO</span>
+            REPLACE
           </button>
         )}
 
@@ -1218,10 +916,10 @@ function SlotEditorCard({
           <button
             type="button"
             onClick={() => onReset('all')}
-            className="w-full cursor-pointer py-2 border border-red-900/60 bg-red-950/20 hover:bg-red-950/60 text-red-300 text-[10px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1.5"
+            className="w-full cursor-pointer py-1 border border-red-900/60 bg-red-950/20 hover:bg-red-950/60 text-red-300 text-[9px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
           >
-            <RotateCcw className="w-3 h-3" />
-            <span>RESET TO FACTORY DEFAULT</span>
+            <RotateCcw className="w-2.5 h-2.5" />
+            <span>RESET</span>
           </button>
         )}
       </div>
