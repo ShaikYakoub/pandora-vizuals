@@ -1024,52 +1024,43 @@ export default function AdminPage() {
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-[#0c0c0b]/85 backdrop-blur-md">
           <div className="bg-[#141413] border border-[#ece8e1]/20 max-w-2xl w-full p-5 sm:p-6 space-y-4 shadow-2xl relative max-h-[92vh] flex flex-col">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between border-b border-[#ece8e1]/10 pb-3 flex-none">
-              <div className="flex items-center space-x-2">
-                <Plus className="w-4 h-4 text-[#ff3d17]" />
-                <h2 className="font-anton text-lg sm:text-xl text-[#ece8e1] uppercase tracking-wide">
-                  ADD MEDIA
-                </h2>
-                <span className="text-[10px] font-mono uppercase bg-[#1c1c1a] border border-[#ece8e1]/15 px-2 py-0.5 text-[#ff3d17]">
-                  BULK & SINGLE READY
-                </span>
+            {/* Mode Switcher Tabs with Close Button */}
+            <div className="flex items-center justify-between gap-2 flex-none">
+              <div className="grid grid-cols-2 gap-2 flex-1">
+                <button
+                  type="button"
+                  onClick={() => setActiveAddTab('photos')}
+                  className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
+                    activeAddTab === 'photos'
+                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                  }`}
+                >
+                  <ImageIcon className="w-3.5 h-3.5" />
+                  <span>PHOTOS ({stagedPhotos.length})</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveAddTab('videos')}
+                  className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
+                    activeAddTab === 'videos'
+                      ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
+                      : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
+                  }`}
+                >
+                  <Film className="w-3.5 h-3.5" />
+                  <span>YOUTUBE VIDEOS ({stagedVideos.length})</span>
+                </button>
               </div>
+
               <button
                 type="button"
                 onClick={cleanupAndCloseModal}
-                className="cursor-pointer p-1 text-[#8c8880] hover:text-[#ece8e1] transition-colors"
+                className="cursor-pointer p-2 border border-[#ece8e1]/15 bg-[#0c0c0b] text-[#8c8880] hover:text-[#ece8e1] hover:border-[#ece8e1]/30 transition-colors"
+                title="Close"
               >
                 <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Mode Switcher Tabs */}
-            <div className="grid grid-cols-2 gap-2 flex-none">
-              <button
-                type="button"
-                onClick={() => setActiveAddTab('photos')}
-                className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
-                  activeAddTab === 'photos'
-                    ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                    : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
-                }`}
-              >
-                <ImageIcon className="w-3.5 h-3.5" />
-                <span>PHOTOS ({stagedPhotos.length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveAddTab('videos')}
-                className={`cursor-pointer py-2 px-3 text-xs font-bold uppercase tracking-wider border flex items-center justify-center space-x-2 transition-colors ${
-                  activeAddTab === 'videos'
-                    ? 'bg-[#ece8e1] text-[#0c0c0b] border-[#ece8e1]'
-                    : 'bg-[#0c0c0b] text-[#8c8880] border-[#ece8e1]/15 hover:text-[#ece8e1]'
-                }`}
-              >
-                <Film className="w-3.5 h-3.5" />
-                <span>YOUTUBE VIDEOS ({stagedVideos.length})</span>
               </button>
             </div>
 
@@ -1113,46 +1104,6 @@ export default function AdminPage() {
                       <div className="text-[10px] text-[#8c8880] font-mono">
                         Select multiple files at once (.webp, .jpg, .png, .avif)
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Ratio Selector */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono uppercase text-[#8c8880]">Format:</span>
-                    <div className="flex items-center space-x-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setPhotoAspectRatio('photo')}
-                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
-                          photoAspectRatio === 'photo'
-                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
-                        }`}
-                      >
-                        4:5 Photo (Default)
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setPhotoAspectRatio('16:9')}
-                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
-                          photoAspectRatio === '16:9'
-                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
-                        }`}
-                      >
-                        16:9 Cinema
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setPhotoAspectRatio('9:16')}
-                        className={`cursor-pointer px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider border transition-colors ${
-                          photoAspectRatio === '9:16'
-                            ? 'border-[#ff3d17] bg-[#ff3d17]/15 text-[#ff3d17]'
-                            : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
-                        }`}
-                      >
-                        9:16 Reel
-                      </button>
                     </div>
                   </div>
 
