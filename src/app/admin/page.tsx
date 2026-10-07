@@ -51,6 +51,7 @@ export default function AdminPage() {
   // Media data & filters
   const [overrides, setOverrides] = useState<ManifestOverrides>({});
   const [addedMedia, setAddedMedia] = useState<AddedWorkMediaItem[]>([]);
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
   const [filterType, setFilterType] = useState<'all' | 'photos' | 'videos' | '16:9' | '9:16'>('all');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [uploadingSlots, setUploadingSlots] = useState<Record<string, string>>({});
@@ -122,6 +123,7 @@ export default function AdminPage() {
         const data = await res.json();
         setOverrides(data.overrides || {});
         setAddedMedia(Array.isArray(data.added) ? data.added : []);
+        setDeletedIds(Array.isArray(data.deleted) ? data.deleted : []);
       }
     } catch {
       addToast('error', 'Failed to fetch R2 manifest');
@@ -220,9 +222,11 @@ export default function AdminPage() {
     }
   };
 
-  // Handle Delete Added Media
-  const handleDeleteAddedMedia = async (id: string) => {
-    if (!window.confirm('Delete this item from the Work page?')) return;
+  // Handle Delete ANY card (no confirmation, no pop-up)
+  const handleDeleteCard = async (id: string) => {
+    // Instant UI removal
+    setAddedMedia((prev) => prev.filter((item) => item.id !== id));
+    setDeletedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
 
     const token = getToken();
     try {
@@ -241,10 +245,9 @@ export default function AdminPage() {
         if (data.manifest) {
           setOverrides(data.manifest.overrides || {});
           setAddedMedia(Array.isArray(data.manifest.added) ? data.manifest.added : []);
-        } else {
-          setAddedMedia((prev) => prev.filter((item) => item.id !== id));
+          setDeletedIds(Array.isArray(data.manifest.deleted) ? data.manifest.deleted : []);
         }
-        addToast('info', 'Item deleted');
+        addToast('info', 'Deleted');
       } else {
         addToast('error', data.error || 'Failed to delete');
       }
@@ -346,16 +349,16 @@ export default function AdminPage() {
   );
 
   const widescreenBaseline = useMemo(
-    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '16:9'),
-    []
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '16:9' && !deletedIds.includes(slot.id)),
+    [deletedIds]
   );
   const reelsBaseline = useMemo(
-    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '9:16'),
-    []
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio === '9:16' && !deletedIds.includes(slot.id)),
+    [deletedIds]
   );
   const photosBaseline = useMemo(
-    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio !== '16:9' && slot.aspectRatio !== '9:16'),
-    []
+    () => ALL_WORK_SLOTS.filter((slot) => slot.aspectRatio !== '16:9' && slot.aspectRatio !== '9:16' && !deletedIds.includes(slot.id)),
+    [deletedIds]
   );
 
   // Section visibility based on active filter
@@ -545,7 +548,7 @@ export default function AdminPage() {
                     item={item}
                     isUploading={Boolean(uploadingSlots[item.id])}
                     onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
-                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                    onDelete={() => handleDeleteCard(item.id)}
                   />
                 ))}
 
@@ -565,6 +568,7 @@ export default function AdminPage() {
                       isUploading={Boolean(uploadingSlots[slot.id])}
                       onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
                       onReset={(field) => handleReset(slot.id, field)}
+                      onDelete={() => handleDeleteCard(slot.id)}
                     />
                   );
                 })}
@@ -592,7 +596,7 @@ export default function AdminPage() {
                     item={item}
                     isUploading={Boolean(uploadingSlots[item.id])}
                     onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
-                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                    onDelete={() => handleDeleteCard(item.id)}
                   />
                 ))}
 
@@ -612,6 +616,7 @@ export default function AdminPage() {
                       isUploading={Boolean(uploadingSlots[slot.id])}
                       onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
                       onReset={(field) => handleReset(slot.id, field)}
+                      onDelete={() => handleDeleteCard(slot.id)}
                     />
                   );
                 })}
@@ -639,7 +644,7 @@ export default function AdminPage() {
                     item={item}
                     isUploading={Boolean(uploadingSlots[item.id])}
                     onFileUpload={(field, file) => handleFileUpload(item.id, field, file)}
-                    onDelete={() => handleDeleteAddedMedia(item.id)}
+                    onDelete={() => handleDeleteCard(item.id)}
                   />
                 ))}
 
@@ -659,6 +664,7 @@ export default function AdminPage() {
                       isUploading={Boolean(uploadingSlots[slot.id])}
                       onFileUpload={(field, file) => handleFileUpload(slot.id, field, file)}
                       onReset={(field) => handleReset(slot.id, field)}
+                      onDelete={() => handleDeleteCard(slot.id)}
                     />
                   );
                 })}
@@ -950,6 +956,7 @@ interface SlotCardProps {
   isUploading: boolean;
   onFileUpload: (field: 'image' | 'videoUrl', file: File) => void;
   onReset: (field: 'image' | 'videoUrl' | 'all') => void;
+  onDelete: () => void;
 }
 
 function SlotEditorCard({
@@ -960,6 +967,7 @@ function SlotEditorCard({
   isUploading,
   onFileUpload,
   onReset,
+  onDelete,
 }: SlotCardProps) {
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
@@ -1032,11 +1040,11 @@ function SlotEditorCard({
       {/* Action Buttons */}
       <div className="space-y-1.5 pt-1">
         {isVideo ? (
-          <div className="grid grid-cols-2 gap-1.5">
+          <div className="flex items-center space-x-1.5">
             <button
               type="button"
               onClick={() => videoInputRef.current?.click()}
-              className="cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
             >
               VIDEO
             </button>
@@ -1044,19 +1052,39 @@ function SlotEditorCard({
             <button
               type="button"
               onClick={() => imageInputRef.current?.click()}
-              className="cursor-pointer py-1.5 border border-[#ece8e1]/20 hover:border-[#ece8e1] bg-[#1c1c1a] text-[#ece8e1] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+              className="flex-1 cursor-pointer py-1.5 border border-[#ece8e1]/20 hover:border-[#ece8e1] bg-[#1c1c1a] text-[#ece8e1] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
             >
               POSTER
             </button>
+
+            <button
+              type="button"
+              onClick={onDelete}
+              className="cursor-pointer p-1.5 border border-red-900/60 bg-red-950/30 hover:bg-red-900 text-red-300 hover:text-white transition-colors flex items-center justify-center"
+              title="Delete"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
           </div>
         ) : (
-          <button
-            type="button"
-            onClick={() => imageInputRef.current?.click()}
-            className="w-full cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
-          >
-            REPLACE
-          </button>
+          <div className="flex items-center space-x-1.5">
+            <button
+              type="button"
+              onClick={() => imageInputRef.current?.click()}
+              className="flex-1 cursor-pointer py-1.5 bg-[#ece8e1] hover:bg-[#ff3d17] hover:text-[#ece8e1] text-[#0c0c0b] text-[10px] font-bold uppercase tracking-wider transition-colors text-center"
+            >
+              REPLACE
+            </button>
+
+            <button
+              type="button"
+              onClick={onDelete}
+              className="cursor-pointer p-1.5 border border-red-900/60 bg-red-950/30 hover:bg-red-900 text-red-300 hover:text-white transition-colors flex items-center justify-center"
+              title="Delete"
+            >
+              <Trash2 className="w-3.5 h-3.5" />
+            </button>
+          </div>
         )}
 
         {isOverridden && (

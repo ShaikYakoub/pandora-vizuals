@@ -21,31 +21,37 @@ export const onRequestPost: PagesFunction = async (context) => {
 
     let overrides: Record<string, any> = {};
     let added: any[] = [];
+    let deleted: string[] = [];
     const existing = await env.IMAGES.get('manifest/work-media.json');
     if (existing) {
       try {
         const raw = await existing.json();
         if (raw && typeof raw === 'object') {
-          if (Array.isArray(raw.added)) {
-            added = raw.added;
-            overrides = raw.overrides || {};
-          } else if (raw.overrides) {
-            overrides = raw.overrides;
-            added = Array.isArray(raw.added) ? raw.added : [];
-          } else {
-            overrides = raw;
-          }
+          overrides = raw.overrides || {};
+          added = Array.isArray(raw.added) ? raw.added : [];
+          deleted = Array.isArray(raw.deleted) ? raw.deleted : [];
         }
       } catch {
         overrides = {};
         added = [];
+        deleted = [];
       }
     }
 
-    // Filter out the deleted item
+    // Filter out the deleted item from added
     added = added.filter((item: any) => item.id !== id);
 
-    const updatedManifest = { overrides, added };
+    // Track in deleted array
+    if (!deleted.includes(id)) {
+      deleted.push(id);
+    }
+
+    // Clean up from overrides
+    if (overrides[id]) {
+      delete overrides[id];
+    }
+
+    const updatedManifest = { overrides, added, deleted };
 
     await env.IMAGES.put('manifest/work-media.json', JSON.stringify(updatedManifest, null, 2), {
       httpMetadata: {

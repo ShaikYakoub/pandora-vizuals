@@ -25,6 +25,8 @@ export default function WorkPage() {
     createdAt: string;
   }>>([]);
 
+  const [deletedMediaIds, setDeletedMediaIds] = useState<string[]>([]);
+
   // Seamlessly fetch R2 live media overrides and newly added media on client mount
   React.useEffect(() => {
     let isMounted = true;
@@ -36,6 +38,7 @@ export default function WorkPage() {
           if (isMounted) {
             if (data?.overrides) setMediaOverrides(data.overrides);
             if (Array.isArray(data?.added)) setAddedMedia(data.added);
+            if (Array.isArray(data?.deleted)) setDeletedMediaIds(data.deleted);
           }
         }
       } catch {
@@ -96,10 +99,13 @@ export default function WorkPage() {
     });
   }, [workCards, cards, mediaOverrides]);
 
-  // Combined cards with newly added items prepended on top
+  // Combined cards with newly added items prepended on top (minus deleted)
   const availableCards = useMemo(() => {
-    return [...addedCards, ...baseCards];
-  }, [addedCards, baseCards]);
+    const combined = [...addedCards, ...baseCards];
+    if (deletedMediaIds.length === 0) return combined;
+    const deletedSet = new Set(deletedMediaIds);
+    return combined.filter((c) => !deletedSet.has(c.id));
+  }, [addedCards, baseCards, deletedMediaIds]);
 
   // Strictly distinguish videos from photos
   const isVideoCard = useCallback((card: EditableCard): boolean => {

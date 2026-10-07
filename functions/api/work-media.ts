@@ -27,22 +27,16 @@ export const onRequestGet: PagesFunction = async (context) => {
     const raw = await object.json();
     let overrides: Record<string, any> = {};
     let added: any[] = [];
+    let deleted: string[] = [];
 
     if (raw && typeof raw === 'object') {
-      if (Array.isArray(raw.added)) {
-        added = raw.added;
-        overrides = raw.overrides || {};
-      } else if (raw.overrides) {
-        overrides = raw.overrides;
-        added = Array.isArray(raw.added) ? raw.added : [];
-      } else {
-        // Flat format fallback
-        overrides = raw;
-      }
+      overrides = raw.overrides || {};
+      added = Array.isArray(raw.added) ? raw.added : [];
+      deleted = Array.isArray(raw.deleted) ? raw.deleted : [];
     }
 
     return jsonResponse(
-      { overrides, added },
+      { overrides, added, deleted },
       200,
       {
         'Cache-Control': 'public, max-age=10, s-maxage=10, stale-while-revalidate=60',
