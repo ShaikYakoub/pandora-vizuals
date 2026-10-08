@@ -106,7 +106,7 @@ export default function DropScroller() {
       <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col justify-center gap-6 sm:gap-10 py-6 sm:py-10">
         {/* Top Header Bar */}
         <div className="w-full max-w-[1720px] mx-auto px-6 sm:px-12 select-none z-10">
-          <h2 className="font-anton text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
+          <h2 className="font-unica text-4xl sm:text-7xl lg:text-[104px] leading-[0.9] text-[#ece8e1] tracking-tight">
             RECENT WORKS
           </h2>
         </div>

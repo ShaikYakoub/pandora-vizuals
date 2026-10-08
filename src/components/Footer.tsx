@@ -25,7 +25,7 @@ export default function Footer() {
           
           {/* Column 1: Social */}
           <div className="flex flex-col gap-4 sm:gap-6">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
+            <h3 className="font-unica text-2xl sm:text-3xl lg:text-4xl tracking-wide uppercase text-[#ece8e1]">
               Social
             </h3>
             <div className="flex flex-col gap-3.5 sm:gap-4.5">
@@ -79,7 +79,7 @@ export default function Footer() {
 
           {/* Column 2: Contact */}
           <div className="flex flex-col gap-4 sm:gap-6">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
+            <h3 className="font-unica text-2xl sm:text-3xl lg:text-4xl tracking-wide uppercase text-[#ece8e1]">
               Contact
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">
@@ -100,7 +100,7 @@ export default function Footer() {
 
           {/* Column 3: Legal */}
           <div className="flex flex-col gap-4 sm:gap-6 col-span-2 md:col-span-1">
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#ece8e1]">
+            <h3 className="font-unica text-2xl sm:text-3xl lg:text-4xl tracking-wide uppercase text-[#ece8e1]">
               Legal
             </h3>
             <div className="flex flex-col gap-2.5 sm:gap-3.5">

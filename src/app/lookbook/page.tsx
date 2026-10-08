@@ -68,7 +68,7 @@ export default function LookbookPage() {
           <StudioHeading
             text="CAPTURED IN 4K"
             as="h1"
-            className="font-anton text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
+            className="font-unica text-7xl sm:text-9xl lg:text-[168px] leading-[0.88] tracking-[-0.01em] uppercase text-[#ece8e1]"
           />
           <StudioReveal delay={0.15}>
             <p className="font-sans text-base sm:text-xl text-[#8c8880] max-w-2xl leading-relaxed">
@@ -101,7 +101,7 @@ export default function LookbookPage() {
                 />
                 
                 {/* Floating Chapter Number Overlay */}
-                <div className="absolute bottom-6 right-6 font-anton text-6xl sm:text-8xl text-[#ece8e1]/30 select-none pointer-events-none">
+                <div className="absolute bottom-6 right-6 font-unica text-6xl sm:text-8xl text-[#ece8e1]/30 select-none pointer-events-none">
                   {ch.number}
                 </div>
               </div>
@@ -109,7 +109,7 @@ export default function LookbookPage() {
               {/* Chapter Title & Link Row */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-6 items-end">
                 <div className="lg:col-span-8 space-y-4">
-                  <h2 className="font-anton text-5xl sm:text-7xl lg:text-[96px] leading-[0.92] text-[#ece8e1] uppercase tracking-tight">
+                  <h2 className="font-unica text-5xl sm:text-7xl lg:text-[96px] leading-[0.92] text-[#ece8e1] uppercase tracking-tight">
                     {ch.title}
                   </h2>
                   <p className="font-sans text-sm sm:text-base text-[#8c8880] leading-relaxed max-w-2xl">
@@ -137,7 +137,7 @@ export default function LookbookPage() {
             <StudioHeading
               text="EVERY FRAME, RAW & GRADED"
               as="h2"
-              className="font-anton text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]"
+              className="font-unica text-6xl sm:text-8xl lg:text-[112px] leading-[0.9] tracking-tight uppercase text-[#ece8e1]"
             />
           </div>
 

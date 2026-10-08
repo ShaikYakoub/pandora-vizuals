@@ -512,7 +512,7 @@ export default function Moodboard() {
           <span className="font-sans font-bold text-[10px] text-white truncate max-w-[85px]">
             @PandoraVizuals
           </span>
-          <button className="bg-[#ff0000] text-white font-sans font-bold text-[7px] sm:text-[8px] px-2 py-0.5 rounded-full tracking-wider uppercase shrink-0 shadow-sm pointer-events-none">
+          <button className="bg-[#ff0000] text-white font-unica text-[8px] sm:text-[9px] px-2.5 py-0.5 rounded-full tracking-wider uppercase shrink-0 shadow-sm pointer-events-none">
             SUBSCRIBE
           </button>
         </div>
@@ -658,7 +658,7 @@ export default function Moodboard() {
 
       {/* Monumental Center Headline */}
       <div className="absolute top-[48%] sm:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl px-4 text-center pointer-events-none select-none z-10">
-        <h2 className="font-anton text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#ece8e1] uppercase">
+        <h2 className="font-unica text-6xl sm:text-8xl md:text-9xl lg:text-[112px] leading-[0.92] tracking-tight text-[#ece8e1] uppercase">
           FRAME IT. SHOOT IT. <br />
           <span className="text-[#ff3d17]">FEEL IT.</span>
         </h2>

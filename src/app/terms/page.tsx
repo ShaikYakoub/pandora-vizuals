@@ -71,7 +71,7 @@ export default function TermsAndPolicyPage() {
             </span>
           </div>
           
-          <h1 className="font-dune text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight uppercase text-[#ece8e1]">
+          <h1 className="font-unica text-4xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight uppercase text-[#ece8e1]">
             Terms & Policy
           </h1>
 
@@ -95,7 +95,7 @@ export default function TermsAndPolicyPage() {
                 <span className="text-xs font-sans font-bold text-[#ff3d17] tracking-wider">
                   [{sec.num}]
                 </span>
-                <h2 className="text-lg sm:text-xl font-bold tracking-tight text-[#ece8e1]">
+                <h2 className="font-unica text-xl sm:text-2xl font-normal tracking-wide text-[#ece8e1]">
                   {sec.title}
                 </h2>
               </div>

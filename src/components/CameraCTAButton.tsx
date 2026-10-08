@@ -42,10 +42,10 @@ export default function CameraCTAButton({
   // Size classes
   const sizeClasses =
     size === 'sm'
-      ? 'px-4 py-2 gap-2.5 text-[11px]'
+      ? 'px-4 py-2 gap-2.5 text-xs'
       : size === 'lg'
-      ? 'px-8 sm:px-10 py-4 sm:py-4.5 gap-4 text-sm sm:text-base'
-      : 'px-6 sm:px-8 py-3 sm:py-3.5 gap-3.5 text-xs sm:text-sm';
+      ? 'px-8 sm:px-10 py-4 sm:py-4.5 gap-4 text-base sm:text-lg'
+      : 'px-6 sm:px-8 py-3 sm:py-3.5 gap-3.5 text-sm sm:text-base';
 
   // Variant color styles
   let variantStyles =
@@ -59,7 +59,7 @@ export default function CameraCTAButton({
       'bg-[#171716]/90 hover:bg-[#ece8e1] text-[#ece8e1] hover:text-[#0c0c0b] border border-[#ece8e1]/20 hover:border-[#ece8e1] shadow-[0_12px_32px_rgba(0,0,0,0.85)] hover:shadow-[0_0_24px_rgba(236,232,225,0.4)]';
   }
 
-  const baseClasses = `group relative z-30 inline-flex items-center justify-center transition-all duration-300 active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${sizeClasses} ${variantStyles} ${className}`;
+  const baseClasses = `group relative z-30 inline-flex items-center justify-center font-unica transition-all duration-300 active:translate-y-0.5 active:scale-[0.98] select-none rounded-none backdrop-blur-md cursor-pointer disabled:opacity-50 disabled:pointer-events-none ${sizeClasses} ${variantStyles} ${className}`;
 
   const content = (
     <>
@@ -68,8 +68,8 @@ export default function CameraCTAButton({
         <span className="w-2 h-2 rounded-full bg-[#ff3d17] group-hover:bg-[#0c0c0b] shadow-[0_0_8px_#ff3d17] group-hover:shadow-none transition-colors shrink-0" />
       )}
 
-      {/* Label in Dune Font */}
-      <span className="font-dune tracking-[0.18em] uppercase font-bold">
+      {/* Label in Unica Font */}
+      <span className="font-unica tracking-[0.14em] uppercase">
         {children}
       </span>
 

@@ -715,7 +715,7 @@ export default function AdminPage() {
               <Lock className="w-3 h-3" />
               <span>ADMIN</span>
             </div>
-            <h1 className="font-anton text-2xl text-[#ece8e1] uppercase tracking-wide">
+            <h1 className="font-unica text-2xl text-[#ece8e1] uppercase tracking-wide">
               SIGN IN
             </h1>
           </div>
@@ -1117,7 +1117,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={clearAllStagedPhotos}
-                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-[10px] uppercase font-mono transition-colors"
+                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-xs uppercase font-unica tracking-wider transition-colors"
                         >
                           Clear All
                         </button>
@@ -1189,7 +1189,7 @@ export default function AdminPage() {
                         <button
                           type="button"
                           onClick={clearAllStagedVideos}
-                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-[10px] uppercase font-mono transition-colors"
+                          className="cursor-pointer text-[#8c8880] hover:text-red-400 text-xs uppercase font-unica tracking-wider transition-colors"
                         >
                           Clear All
                         </button>
@@ -1226,7 +1226,7 @@ export default function AdminPage() {
                               <button
                                 type="button"
                                 onClick={() => updateStagedVideoRatio(video.id, '9:16')}
-                                className={`cursor-pointer px-2 py-1 text-[9px] font-mono font-bold uppercase border transition-colors ${
+                                className={`cursor-pointer px-2.5 py-1 text-xs font-unica uppercase tracking-wider border transition-colors ${
                                   video.aspectRatio === '9:16'
                                     ? 'border-[#ff3d17] bg-[#ff3d17]/20 text-[#ff3d17]'
                                     : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
@@ -1237,7 +1237,7 @@ export default function AdminPage() {
                               <button
                                 type="button"
                                 onClick={() => updateStagedVideoRatio(video.id, '16:9')}
-                                className={`cursor-pointer px-2 py-1 text-[9px] font-mono font-bold uppercase border transition-colors ${
+                                className={`cursor-pointer px-2.5 py-1 text-xs font-unica uppercase tracking-wider border transition-colors ${
                                   video.aspectRatio === '16:9'
                                     ? 'border-[#ff3d17] bg-[#ff3d17]/20 text-[#ff3d17]'
                                     : 'border-[#ece8e1]/15 text-[#8c8880] hover:text-[#ece8e1]'
@@ -1318,7 +1318,7 @@ export default function AdminPage() {
             <div className="flex items-center justify-between border-b border-[#ece8e1]/15 pb-3">
               <div className="flex items-center space-x-2">
                 <Film className="w-4 h-4 text-[#ff3d17]" />
-                <h3 className="font-anton text-lg tracking-wide uppercase text-[#ece8e1]">
+                <h3 className="font-unica text-lg tracking-wide uppercase text-[#ece8e1]">
                   SET YOUTUBE VIDEO
                 </h3>
               </div>
@@ -1702,7 +1702,7 @@ function SlotEditorCard({
           <button
             type="button"
             onClick={() => onReset('all')}
-            className="w-full cursor-pointer py-1 border border-red-900/60 bg-red-950/20 hover:bg-red-950/60 text-red-300 text-[9px] font-mono uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
+            className="w-full cursor-pointer py-1 border border-red-900/60 bg-red-950/20 hover:bg-red-950/60 text-red-300 text-xs font-unica uppercase tracking-wider transition-colors flex items-center justify-center space-x-1"
           >
             <RotateCcw className="w-2.5 h-2.5" />
             <span>RESET</span>

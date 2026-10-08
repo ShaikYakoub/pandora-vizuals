@@ -164,7 +164,7 @@ export default function CardEditorModal({
         <div className="px-6 py-5 border-b border-[#ece8e1]/10 flex items-center justify-between bg-[#191918]">
           <div className="flex items-center space-x-3">
             <span className="w-2.5 h-2.5 rounded-full bg-[#ff3d17]" />
-            <h3 className="font-anton text-2xl tracking-wide uppercase">
+            <h3 className="font-unica text-2xl tracking-wide uppercase">
               {initialCard ? 'EDIT CARD' : 'CREATE NEW CARD'}
             </h3>
           </div>
@@ -237,8 +237,8 @@ export default function CardEditorModal({
                 <button
                   type="button"
                   onClick={() => setImageTab('upload')}
-                  className={`px-2.5 py-1 text-[10px] tracking-wider uppercase transition-colors ${
-                    imageTab === 'upload' ? 'bg-[#ff3d17] text-[#0c0c0b] font-bold' : 'text-[#8c8880]'
+                  className={`font-unica px-2.5 py-1 text-xs tracking-wider uppercase transition-colors ${
+                    imageTab === 'upload' ? 'bg-[#ff3d17] text-[#0c0c0b]' : 'text-[#8c8880]'
                   }`}
                 >
                   <Upload className="w-3 h-3 inline mr-1" />
@@ -247,8 +247,8 @@ export default function CardEditorModal({
                 <button
                   type="button"
                   onClick={() => setImageTab('url')}
-                  className={`px-2.5 py-1 text-[10px] tracking-wider uppercase transition-colors ${
-                    imageTab === 'url' ? 'bg-[#ff3d17] text-[#0c0c0b] font-bold' : 'text-[#8c8880]'
+                  className={`font-unica px-2.5 py-1 text-xs tracking-wider uppercase transition-colors ${
+                    imageTab === 'url' ? 'bg-[#ff3d17] text-[#0c0c0b]' : 'text-[#8c8880]'
                   }`}
                 >
                   <LinkIcon className="w-3 h-3 inline mr-1" />

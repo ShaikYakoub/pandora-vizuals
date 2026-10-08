@@ -25,7 +25,7 @@ export default function HomePage() {
             text="Visuals crafted for moments that refuse to fade."
             as="h1"
             variant="subtle"
-            className="font-serif italic text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#ece8e1] max-w-5xl tracking-tight leading-tight"
+            className="font-unica text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#ece8e1] max-w-5xl tracking-normal leading-tight"
           />
 
           {/* Camera-Styled Sharp Box CTA Button */}

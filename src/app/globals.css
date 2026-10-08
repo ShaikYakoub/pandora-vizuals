@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --font-unica: var(--font-unica), 'Unica One', cursive, sans-serif;
+}
+
 :root {
   --bg-primary: #0c0c0b;
   --bg-secondary: #171716;
@@ -41,6 +45,21 @@ body {
   font-family: var(--font-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
+/* Headings throughout the website */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-unica), 'Unica One', cursive, sans-serif;
+}
+
+/* Buttons throughout the website */
+button,
+.pandora-btn,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  font-family: var(--font-unica), 'Unica One', cursive, sans-serif;
+}
+
 @font-face {
   font-family: 'Dune Rise';
   src: url('/fonts/Dune_Rise.ttf') format('truetype'),
@@ -51,6 +70,10 @@ body {
 }
 
 /* Typography Helpers */
+.font-unica {
+  font-family: var(--font-unica), 'Unica One', cursive, sans-serif;
+}
+
 .font-sans {
   font-family: var(--font-sans), 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
@@ -62,7 +85,7 @@ body {
 }
 
 .font-anton {
-  font-family: var(--font-dune), 'Dune Rise', var(--font-anton), impact, sans-serif;
+  font-family: var(--font-unica), 'Unica One', var(--font-dune), 'Dune Rise', var(--font-anton), impact, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -190,9 +213,9 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  font-family: var(--font-dune), 'Dune Rise', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-family: var(--font-unica), 'Unica One', cursive, sans-serif;
+  font-size: 13px;
+  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   padding: 12px 28px;

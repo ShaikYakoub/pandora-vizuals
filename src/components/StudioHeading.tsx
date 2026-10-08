@@ -26,14 +26,16 @@ export default function StudioHeading({
   const rawText = text || (typeof children === 'string' ? children : '');
   const textLines = lines || (rawText ? rawText.split('\n') : []);
 
+  const resolvedClassName = className.includes('font-') ? className : `font-unica ${className}`.trim();
+
   if (textLines.length === 0 && children) {
-    return <Component className={className}>{children}</Component>;
+    return <Component className={resolvedClassName}>{children}</Component>;
   }
 
   let globalCharCount = 0;
 
   return (
-    <Component className={className}>
+    <Component className={resolvedClassName}>
       {textLines.map((line, lineIdx) => {
         const words = line.trim().split(/\s+/);
         return (

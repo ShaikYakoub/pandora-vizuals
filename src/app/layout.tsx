@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import { Anton, Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans } from 'next/font/google';
+import { Anton, Instrument_Serif, JetBrains_Mono, Plus_Jakarta_Sans, Unica_One } from 'next/font/google';
 import './globals.css';
 import { CardsProvider } from '@/context/CardsContext';
 import SmoothScroll from '@/components/SmoothScroll';
@@ -41,6 +41,13 @@ const jetbrainsMono = JetBrains_Mono({
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
+});
+
+const unicaOne = Unica_One({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-unica',
   display: 'swap',
 });
 
@@ -129,10 +136,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${dune.variable} ${anton.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable}`}
+      className={`${dune.variable} ${anton.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} ${plusJakartaSans.variable} ${unicaOne.variable}`}
     >
       <head>
         <link rel="icon" type="image/svg+xml" href="/images/pandora-logo.svg" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet" />
         <StructuredData />
       </head>
       <body className="min-h-screen flex flex-col bg-[#0c0c0b] text-[#ece8e1]">

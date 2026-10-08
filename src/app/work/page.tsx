@@ -4,7 +4,6 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { useCards } from '@/context/CardsContext';
 import { EditableCard } from '@/types/card';
 import ProductCard from '@/components/ProductCard';
-import CinemaModal from '@/components/CinemaModal';
 import StudioHeading from '@/components/StudioHeading';
 import StudioReveal from '@/components/StudioReveal';
 
@@ -13,7 +12,7 @@ type MediaTypeFilter = 'photos' | 'videos';
 export default function WorkPage() {
   const { cards, sectionCards: workCards } = useCards('work');
   const [mediaType, setMediaType] = useState<MediaTypeFilter>('photos');
-  const [activePlayingCard, setActivePlayingCard] = useState<EditableCard | null>(null);
+  const [activePlayingId, setActivePlayingId] = useState<string | null>(null);
   const [mediaOverrides, setMediaOverrides] = useState<Record<string, { image?: string; videoUrl?: string }>>({});
   const [addedMedia, setAddedMedia] = useState<Array<{
     id: string;
@@ -202,7 +201,7 @@ export default function WorkPage() {
           <StudioHeading
             text="Our work"
             as="h1"
-            className="font-anton text-5xl sm:text-7xl lg:text-8xl xl:text-9xl leading-[0.92] tracking-tight uppercase text-[#ece8e1]"
+            className="font-unica text-5xl sm:text-7xl lg:text-8xl xl:text-9xl leading-[0.92] tracking-tight uppercase text-[#ece8e1]"
           />
         </div>
 
@@ -220,8 +219,11 @@ export default function WorkPage() {
 
             <button
               type="button"
-              onClick={() => setMediaType('photos')}
-              className={`relative z-10 flex-1 cursor-pointer py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-sans font-bold tracking-wider uppercase transition-colors duration-300 flex items-center justify-center gap-2 ${
+              onClick={() => {
+                setActivePlayingId(null);
+                setMediaType('photos');
+              }}
+              className={`relative z-10 flex-1 cursor-pointer py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-unica tracking-widest uppercase transition-colors duration-300 flex items-center justify-center gap-2 ${
                 mediaType === 'photos'
                   ? 'text-[#0c0c0b]'
                   : 'text-[#8c8880] hover:text-[#ece8e1]'
@@ -245,8 +247,11 @@ export default function WorkPage() {
 
             <button
               type="button"
-              onClick={() => setMediaType('videos')}
-              className={`relative z-10 flex-1 cursor-pointer py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-sans font-bold tracking-wider uppercase transition-colors duration-300 flex items-center justify-center gap-2 ${
+              onClick={() => {
+                setActivePlayingId(null);
+                setMediaType('videos');
+              }}
+              className={`relative z-10 flex-1 cursor-pointer py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-unica tracking-widest uppercase transition-colors duration-300 flex items-center justify-center gap-2 ${
                 mediaType === 'videos'
                   ? 'text-[#0c0c0b]'
                   : 'text-[#8c8880] hover:text-[#ece8e1]'
@@ -274,7 +279,7 @@ export default function WorkPage() {
         <div key={mediaType} className={`transition-opacity duration-300 ${isManifestReady ? 'opacity-100' : 'opacity-0'}`}>
           {filteredCards.length === 0 ? (
             <div className="text-center py-24 space-y-4">
-              <div className="font-anton text-3xl text-[#8c8880]">
+              <div className="font-unica text-3xl text-[#8c8880]">
                 NO {mediaType.toUpperCase()} AVAILABLE
               </div>
               <p className="font-sans text-xs text-[#6b675f]">
@@ -284,7 +289,7 @@ export default function WorkPage() {
                 <button
                   type="button"
                   onClick={() => setMediaType(mediaType === 'photos' ? 'videos' : 'photos')}
-                  className="px-5 py-2.5 rounded-full text-xs uppercase font-sans font-semibold bg-[#ece8e1] text-[#0c0c0b]"
+                  className="px-6 py-2.5 rounded-full text-sm uppercase font-unica tracking-wider bg-[#ece8e1] text-[#0c0c0b]"
                 >
                   VIEW {mediaType === 'photos' ? 'VIDEOS' : 'PHOTOS'}
                 </button>
@@ -302,7 +307,9 @@ export default function WorkPage() {
                       card={card}
                       index={idx}
                       columns={2}
-                      onPlay={setActivePlayingCard}
+                      isPlaying={activePlayingId === card.id}
+                      onPlay={() => setActivePlayingId(card.id)}
+                      onStop={() => setActivePlayingId(null)}
                     />
                   ))}
                 </div>
@@ -317,7 +324,9 @@ export default function WorkPage() {
                       card={card}
                       index={idx}
                       columns={4}
-                      onPlay={setActivePlayingCard}
+                      isPlaying={activePlayingId === card.id}
+                      onPlay={() => setActivePlayingId(card.id)}
+                      onStop={() => setActivePlayingId(null)}
                     />
                   ))}
                 </div>
@@ -332,7 +341,9 @@ export default function WorkPage() {
                       card={card}
                       index={idx}
                       columns={2}
-                      onPlay={setActivePlayingCard}
+                      isPlaying={activePlayingId === card.id}
+                      onPlay={() => setActivePlayingId(card.id)}
+                      onStop={() => setActivePlayingId(null)}
                     />
                   ))}
                 </div>
@@ -353,12 +364,6 @@ export default function WorkPage() {
           )}
         </div>
       </div>
-
-      {/* Cinema Overlay Lightbox Modal */}
-      <CinemaModal
-        card={activePlayingCard}
-        onClose={() => setActivePlayingCard(null)}
-      />
     </div>
   );
 }
